@@ -12,7 +12,7 @@
                 </tr>
             </table>
             <p></p>
-            <h2>"Errorwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww message: ${errorMessage}"</h2>
+            <h2>"Error message: ${errorMessage}"</h2>
             <button onclick="location.href='.'" type="button">Torna alla Home</button>
         </div>
     </body>
