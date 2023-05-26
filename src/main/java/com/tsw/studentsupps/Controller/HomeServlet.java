@@ -1,7 +1,5 @@
 package com.tsw.studentsupps.Controller;
 
-import com.tsw.studentsupps.Model.Prodotto;
-import com.tsw.studentsupps.Model.ProdottoDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,12 +14,12 @@ import java.util.List;
 public class HomeServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Prodotto> prodList= ProdottoDAO.doRetrieveAll();
-
+        /*
         String loginStatus= (String) request.getAttribute("loginStatus");
         if(loginStatus != null && loginStatus.equals("failedLogin"))
             request.setAttribute("loginStatus", loginStatus);
-        request.setAttribute("prodList", prodList);
+        */
+
         RequestDispatcher dispatcher= request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
     }
