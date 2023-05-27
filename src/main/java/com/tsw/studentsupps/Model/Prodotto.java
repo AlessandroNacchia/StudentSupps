@@ -44,13 +44,15 @@ public class Prodotto {
         return IVA;
     }
     public void setIVA(short IVA) {
-        this.IVA = IVA;
+        if(IVA>=0)
+            this.IVA = IVA;
     }
 
     public int getQuantita() {
         return quantita;
     }
     public void setQuantita(int quantita) {
-        this.quantita = quantita;
+        if(quantita>=0)
+            this.quantita = quantita;
     }
 }

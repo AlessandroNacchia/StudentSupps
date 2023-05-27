@@ -78,7 +78,7 @@ public class Utente {
         return nome;
     }
     public void setNome(String nome) {
-        if(nome.matches("^[a-zA-Z' ']*$"))
+        if(nome.matches("^[a-zA-Z\\s]*$"))
             this.nome= nome;
     }
 
@@ -87,7 +87,7 @@ public class Utente {
     }
 
     public void setCognome(String cognome) {
-        if(cognome.matches("^[a-zA-Z' ']*$"))
+        if(cognome.matches("^[a-zA-Z\\s]*$"))
             this.cognome= cognome;
     }
 }

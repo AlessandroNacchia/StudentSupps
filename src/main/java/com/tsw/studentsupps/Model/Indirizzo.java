@@ -1,22 +1,16 @@
 package com.tsw.studentsupps.Model;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 public class Indirizzo {
     private String id;
-    private String Nazione;
-    private String Provincia;
+    private String nazione;
+    private String provincia;
     private String citta;
     private String CAP;
-
     private String via;
-
     private String numeroTel;
-    private boolean is_fatt=false;
+    private boolean is_fatt;
 
     public String getId() {
         return id;
@@ -27,19 +21,19 @@ public class Indirizzo {
     }
 
     public String getNazione() {
-        return Nazione;
+        return nazione;
     }
 
     public void setNazione(String nazione) {
-        Nazione = nazione;
+        this.nazione = nazione;
     }
 
     public String getProvincia() {
-        return Provincia;
+        return provincia;
     }
 
     public void setProvincia(String provincia) {
-        Provincia = provincia;
+        this.provincia = provincia;
     }
 
     public String getCitta() {
@@ -72,7 +66,15 @@ public class Indirizzo {
     }
 
     public void setNumeroTel(String numeroTel) {
-        this.numeroTel = numeroTel;
+        if(numeroTel.matches("^([\\+]?[(]?[0-9]{1,3}[)]?[-\\s])?([(]?[0-9]{3}[)]?[-\\s]?)?([0-9][-\\s]?){3,10}[0-9]$"))
+            this.numeroTel= numeroTel;
     }
 
+    public boolean isFatt() {
+        return is_fatt;
+    }
+
+    public void setFatt(boolean is_fatt) {
+        this.is_fatt = is_fatt;
+    }
 }

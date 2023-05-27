@@ -46,7 +46,7 @@
             const usernameRGX= /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
             const passwordRGX=/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–\[{}\]:;',?/*~$^+=<>]).{8,30}$/;
             const emailRGX= /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            const nomeRGX=/^[a-zA-Z' ']*$/;
+            const nomeRGX=/^[a-zA-Z\s]*$/;
 
             if(!usernameRGX.test(username)) {
                 alert("L'username non rispecchia il formato corretto. Riprovare!");

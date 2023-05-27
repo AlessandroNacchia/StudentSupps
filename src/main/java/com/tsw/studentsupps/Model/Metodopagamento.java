@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Metodopagamento {
 
     private String id;
-    private String Provider;
+    private String provider;
     private String numeroHash;
     private  Date dataScadenza;
 
@@ -23,11 +23,11 @@ public class Metodopagamento {
     }
 
     public String getProvider() {
-        return Provider;
+        return provider;
     }
 
     public void setProvider(String provider) {
-        Provider = provider;
+        this.provider = provider;
     }
 
     public String getNumeroHash() {

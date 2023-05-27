@@ -1,17 +1,18 @@
 package com.tsw.studentsupps.Model;
-import java.sql.Date;
+import java.sql.Timestamp;
 public class Sconto {
-    private int percentuale;
+    private short percentuale;
     private boolean stato;
-    private Date dataInizio;
-    private Date dataFine;
+    private Timestamp dataInizio;
+    private Timestamp dataFine;
 
     public int getPercentuale() {
         return percentuale;
     }
 
-    public void setPercentuale(int percentuale) {
-        this.percentuale = percentuale;
+    public void setPercentuale(short percentuale) {
+        if(percentuale>=0 && percentuale<=100)
+            this.percentuale = percentuale;
     }
 
     public boolean isStato() {
@@ -22,19 +23,19 @@ public class Sconto {
         this.stato = stato;
     }
 
-    public Date getDataFine() {
+    public Timestamp getDataFine() {
         return dataFine;
     }
 
-    public void setDataFine(Date dataFine) {
+    public void setDataFine(Timestamp dataFine) {
         this.dataFine = dataFine;
     }
 
-    public Date getDataInizio() {
+    public Timestamp getDataInizio() {
         return dataInizio;
     }
 
-    public void setDataInizio(Date dataInizio) {
+    public void setDataInizio(Timestamp dataInizio) {
         this.dataInizio = dataInizio;
     }
 }

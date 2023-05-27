@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class Carrello {
     private String id;
-    private int  totale;
+    private double totale;
     private  Timestamp updated_at;
 
     public String getId() {
@@ -16,11 +16,11 @@ public class Carrello {
             this.id = id;
     }
 
-    public int getTotale() {
+    public double getTotale() {
         return totale;
     }
 
-    public void setTotale(int totale) {
+    public void setTotale(double totale) {
         this.totale = totale;
     }
 

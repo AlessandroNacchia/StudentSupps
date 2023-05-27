@@ -1,12 +1,13 @@
 package com.tsw.studentsupps.Model;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Ordine {
     private String id;
-    private Date dataAquisto;
-    private Date dataConsegna;
-    private String Stato;
+    private double totale;
+    private Timestamp dataAquisto;
+    private Timestamp dataConsegna;
+    private String stato;
 
     public String getId() {
         return id;
@@ -16,27 +17,36 @@ public class Ordine {
             this.id = id;
     }
 
-    public Date getDataAquisto() {
+    public Timestamp getDataAquisto() {
         return dataAquisto;
     }
 
-    public void setDataAquisto(Date dataAquisto) {
+    public void setDataAquisto(Timestamp dataAquisto) {
         this.dataAquisto = dataAquisto;
     }
 
-    public Date getDataConsegna() {
+    public Timestamp getDataConsegna() {
         return dataConsegna;
     }
 
-    public void setDataConsegna(Date dataConsegna) {
+    public void setDataConsegna(Timestamp dataConsegna) {
         this.dataConsegna = dataConsegna;
     }
 
     public String getStato() {
-        return Stato;
+        return stato;
     }
 
     public void setStato(String stato) {
-        Stato = stato;
+        this.stato = stato;
+    }
+
+    public double getTotale() {
+        return totale;
+    }
+
+    public void setTotale(double totale) {
+        if(totale>=0)
+            this.totale = totale;
     }
 }

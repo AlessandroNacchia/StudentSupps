@@ -2,7 +2,7 @@ package com.tsw.studentsupps.Model;
 
 public class Prodottoordine {
     private String nome_prodotto;
-    private int quantita;
+    private short quantita;
     private double prezzo_acquisto;
     private short IVA_acquisto;
 
@@ -11,7 +11,7 @@ public class Prodottoordine {
     }
 
     public void setNome_prodotto(String nome_prodotto) {
-        if(nome_prodotto.matches("^[a-zA-Z' ']*$"))
+        if(nome_prodotto.matches("^[a-zA-Z0-9\\s]*$"))
             this.nome_prodotto= nome_prodotto;
     }
 
@@ -19,8 +19,9 @@ public class Prodottoordine {
         return quantita;
     }
 
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
+    public void setQuantita(short quantita) {
+        if(quantita>=0)
+            this.quantita = quantita;
     }
 
     public double getPrezzo_acquisto() {
@@ -28,7 +29,8 @@ public class Prodottoordine {
     }
 
     public void setPrezzo_acquisto(double prezzo_acquisto) {
-        this.prezzo_acquisto = prezzo_acquisto;
+        if(prezzo_acquisto>=0)
+            this.prezzo_acquisto = prezzo_acquisto;
     }
 
     public int getIVA_acquisto() {
@@ -36,6 +38,7 @@ public class Prodottoordine {
     }
 
     public void setIVA_acquisto(short IVA_acquisto) {
-        this.IVA_acquisto = IVA_acquisto;
+        if(IVA_acquisto>=0)
+            this.IVA_acquisto = IVA_acquisto;
     }
 }
