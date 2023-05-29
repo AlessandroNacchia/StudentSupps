@@ -1,18 +1,19 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 100%;
-    color: #333;
+    color: white;
+    background-color: black;
 }
 
-.sfondo {
+.logo {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    max-height: 50px;
+    margin-left: 10px;
 }
 
 .topnav {
     overflow: hidden;
-    background-color: #1c1c1c;
+    background-color: #2A2A2AFF;
 }
 
 .topnav a {
@@ -29,6 +30,11 @@ body {
     display: none;
 }
 
+.menuIcon {
+    font-size:15px;
+}
+
+
 .dropdown {
     float: left;
     overflow: hidden;
@@ -37,21 +43,23 @@ body {
 .dropdown .dropbtn {
     font-size: 17px;
     border: none;
+    border-right: 1px black solid;
     outline: none;
     color: white;
     padding: 14px 16px;
     background-color: inherit;
     font-family: inherit;
     margin: 0;
+    cursor: pointer
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #333333;
+    background-color: #464646;
     min-width: 160px;
-    box-shadow: 0 0 50px 50vw rgba(0, 0, 0, 0.2);
     z-index: 1;
+    box-shadow: 0 0 50px 100vw rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-content a {
@@ -71,3 +79,22 @@ body {
     color: #a8a8a8;
 }
 
+.nomeProdotto {
+    padding: 6px;
+    font-size: 17px;
+    border: none;
+    margin-left: 3px;
+    margin-right: auto;
+    margin-top: 8px;
+    width: 15em;
+    float: right;
+}
+
+.cerca {
+    margin-right: 30px;
+    margin-top: 8px;
+    width: 32px;
+    height: 32px;
+    margin-left: 3px;
+    float: right;
+}

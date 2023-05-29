@@ -27,9 +27,9 @@ public class CategoriaServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }
 
-        List<Prodotto> prodList= ProdottoDAO.doRetrieveByCategoria(cat != null ? cat.getId() : "null");
+        //List<Prodotto> prodList= ProdottoDAO.doRetrieveByCategoria(cat != null ? cat.getId() : "null");
         request.setAttribute("selectedCat", cat);
-        request.setAttribute("prodList", prodList);
+        //request.setAttribute("prodList", prodList);
         RequestDispatcher dispatcher= request.getRequestDispatcher("pages/categoria.jsp");
         dispatcher.forward(request, response);
     }
