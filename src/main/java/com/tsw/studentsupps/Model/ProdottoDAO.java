@@ -5,18 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProdottoDAO {
-    public static Prodotto doRetrieveById(int id) {
+    public static Prodotto doRetrieveById(String id) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps =
-                    con.prepareStatement("SELECT id, nome, descrizione, prezzo FROM Prodotto WHERE id=?");
-            ps.setInt(1, id);
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita FROM Prodotto WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Prodotto p= new Prodotto();
-                p.setId(rs.getInt(1));
+                p.setId(rs.getString(1));
                 p.setNome(rs.getString(2));
                 p.setDescrizione(rs.getString(3));
                 p.setPrezzo(rs.getDouble(4));
+                p.setIVA(rs.getShort(5));
+                p.setQuantita(rs.getInt(6));
                 return p;
             }
             return null;
@@ -27,16 +29,18 @@ public class ProdottoDAO {
 
     public static List<Prodotto> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT id, nome, descrizione, prezzo FROM Prodotto");
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita FROM prodotto");
             ResultSet rs= ps.executeQuery();
 
             List<Prodotto> prodList= new ArrayList<>();
             while(rs.next()) {
                 Prodotto p= new Prodotto();
-                p.setId(rs.getInt(1));
+                p.setId(rs.getString(1));
                 p.setNome(rs.getString(2));
                 p.setDescrizione(rs.getString(3));
                 p.setPrezzo(rs.getDouble(4));
+                p.setIVA(rs.getShort(5));
+                p.setQuantita(rs.getInt(6));
 
                 prodList.add(p);
             }
@@ -46,23 +50,24 @@ public class ProdottoDAO {
         }
     }
 
-    public static List<Prodotto> doRetrieveByCategoria(int idCat) {
+    public static List<Prodotto> doRetrieveByCategoria(String idCat) {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT id, nome, descrizione, prezzo " +
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita " +
                     "FROM Prodotto, ProdottoCategoria " +
-                    "WHERE Prodotto.id = prodottocategoria.idProdotto AND " +
-                    "prodottocategoria.idCategoria = ?");
-            ps.setInt(1, idCat);
+                    "WHERE Prodotto.id = prodottocategoria.id_prodotto AND " +
+                    "prodottocategoria.id_categoria = ?");
+            ps.setString(1, idCat);
             ResultSet rs= ps.executeQuery();
 
             List<Prodotto> prodCatList= new ArrayList<>();
             while(rs.next()) {
                 Prodotto p= new Prodotto();
-                p.setId(rs.getInt(1));
+                p.setId(rs.getString(1));
                 p.setNome(rs.getString(2));
                 p.setDescrizione(rs.getString(3));
                 p.setPrezzo(rs.getDouble(4));
-
+                p.setIVA(rs.getShort(5));
+                p.setQuantita(rs.getInt(6));
                 prodCatList.add(p);
             }
             return prodCatList;
@@ -74,17 +79,19 @@ public class ProdottoDAO {
     public static void doSave(Prodotto prod) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO Prodotto (nome, descrizione, prezzo) VALUES(?,?,?)",
+                    "INSERT INTO prodotto (nome, descrizione,prezzo,IVA,quantita) VALUES(?,?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, prod.getNome());
             ps.setString(2, prod.getDescrizione());
             ps.setDouble(3, prod.getPrezzo());
+            ps.setShort(4, prod.getIVA());
+            ps.setInt(5, prod.getQuantita());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
-            int id = rs.getInt(1);
+            String id = rs.getString(1);
             prod.setId(id);
 
         } catch (SQLException e) {
@@ -95,13 +102,15 @@ public class ProdottoDAO {
     public static void doUpdate(Prodotto prod) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE Prodotto SET nome= ?, descrizione= ?, prezzo= ? " +
+                    "UPDATE Prodotto SET nome= ?, descrizione= ?, prezzo= ?, IVA= ?, quantita= ? " +
                             "WHERE id= ?");
-            ps.setInt(4, prod.getId());
+            ps.setString(6, prod.getId());
 
             ps.setString(1, prod.getNome());
             ps.setString(2, prod.getDescrizione());
             ps.setDouble(3, prod.getPrezzo());
+            ps.setShort(4, prod.getIVA());
+            ps.setInt(5, prod.getQuantita());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }
