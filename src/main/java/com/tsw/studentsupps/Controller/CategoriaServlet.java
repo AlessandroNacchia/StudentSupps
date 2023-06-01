@@ -2,8 +2,6 @@ package com.tsw.studentsupps.Controller;
 
 import com.tsw.studentsupps.Model.Categoria;
 import com.tsw.studentsupps.Model.CategoriaDAO;
-import com.tsw.studentsupps.Model.Prodotto;
-import com.tsw.studentsupps.Model.ProdottoDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/categoria")
 public class CategoriaServlet extends HttpServlet {

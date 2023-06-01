@@ -12,16 +12,16 @@ public class UtenteDAO {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Utente p= new Utente();
-                p.setId(rs.getString(1));
-                p.setUsername(rs.getString(2));
-                p.setPasswordHash(rs.getString(3));
-                p.setEmail(rs.getString(4));
-                p.setNumeroTel(rs.getString(5));
-                p.setAdmin(rs.getBoolean(6));
-                p.setNome(rs.getString(7));
-                p.setCognome(rs.getString(8));
-                return p;
+                Utente u= new Utente();
+                u.setId(rs.getString(1));
+                u.setUsername(rs.getString(2));
+                u.setPasswordHash(rs.getString(3));
+                u.setEmail(rs.getString(4));
+                u.setNumeroTel(rs.getString(5));
+                u.setAdmin(rs.getBoolean(6));
+                u.setNome(rs.getString(7));
+                u.setCognome(rs.getString(8));
+                return u;
             }
             return null;
         } catch (SQLException e) {
@@ -35,17 +35,17 @@ public class UtenteDAO {
 
             List<Utente> UList= new ArrayList<>();
             while(rs.next()) {
-                Utente p= new Utente();
-                p.setId(rs.getString(1));
-                p.setUsername(rs.getString(2));
-                p.setPasswordHash(rs.getString(3));
-                p.setEmail(rs.getString(4));
-                p.setNumeroTel(rs.getString(5));
-                p.setAdmin(rs.getBoolean(6));
-                p.setNome(rs.getString(7));
-                p.setCognome(rs.getString(8));
+                Utente u= new Utente();
+                u.setId(rs.getString(1));
+                u.setUsername(rs.getString(2));
+                u.setPasswordHash(rs.getString(3));
+                u.setEmail(rs.getString(4));
+                u.setNumeroTel(rs.getString(5));
+                u.setAdmin(rs.getBoolean(6));
+                u.setNome(rs.getString(7));
+                u.setCognome(rs.getString(8));
 
-                UList.add(p);
+                UList.add(u);
             }
             return UList;
         } catch (SQLException e) {

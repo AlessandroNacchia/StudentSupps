@@ -4,19 +4,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaDAO {
-    public static Categoria doRetrieveById(String id) {
+public class CarrelloDAO {
+    public static Carrello doRetrieveById(String id) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps =
-                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione FROM Categoria WHERE id= UUID_TO_BIN(?, 1)");
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), totale, updated_at FROM carrello WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Categoria ca= new Categoria();
-                ca.setId(rs.getString(1));
-                ca.setNome(rs.getString(2));
-                ca.setDescrizione(rs.getString(3));
-                return ca;
+                Carrello cr= new Carrello();
+                cr.setId(rs.getString(1));
+                cr.setTotale(rs.getDouble(2));
+                cr.setUpdated_at(rs.getTimestamp(3));
+                return cr;
             }
             return null;
         } catch (SQLException e) {
@@ -24,55 +24,54 @@ public class CategoriaDAO {
         }
     }
 
-    public static List<Categoria> doRetrieveAll() {
+    public static List<Carrello> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione FROM Categoria");
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), totale, updated_at FROM carrello");
             ResultSet rs= ps.executeQuery();
 
-            List<Categoria> catList= new ArrayList<>();
+            List<Carrello> carList= new ArrayList<>();
             while(rs.next()) {
-                Categoria ca= new Categoria();
-                ca.setId(rs.getString(1));
-                ca.setNome(rs.getString(2));
-                ca.setDescrizione(rs.getString(3));
+                Carrello cr= new Carrello();
+                cr.setId(rs.getString(1));
+                cr.setTotale(rs.getDouble(2));
+                cr.setUpdated_at(rs.getTimestamp(3));
 
-                catList.add(ca);
+                carList.add(cr);
             }
-            return catList;
+            return carList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
 
-    public static void doSave(Categoria cat) {
+    }
+    public static void doSave(Carrello car) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO Categoria (nome, descrizione) VALUES(?,?)",
+                    "INSERT INTO carrello (totale, updated_at) VALUES(?,?)",
                     Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, cat.getNome());
-            ps.setString(2, cat.getDescrizione());
+            ps.setDouble(1, car.getTotale());
+            ps.setTimestamp(2, car.getUpdated_at());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
             String id= rs.getString(1);
-            cat.setId(id);
+            car.setId(id);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public static void doUpdate(Categoria cat) {
+    public static void doUpdate(Carrello car) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE Categoria SET nome= ?, descrizione= ? " +
+                    "UPDATE carrello SET totale= ?, updated_at= ? " +
                             "WHERE id= ?");
-            ps.setString(3, cat.getId());
+            ps.setString(3, car.getId());
 
-            ps.setString(1, cat.getNome());
-            ps.setString(2, cat.getDescrizione());
+            ps.setDouble(1, car.getTotale());
+            ps.setTimestamp(2, car.getUpdated_at());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }
@@ -81,5 +80,4 @@ public class CategoriaDAO {
         }
     }
 }
-
 

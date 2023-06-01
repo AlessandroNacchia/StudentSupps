@@ -1,10 +1,23 @@
 package com.tsw.studentsupps.Model;
 import java.sql.Timestamp;
+import java.util.UUID;
+
 public class Sconto {
+
+    private String id;
     private short percentuale;
     private boolean stato;
     private Timestamp dataInizio;
     private Timestamp dataFine;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        if(UUID.fromString(id).toString().equals(id))
+            this.id = id;
+    }
 
     public int getPercentuale() {
         return percentuale;
