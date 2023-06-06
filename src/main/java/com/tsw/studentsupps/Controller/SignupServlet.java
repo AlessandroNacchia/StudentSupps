@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/signin")
-public class RegistrazioneServlet extends HttpServlet {
+@WebServlet("/Signup")
+public class SignupServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher= request.getRequestDispatcher("pages/signin.jsp");

@@ -25,6 +25,11 @@
             <div class="navListContainer">
                 <ul class="navCategories" id="navCats">
                     <li>
+                        <div class="navBarPrimaryCategory">
+                            <a href="Shop" title="Shop All">Shop All</a>
+                        </div>
+                    </li>
+                    <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(1)">
                             <a href="Shop?filter=AllBoosters" title="Boosters">Boosters</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
@@ -82,19 +87,16 @@
             </div>
         </nav>
         <ul class="actions">
-            <%if(session.getAttribute("Utente")==null)
-            {%>
-                <li>
-                    <div class="account">
-                        <a href=""><i class="fa fa-user-circle"></i></a>
-                    </div>
-                </li>
-            <%}
-            else
+            <li>
+                <div class="account">
+                    <a href="Account"><i class="fa fa-user-circle"></i></a>
+                </div>
+            </li>
+            <%if(session.getAttribute("Utente")!=null)
             {%>
                 <li>
                     <div class="sign-out">
-                        <a href=""><i class="fa fa-sign-out"></i></a>
+                        <a href="Signout"><i class="fa fa-sign-out"></i></a>
                     </div>
                 </li>
                 <li>
@@ -106,20 +108,20 @@
             <%}%>
             <li>
                 <div class="cart">
-                    <a href=""><i class="fa fa-shopping-cart"></i></a>
+                    <a href="Cart"><i class="fa fa-shopping-cart"></i></a>
                 </div>
             </li>
             <%if(session.getAttribute("Utente")!=null)
             {%>
                 <li>
                     <div class="orders">
-                        <a href=""><i class="fa fa-truck"></i></a>
+                        <a href="Orders"><i class="fa fa-truck"></i></a>
                     </div>
                 </li>
             <%}%>
             <li>
                 <div class="search-container">
-                    <form action="RicercaServlet">
+                    <form action="Search">
                         <input type="text" placeholder="Cerca..." name="search" class="searchField">
                         <button type="submit" value="Cerca" class="searchBtn"><i class="fa fa-search"></i></button>
                     </form>

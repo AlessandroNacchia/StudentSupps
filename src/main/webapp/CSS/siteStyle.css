@@ -1,3 +1,4 @@
+/* General CSS */
 html {
     background: #0d0d0d;
     color: #ffffff;
@@ -19,6 +20,15 @@ a {
     box-sizing: border-box;
 }
 
+button, input {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+/* General CSS */
+
+/* Site Header CSS */
 .mainHeader {
     background: #1d2021;
     margin: -8px;
@@ -246,7 +256,6 @@ a {
     }
 }
 
-
 .actions {
     display: flex;
     list-style: none;
@@ -278,4 +287,51 @@ a {
     height: 32px;
     margin-left: -3px;
 }
+/* Site Header CSS */
 
+/* Forms */
+.form-field {
+    margin-bottom: 30px;
+}
+.form-field-label {
+    color: #ffffff;
+    font-weight: 600;
+    display: flex;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.form-field-input {
+    height: 40px;
+    padding: 0 20px;
+    background-color: #1d2021;
+    border: none;
+    color: #cccccc;
+    width: 100%;
+}
+.form-field-icon {
+    position: relative;
+}
+
+.password-reveal:hover {
+    opacity: .5;
+}
+.password-eye {
+    cursor: pointer;
+    display: block;
+    font-size: 25px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.form-submitButton {
+    background: #620000;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 11px 28px;
+    text-transform: uppercase;
+    width: 100%;
+}
+/* Forms */
