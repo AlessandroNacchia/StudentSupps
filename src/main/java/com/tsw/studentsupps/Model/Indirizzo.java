@@ -66,7 +66,7 @@ public class Indirizzo {
     }
 
     public void setNumeroTel(String numeroTel) {
-        if(numeroTel.matches("^([\\+]?[(]?[0-9]{1,3}[)]?[-\\s])?([(]?[0-9]{3}[)]?[-\\s]?)?([0-9][-\\s]?){3,10}[0-9]$"))
+        if(numeroTel.matches("^([+]?[(]?[0-9]{1,3}[)]?[-\\s])?([(]?[0-9]{3}[)]?[-\\s]?)?([0-9][-\\s]?){3,10}[0-9]$"))
             this.numeroTel= numeroTel;
     }
 

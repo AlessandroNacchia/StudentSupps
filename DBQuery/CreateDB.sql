@@ -15,7 +15,7 @@ CREATE TABLE Utente
     username      	varchar(30)		NOT NULL UNIQUE,
     passwordHash	varchar(40)	    NOT NULL,
     email			varchar(30)		NOT NULL UNIQUE,
-    numeroTel		varchar(15),
+    numeroTel		varchar(24),
     isAdmin         boolean         NOT NULL,
     nome      		varchar(30)     NOT NULL,
     cognome      	varchar(30)     NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE Indirizzo
     citta			varchar(30)		NOT NULL,
     CAP				char(5)			NOT NULL,
     via				varchar(60)		NOT NULL,
-    numeroTel		varchar(15),
+    numeroTel		varchar(24),
     is_fatt			boolean			NOT NULL,
     
     id_utente		binary(16),

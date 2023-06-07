@@ -87,6 +87,15 @@
             </div>
         </nav>
         <ul class="actions">
+            <%if(session.getAttribute("Utente")!=null)
+            {%>
+                <li>
+                    <div class="userInfo">
+                        <%Utente u= (Utente) session.getAttribute("Utente");%>
+                        <a>Bentornato, <%=u.getNome()%></a>
+                    </div>
+                </li>
+            <%}%>
             <li>
                 <div class="account">
                     <a href="Account"><i class="fa fa-user-circle"></i></a>
@@ -95,14 +104,8 @@
             <%if(session.getAttribute("Utente")!=null)
             {%>
                 <li>
-                    <div class="sign-out">
-                        <a href="Signout"><i class="fa fa-sign-out"></i></a>
-                    </div>
-                </li>
-                <li>
-                    <div class="userInfo">
-                        <%Utente u= (Utente) session.getAttribute("Utente");%>
-                        <a>Sei loggato come <%=u.getNome()%></a>
+                    <div class="logout">
+                        <a href="Logout"><i class="fa fa-sign-out"></i></a>
                     </div>
                 </li>
             <%}%>

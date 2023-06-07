@@ -55,7 +55,7 @@ public class UtenteDAO {
     public static void doSave(Utente u) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps= con.prepareStatement(
-                    "INSERT INTO Utente ( username, passwordHash, email, numeroTel, isAdmin, nome, cognome) VALUES(?,?,?,?,?,?,?)",
+                    "INSERT INTO Utente (username, passwordHash, email, numeroTel, isAdmin, nome, cognome) VALUES(?,?,?,?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, u.getUsername());
             ps.setString(2, u.getPasswordHash());
@@ -67,7 +67,7 @@ public class UtenteDAO {
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
+            ResultSet rs= ps.getGeneratedKeys();
             rs.next();
             String id= rs.getString(1);
             u.setId(id);
@@ -76,13 +76,15 @@ public class UtenteDAO {
         }
     }
 
+    //Retrieve using Username or Email (Both are unique)
     public static Utente doRetrieveByUsernamePassword(String username, String password) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps=
-                    con.prepareStatement("SELECT id, username, email, numeroTel, isAdmin, nome, cognome " +
-                            "FROM Utente WHERE username=? AND passwordhash=SHA1(?)");
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), username, email, numeroTel, isAdmin, nome, cognome " +
+                            "FROM Utente WHERE (username=? OR email=?) AND passwordhash=SHA1(?)");
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, username);
+            ps.setString(3, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Utente u= new Utente();

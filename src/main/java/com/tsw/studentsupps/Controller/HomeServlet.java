@@ -14,12 +14,6 @@ import java.util.List;
 public class HomeServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*
-        String loginStatus= (String) request.getAttribute("loginStatus");
-        if(loginStatus != null && loginStatus.equals("failedLogin"))
-            request.setAttribute("loginStatus", loginStatus);
-        */
-
         RequestDispatcher dispatcher= request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
     }

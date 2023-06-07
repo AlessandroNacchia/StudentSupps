@@ -267,7 +267,7 @@ button, input {
         margin-left: auto;
     }
 }
-.actions .account, .actions .cart {
+.actions .account, .actions .cart, .actions .logout, .actions .orders {
     display: block;
     font-size: 25px;
     cursor: pointer;
@@ -276,11 +276,17 @@ button, input {
     display: block;
 }
 
+.userInfo {
+    font-size: 12px;
+    text-align: center;
+}
+
 .search-container .searchField {
     padding: 6px;
     font-size: 16px;
     border: none;
     height: 29px;
+    width: calc(100% - 35px);
 }
 .search-container .searchBtn {
     width: 32px;
@@ -310,6 +316,13 @@ button, input {
 }
 .form-field-icon {
     position: relative;
+}
+.form-field-comment {
+    color: #ffffff;
+    display: block;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 2px;
 }
 
 .password-reveal:hover {

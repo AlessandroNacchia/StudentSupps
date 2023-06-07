@@ -14,19 +14,22 @@ import java.io.IOException;
 @WebServlet("/Signup")
 public class SignupServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher= request.getRequestDispatcher("pages/signin.jsp");
-        dispatcher.forward(request, response);
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("Account");
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Utente u= new Utente();
+        u.setNome(request.getParameter("name"));
+        u.setCognome(request.getParameter("lastname"));
+        u.setNumeroTel(request.getParameter("phone"));
         u.setUsername(request.getParameter("username"));
-        u.setPasswordHash(request.getParameter("password"));
         u.setEmail(request.getParameter("email"));
-        u.setNome(request.getParameter("nome"));
+        u.setPasswordHash(request.getParameter("password"));
+
         UtenteDAO.doSave(u);
+
         u.setPasswordHash("");
         request.getSession().setAttribute("utente", u);
         response.sendRedirect(".");

@@ -30,7 +30,7 @@ public class Utente {
         return username;
     }
     public void setUsername(String username) {
-        if(username.matches("^[A-Za-z][A-Za-z0-9_]{7,29}$"))
+        if(username.matches("^[A-Za-z][A-Za-z0-9_]{5,29}$"))
             this.username= username;
     }
 
@@ -38,7 +38,7 @@ public class Utente {
         return passwordHash;
     }
     public void setPasswordHash(String password) {
-        if(password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\-\\[{}\\]:;',?/*~$^+=<>]).{8,30}$"))
+        if(password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\[{}\\]:;',?*~$^\\-+=<>]).{8,30}$"))
         {
             try {
                 MessageDigest digest= MessageDigest.getInstance("SHA-1");
@@ -55,7 +55,7 @@ public class Utente {
         return email;
     }
     public void setEmail(String email) {
-        if(email.matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$"))
+        if(email.matches("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$"))
             this.email= email;
     }
 
@@ -64,7 +64,8 @@ public class Utente {
     }
 
     public void setNumeroTel(String numeroTel) {
-        this.numeroTel = numeroTel;
+        if(numeroTel.isEmpty() || numeroTel.matches("^([+]?[(]?[0-9]{1,3}[)]?[-\\s])?([(]?[0-9]{3}[)]?[-\\s]?)?([0-9][-\\s]?){3,10}[0-9]$"))
+            this.numeroTel= numeroTel;
     }
 
     public boolean isAdmin() {
@@ -78,7 +79,7 @@ public class Utente {
         return nome;
     }
     public void setNome(String nome) {
-        if(nome.matches("^[a-zA-Z\\s]*$"))
+        if(nome.matches("^[a-zA-Z\\s]{2,30}$"))
             this.nome= nome;
     }
 
@@ -87,7 +88,7 @@ public class Utente {
     }
 
     public void setCognome(String cognome) {
-        if(cognome.matches("^[a-zA-Z\\s]*$"))
+        if(cognome.matches("^[a-zA-Z\\s]{2,30}$"))
             this.cognome= cognome;
     }
 }

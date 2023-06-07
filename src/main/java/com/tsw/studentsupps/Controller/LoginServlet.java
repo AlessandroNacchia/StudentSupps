@@ -19,18 +19,18 @@ public class LoginServlet extends HttpServlet {
                 request.getParameter("username"), request.getParameter("password"));
 
         if(u!= null) {
-            request.getSession().setAttribute("utente", u);
+            request.getSession().setAttribute("Utente", u);
             response.sendRedirect(".");
         }
         else {
             request.setAttribute("loginStatus", "failedLogin");
-            RequestDispatcher dispatcher= request.getRequestDispatcher(".");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
             dispatcher.forward(request, response);
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req,resp);
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("Account");
     }
 }
