@@ -87,10 +87,10 @@ button, input {
     }
 }
 .site-logo-link {
-    background: url(../images/img_placeholder.png) 50%/contain no-repeat;
+    background: url(../images/studentsuppslogo.png) 100%/contain no-repeat;
     display: block;
-    height: 21px;
-    width: 105px;
+    height: 50px;
+    width: 50px;
 }
 
 
