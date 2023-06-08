@@ -1,8 +1,11 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class RecensioneDAO {
     public static Recensione doRetrieveById(String id) {
@@ -49,19 +52,19 @@ public class RecensioneDAO {
     public static void doSave(Recensione rec) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO recensione (descrizione, voto, autore) VALUES(?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, rec.getDescrizione());
-            ps.setShort(2, rec.getVoto());
-            ps.setString(3, rec.getAutore());
+                    "INSERT INTO recensione (id, descrizione, voto, autore)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setString(2, rec.getDescrizione());
+            ps.setShort(3, rec.getVoto());
+            ps.setString(4, rec.getAutore());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            String id = rs.getString(1);
-            rec.setId(id);
 
+            rec.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -71,7 +74,7 @@ public class RecensioneDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE recensione SET descrizione= ?, voto= ?, autore= ?" +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(4, rec.getId());
 
             ps.setString(1, rec.getDescrizione());

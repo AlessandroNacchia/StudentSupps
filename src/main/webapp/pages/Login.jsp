@@ -13,8 +13,12 @@
 
     <main class="login">
         <h1 class="login-title">Accedi oppure registra un nuovo account</h1>
+        <nav class="login-tabs">
+            <a class="login-link login-link--active" id="linkTab-Login" onclick="changeTab('Login')">Accedi</a>
+            <a class="login-link" id="linkTab-Signup" onclick="changeTab('Signup')">Registrati</a>
+        </nav>
         <div class="login-wrapper">
-            <section class="login-section">
+            <section class="login-section login-section--active" id="section-Login">
                 <h2 class="login-subtitle">Accedi</h2>
                 <c:if test="${requestScope.loginStatus == 'failedLogin'}">
                     <p style="color: red">Username/Email o Password errati!</p>
@@ -34,7 +38,7 @@
                     <button class="form-submitButton" onclick="return (confermaParametri('Login'))" type="submit">Accedi</button>
                 </form>
             </section>
-            <section class="login-section">
+            <section class="login-section" id="section-Signup">
                 <h2 class="login-subtitle">Registrati</h2>
                 <form action="Signup" method="post">
                     <div class="form-field">
@@ -91,7 +95,7 @@
     <script>
         function revealPassword(x) {
             let passField= document.getElementById("password" + x);
-            let passEye= document.getElementById("passEye" + x)
+            let passEye= document.getElementById("passEye" + x);
             if (passField.type === "password") {
                 passField.type= "text";
                 passEye.className= "fa fa-eye-slash";
@@ -164,6 +168,29 @@
                 }
 
                 return true;
+            } else
+                return false;
+        }
+
+        function changeTab(x) {
+            if(x === 'Login') {
+                let loginLink= document.getElementById("linkTab-Login");
+                if (loginLink.className === 'login-link') {
+                    loginLink.className= 'login-link login-link--active';
+                    document.getElementById("section-Login").className= 'login-section login-section--active';
+
+                    document.getElementById("linkTab-Signup").className= 'login-link';
+                    document.getElementById("section-Signup").className= 'login-section';
+                }
+            } else if(x === 'Signup') {
+                let loginLink= document.getElementById("linkTab-Signup");
+                if (loginLink.className === 'login-link') {
+                    loginLink.className= 'login-link login-link--active';
+                    document.getElementById("section-Signup").className= 'login-section login-section--active';
+
+                    document.getElementById("linkTab-Login").className= 'login-link';
+                    document.getElementById("section-Login").className= 'login-section';
+                }
             } else
                 return false;
         }

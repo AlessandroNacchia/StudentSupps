@@ -58,6 +58,13 @@
             <version>3.0.0</version>
         </dependency>
 
+        <!--Dependency to create uuid based on time (version 1) in java, to make mysql search faster-->
+        <dependency>
+            <groupId>com.fasterxml.uuid</groupId>
+            <artifactId>java-uuid-generator</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

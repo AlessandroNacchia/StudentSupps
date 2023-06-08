@@ -1,9 +1,12 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class OrdineDAO {        
     public static Ordine doRetrieveById(String id) {
@@ -52,20 +55,20 @@ public class OrdineDAO {
     public static void doSave(Ordine ord) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO ordine (totale, dataAcquisto, dataConsegna,stato) VALUES(?,?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setDouble(1, ord.getTotale());
-            ps.setTimestamp(2, ord.getDataAquisto());
-            ps.setTimestamp(3, ord.getDataConsegna());
-            ps.setString(4, ord.getStato());
+                    "INSERT INTO ordine (id, totale, dataAcquisto, dataConsegna,stato)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setDouble(2, ord.getTotale());
+            ps.setTimestamp(3, ord.getDataAquisto());
+            ps.setTimestamp(4, ord.getDataConsegna());
+            ps.setString(5, ord.getStato());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            String id = rs.getString(1);
-            ord.setId(id);
 
+            ord.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +78,7 @@ public class OrdineDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE ordine SET totale= ?, dataAcquisto= ?, dataConsegna= ?,stato= ?" +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(5, ord.getId());
 
             ps.setDouble(1, ord.getTotale());

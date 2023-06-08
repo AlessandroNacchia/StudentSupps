@@ -1,8 +1,11 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UtenteDAO {
     public static Utente doRetrieveById(String id) {
@@ -55,22 +58,23 @@ public class UtenteDAO {
     public static void doSave(Utente u) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps= con.prepareStatement(
-                    "INSERT INTO Utente (username, passwordHash, email, numeroTel, isAdmin, nome, cognome) VALUES(?,?,?,?,?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, u.getUsername());
-            ps.setString(2, u.getPasswordHash());
-            ps.setString(3, u.getEmail());
-            ps.setString(4,u.getNumeroTel());
-            ps.setBoolean(5, u.isAdmin());
-            ps.setString(6, u.getNome());
-            ps.setString(7,u.getCognome());
+                    "INSERT INTO Utente (id, username, passwordHash, email, numeroTel, isAdmin, nome, cognome)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,?,?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setString(2, u.getUsername());
+            ps.setString(3, u.getPasswordHash());
+            ps.setString(4, u.getEmail());
+            ps.setString(5,u.getNumeroTel());
+            ps.setBoolean(6, u.isAdmin());
+            ps.setString(7, u.getNome());
+            ps.setString(8,u.getCognome());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs= ps.getGeneratedKeys();
-            rs.next();
-            String id= rs.getString(1);
-            u.setId(id);
+
+            u.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -106,7 +110,7 @@ public class UtenteDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE utente SET username= ?, passwordHash= ?, email= ?, numeroTel= ?, isAdmin= ?, nome= ?, cognome= ? " +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(8, u.getId());
             ps.setString(1, u.getUsername());
             ps.setString(2, u.getPasswordHash());

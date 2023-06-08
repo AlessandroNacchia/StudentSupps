@@ -1,9 +1,12 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class ScontoDAO {
     public static Sconto doRetrieveById(String id) {
@@ -52,20 +55,20 @@ public class ScontoDAO {
     public static void doSave(Sconto sc) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO sconto (percentuale, stato, dataInizio, dataFine) VALUES(?,?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, sc.getPercentuale());
-            ps.setBoolean(2, sc.isStato());
-            ps.setTimestamp(3, sc.getDataInizio());
-            ps.setTimestamp(3, sc.getDataFine());
+                    "INSERT INTO sconto (id, percentuale, stato, dataInizio, dataFine)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setInt(2, sc.getPercentuale());
+            ps.setBoolean(3, sc.isStato());
+            ps.setTimestamp(4, sc.getDataInizio());
+            ps.setTimestamp(5, sc.getDataFine());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            String id = rs.getString(1);
-            sc.setId(id);
 
+            sc.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +78,7 @@ public class ScontoDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE sconto SET percentuale= ?, stato= ?, dataInizio= ?, dataFine= ?" +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(5, sc.getId());
 
             ps.setInt(1, sc.getPercentuale());

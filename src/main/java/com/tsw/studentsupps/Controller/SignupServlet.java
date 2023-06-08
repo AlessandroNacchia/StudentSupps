@@ -31,7 +31,7 @@ public class SignupServlet extends HttpServlet {
         UtenteDAO.doSave(u);
 
         u.setPasswordHash("");
-        request.getSession().setAttribute("utente", u);
+        request.getSession().setAttribute("Utente", u);
         response.sendRedirect(".");
     }
 }

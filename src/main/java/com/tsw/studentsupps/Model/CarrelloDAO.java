@@ -1,8 +1,11 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CarrelloDAO {
     public static Carrello doRetrieveById(String id) {
@@ -47,18 +50,18 @@ public class CarrelloDAO {
     public static void doSave(Carrello car) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO carrello (totale, updated_at) VALUES(?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setDouble(1, car.getTotale());
-            ps.setTimestamp(2, car.getUpdated_at());
+                    "INSERT INTO carrello (id, totale, updated_at)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setDouble(2, car.getTotale());
+            ps.setTimestamp(3, car.getUpdated_at());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            String id= rs.getString(1);
-            car.setId(id);
 
+            car.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +70,7 @@ public class CarrelloDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE carrello SET totale= ?, updated_at= ? " +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(3, car.getId());
 
             ps.setDouble(1, car.getTotale());

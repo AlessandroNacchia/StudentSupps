@@ -1,8 +1,11 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ProdottoDAO {
     public static Prodotto doRetrieveById(String id) {
@@ -79,21 +82,21 @@ public class ProdottoDAO {
     public static void doSave(Prodotto prod) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO prodotto (nome, descrizione,prezzo,IVA,quantita) VALUES(?,?,?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, prod.getNome());
-            ps.setString(2, prod.getDescrizione());
-            ps.setDouble(3, prod.getPrezzo());
-            ps.setShort(4, prod.getIVA());
-            ps.setInt(5, prod.getQuantita());
+                    "INSERT INTO prodotto (id, nome, descrizione,prezzo,IVA,quantita)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setString(2, prod.getNome());
+            ps.setString(3, prod.getDescrizione());
+            ps.setDouble(4, prod.getPrezzo());
+            ps.setShort(5, prod.getIVA());
+            ps.setInt(6, prod.getQuantita());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            String id = rs.getString(1);
-            prod.setId(id);
 
+            prod.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -103,7 +106,7 @@ public class ProdottoDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE Prodotto SET nome= ?, descrizione= ?, prezzo= ?, IVA= ?, quantita= ? " +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(6, prod.getId());
 
             ps.setString(1, prod.getNome());

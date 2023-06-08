@@ -15,6 +15,9 @@ a {
     text-decoration: none;
     transition: color .2s;
 }
+a:hover {
+    color: #aaaaaa;
+}
 
 *, :after, :before {
     box-sizing: border-box;

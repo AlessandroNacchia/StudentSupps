@@ -1,8 +1,11 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CategoriaDAO {
     public static Categoria doRetrieveById(String id) {
@@ -47,18 +50,18 @@ public class CategoriaDAO {
     public static void doSave(Categoria cat) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO Categoria (nome, descrizione) VALUES(?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, cat.getNome());
-            ps.setString(2, cat.getDescrizione());
+                    "INSERT INTO Categoria (id, nome, descrizione)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setString(2, cat.getNome());
+            ps.setString(3, cat.getDescrizione());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            String id= rs.getString(1);
-            cat.setId(id);
 
+            cat.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +71,7 @@ public class CategoriaDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE Categoria SET nome= ?, descrizione= ? " +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(3, cat.getId());
 
             ps.setString(1, cat.getNome());

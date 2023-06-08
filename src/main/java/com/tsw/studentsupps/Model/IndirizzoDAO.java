@@ -1,8 +1,11 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class IndirizzoDAO {
     public static Indirizzo doRetrieveById(String id) {
@@ -12,7 +15,7 @@ public class IndirizzoDAO {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                    Indirizzo i= new Indirizzo();
+                Indirizzo i= new Indirizzo();
                 i.setId(rs.getString(1));
                 i.setNazione(rs.getString(2));
                 i.setProvincia(rs.getString(3));
@@ -56,23 +59,23 @@ public class IndirizzoDAO {
     public static void doSave(Indirizzo Ind) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO indirizzo (nazione, provincia, citta, CAP, via, numeroTel, is_fatt) VALUES(?,?,?,?,?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, Ind.getNazione());
-            ps.setString(2, Ind.getProvincia());
-            ps.setString(3, Ind.getCitta());
-            ps.setString(4, Ind.getCAP());
-            ps.setString(5, Ind.getVia());
-            ps.setString(6, Ind.getNumeroTel());
-            ps.setBoolean(7, Ind.isFatt());
+                    "INSERT INTO indirizzo (id, nazione, provincia, citta, CAP, via, numeroTel, is_fatt)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,?,?,?)");
+
+            UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+            ps.setString(1, randUUID.toString());
+            ps.setString(2, Ind.getNazione());
+            ps.setString(3, Ind.getProvincia());
+            ps.setString(4, Ind.getCitta());
+            ps.setString(5, Ind.getCAP());
+            ps.setString(6, Ind.getVia());
+            ps.setString(7, Ind.getNumeroTel());
+            ps.setBoolean(8, Ind.isFatt());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            String id = rs.getString(1);
-            Ind.setId(id);
 
+            Ind.setId(randUUID.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -82,7 +85,7 @@ public class IndirizzoDAO {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "UPDATE indirizzo SET nazione= ?, provincia= ?, citta= ?, CAP= ?, via= ?, numeroTel= ?, is_fatt= ? " +
-                            "WHERE id= ?");
+                            "WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(8, Ind.getId());
 
             ps.setString(1, Ind.getNazione());

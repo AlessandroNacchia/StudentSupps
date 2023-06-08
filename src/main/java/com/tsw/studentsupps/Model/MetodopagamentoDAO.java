@@ -1,11 +1,13 @@
 package com.tsw.studentsupps.Model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
+import java.util.UUID;
 
-public class metodopagamentoDAO {
+public class MetodopagamentoDAO {
         public static Metodopagamento doRetrieveById(String id) {
             try (Connection con= ConPool.getConnection()) {
                 PreparedStatement ps =
@@ -49,19 +51,19 @@ public class metodopagamentoDAO {
         public static void doSave(Metodopagamento mp) {
             try (Connection con = ConPool.getConnection()) {
                 PreparedStatement ps = con.prepareStatement(
-                        "INSERT INTO metodopagamento (provider, numeroHash, dataScadenza) VALUES(?,?,?)",
-                        Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, mp.getProvider());
-                ps.setString(2, mp.getNumeroHash());
-                ps.setDate(3, mp.getDataScadenza());
+                        "INSERT INTO metodopagamento (id, provider, numeroHash, dataScadenza)" +
+                                "VALUES(UUID_TO_BIN(?, 1),?,?,?)");
+
+                UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
+                ps.setString(1, randUUID.toString());
+                ps.setString(2, mp.getProvider());
+                ps.setString(3, mp.getNumeroHash());
+                ps.setDate(4, mp.getDataScadenza());
                 if (ps.executeUpdate() != 1) {
                     throw new RuntimeException("INSERT error.");
                 }
-                ResultSet rs = ps.getGeneratedKeys();
-                rs.next();
-                String id = rs.getString(1);
-                mp.setId(id);
 
+                mp.setId(randUUID.toString());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -71,7 +73,7 @@ public class metodopagamentoDAO {
             try (Connection con = ConPool.getConnection()) {
                 PreparedStatement ps = con.prepareStatement(
                         "UPDATE metodopagamento SET provider= ?, numeroHash= ?, dataScadenza= ?" +
-                                "WHERE id= ?");
+                                "WHERE id= UUID_TO_BIN(?, 1)");
                 ps.setString(4, mp.getId());
 
                 ps.setString(1, mp.getProvider());
