@@ -118,25 +118,25 @@ CREATE TABLE ProdottoCategoria
 
 CREATE TABLE ProdottoCarrello
 (
-	id_prodotto 	binary(16),
     id_carrello 	binary(16),
+    id_prodotto 	binary(16),
     quantita		smallint UNSIGNED 	NOT NULL,
-    
-    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+
     FOREIGN KEY (id_carrello) REFERENCES Carrello(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (id_prodotto, id_carrello)
+    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (id_carrello, id_prodotto)
 );
 
 CREATE TABLE ProdottoOrdine
 (
-	id_prodotto 		binary(16),
     id_ordine 			binary(16),
+    id_prodotto 		binary(16),
     nome_prodotto		varchar(30)			NOT NULL,
     quantita			smallint UNSIGNED 	NOT NULL,
     prezzo_acquisto		decimal(10,2)		NOT NULL	CHECK(prezzo_acquisto>=0),
     IVA_acquisto		tinyint UNSIGNED 	NOT NULL,	
-    
-    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE,
+
     FOREIGN KEY (id_ordine) REFERENCES Ordine(id) ON UPDATE CASCADE,
-    PRIMARY KEY (id_prodotto, id_ordine)
+    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE,
+    PRIMARY KEY (id_ordine, id_prodotto)
 );

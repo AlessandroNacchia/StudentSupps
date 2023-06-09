@@ -90,7 +90,7 @@ public class CarrelloDAO {
 
             ps.setString(1, car.getId());
             if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("UPDATE error.");
+                throw new RuntimeException("DELETE error.");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,7 +105,7 @@ public class CarrelloDAO {
 
             ps.setLong(1, timeInMillis);
             if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("UPDATE error.");
+                throw new RuntimeException("DELETE error.");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
