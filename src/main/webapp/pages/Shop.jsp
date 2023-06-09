@@ -40,7 +40,10 @@
                         <div class="productBox-price">
                             <span><%=p.getPrezzo()%>&nbsp;€</span>
                         </div>
-                        <button class="productBox-addToCart">Aggiungi al Carrello</button>
+                        <form action="Cart" method="post">
+                            <input type="hidden" name="prodToAdd" id="<%=p.getId()%>">
+                            <button class="productBox-addToCart" type="submit">Aggiungi al Carrello</button>
+                        </form>
                     </div>
                 </article>
             <%}%>

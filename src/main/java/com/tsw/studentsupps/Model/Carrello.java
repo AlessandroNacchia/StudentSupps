@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 
 public class Carrello {
     private String id;
-    private double totale;
-    private  Timestamp updated_at;
+    private double totale= 0;
+    private Timestamp updated_at= new Timestamp(System.currentTimeMillis());
 
     public String getId() {
         return id;

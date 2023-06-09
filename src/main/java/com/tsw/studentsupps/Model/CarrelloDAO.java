@@ -82,5 +82,19 @@ public class CarrelloDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void doDelete(Carrello car) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM carrello WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, car.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 

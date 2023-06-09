@@ -126,4 +126,34 @@ public class UtenteDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void doUpdateIdCart(Utente u, Carrello cart) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE utente SET id_carrello= UUID_TO_BIN(?, 1) " +
+                            "WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(2, u.getId());
+            ps.setString(1, cart.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String doRetrieveIdCart(Utente u) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT BIN_TO_UUID(id_carrello, 1) FROM utente WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, u.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

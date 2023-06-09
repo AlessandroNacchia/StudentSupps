@@ -1,5 +1,6 @@
 package com.tsw.studentsupps.Controller;
 
+import com.tsw.studentsupps.Model.Carrello;
 import com.tsw.studentsupps.Model.Utente;
 import com.tsw.studentsupps.Model.UtenteDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -29,6 +30,7 @@ public class SignupServlet extends HttpServlet {
         u.setPasswordHash(request.getParameter("password"));
 
         UtenteDAO.doSave(u);
+        UtenteDAO.doUpdateIdCart(u, (Carrello) request.getSession().getAttribute("Cart"));
 
         u.setPasswordHash("");
         request.getSession().setAttribute("Utente", u);
