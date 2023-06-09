@@ -47,7 +47,7 @@
                     </ul>
                 </div>
                 <div class="main-footer-menu-container">
-                    <div class="main-footer-menu-head">Social media</div>
+                    <div class="main-footer-menu-head" style="cursor: default;">Social media</div>
                     <ul class="main-footer-nav-link">
                         <li class="main-footer-Slink">
                             <a class="fa fa-stack" href="" title="twitter" >

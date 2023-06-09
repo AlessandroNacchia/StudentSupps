@@ -360,6 +360,10 @@ figure {
 }
 /* Forms */
 /* footer css*/
+.site-footer {
+    margin-top: 50px;
+}
+
 .main-footer{
     background:#1d2021;
     padding: 30px 0 0;
