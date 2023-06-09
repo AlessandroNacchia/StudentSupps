@@ -1,0 +1,92 @@
+.products {
+    padding: 20px;
+}
+
+@media screen and (max-width: 1023px) {
+    .productsHeader {
+        margin-bottom: 30px;
+        padding: 0 20px;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .productsSlots {
+        padding: 0 20px;
+    }
+}
+
+.productsHeader-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+}
+.productsHeader-descr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-bottom: 1px solid #737373;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+}
+
+.productsHeader-left {
+    font-size: 18px;
+    color: #620000;
+}
+
+.productsSlots {
+    grid-gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+@media screen and (min-width: 1024px) {
+    .productsSlots {
+        grid-gap: 48px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.productBox {
+    text-align: center;
+}
+
+.productBox-image {
+    display: block;
+    position: relative;
+    background: #1d2021;
+    padding-top: 100%;
+}
+.productBox-image .imageWrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.productBox-wrapper {
+    width: 100%;
+}
+.productBox-title {
+    display: block;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.productBox-price {
+    margin: 10px 0;
+}
+.productBox-price span {
+    color: #ffffff;
+    font-weight: 700;
+}
+.productBox-addToCart {
+    width: 100%;
+    color: #ffffff;
+    background-color: #620000;
+    border: 1px solid #737373;
+    cursor: pointer;
+    font-weight: 600;
+    min-height: 40px;
+    text-transform: uppercase;
+    transition: all .3s ease-in;
+}
+.productBox-addToCart:hover {
+    color: black;
+    background-color: white;
+}

@@ -31,13 +31,13 @@
                     </li>
                     <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(1)">
-                            <a href="Shop?filter=AllBoosters" title="Boosters">Boosters</a>
+                            <a href="Shop?filter=Boosters" title="Boosters">Boosters</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
                         </div>
                         <ul class="dropdown-content" id="drpCnt1">
                             <li>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=AllBoosters">All Boosters</a>
+                                    <a href="Shop?filter=Boosters">All Boosters</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
                                     <a href="Shop?filter=BoosterBundles">Booster Bundles</a>
@@ -47,13 +47,13 @@
                     </li>
                     <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(2)">
-                            <a href="Shop?filter=AllShakers" title="Shakers">Shakers</a>
+                            <a href="Shop?filter=Shakers" title="Shakers">Shakers</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
                         </div>
                         <ul class="dropdown-content" id="drpCnt2">
                             <li>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=AllShakers">All Shakers</a>
+                                    <a href="Shop?filter=Shakers">All Shakers</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
                                     <a href="Shop?filter=ShakerBundles">Shaker Bundles</a>
@@ -63,19 +63,19 @@
                     </li>
                     <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(3)">
-                            <a href="Shop?filter=AllMerch" title="Merce">Merce</a>
+                            <a href="Shop?filter=Merch" title="Merch">Merce</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
                         </div>
                         <ul class="dropdown-content" id="drpCnt3">
                             <li>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=AllMerch">Merce Varia</a>
+                                    <a href="Shop?filter=Merch">All Merch</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
                                     <a href="Shop?filter=MerchMaglie">Maglie</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=MerchPantaloni">Pantaloni</a>
+                                    <a href="Shop?filter=MerchZaini">Zaini</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
                                     <a href="Shop?filter=MerchAltro">Altro</a>

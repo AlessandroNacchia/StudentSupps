@@ -53,13 +53,14 @@ public class ProdottoDAO {
         }
     }
 
-    public static List<Prodotto> doRetrieveByCategoria(String idCat) {
+    public static List<Prodotto> doRetrieveByCategoria(String nomeCat) {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita " +
-                    "FROM Prodotto, ProdottoCategoria " +
-                    "WHERE Prodotto.id = prodottocategoria.id_prodotto AND " +
-                    "prodottocategoria.id_categoria = ?");
-            ps.setString(1, idCat);
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(P.id, 1), P.nome, P.descrizione, P.prezzo, P.IVA, P.quantita " +
+                    "FROM Prodotto AS P, ProdottoCategoria, Categoria AS C " +
+                    "WHERE P.id = prodottocategoria.id_prodotto AND " +
+                    "prodottocategoria.id_categoria = C.id AND " +
+                    "C.nome = ?");
+            ps.setString(1, nomeCat);
             ResultSet rs= ps.executeQuery();
 
             List<Prodotto> prodCatList= new ArrayList<>();
