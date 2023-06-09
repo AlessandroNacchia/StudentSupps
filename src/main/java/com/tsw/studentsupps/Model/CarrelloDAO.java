@@ -45,8 +45,8 @@ public class CarrelloDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
+
     public static void doSave(Carrello car) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
@@ -89,6 +89,21 @@ public class CarrelloDAO {
                     "DELETE FROM carrello WHERE id= UUID_TO_BIN(?, 1)");
 
             ps.setString(1, car.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void doDeleteUnlinkedCarts(long timeInMillis) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM carrello WHERE id NOT IN (SELECT id_carrello FROM utente) " +
+                            "AND updated_at<(current_timestamp-?)");
+
+            ps.setLong(1, timeInMillis);
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }
