@@ -1,6 +1,8 @@
 package com.tsw.studentsupps.Controller;
 
 import com.tsw.studentsupps.Model.*;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,7 +43,23 @@ public class CartServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session= request.getSession();
+        Carrello cart= (Carrello) session.getAttribute("Cart");
 
+        List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
+        request.setAttribute("prodList", prodList);
+
+        //Ricalcolo da 0 il totale per sicurezza
+        cart.setTotale(0);
+        for(String idProd: prodList) {
+            int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), idProd);
+            double price= ProdottoDAO.doRetrieveById(idProd).getPrezzo();
+            cart.setTotale(cart.getTotale() + (price * quantita));
+        }
+        CarrelloDAO.doUpdate(cart);
+
+        RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Cart.jsp");
+        dispatcher.forward(request, response);
     }
 }

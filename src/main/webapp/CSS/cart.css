@@ -1,0 +1,32 @@
+.cart {
+    padding: 25px;
+}
+
+@media screen and (min-width: 1024px) {
+    .cart-header {
+        display: flex;
+    }
+}
+.cart-header {
+    margin-bottom: 25px;
+}
+
+@media screen and (min-width: 1024px) {
+    .cart-main {
+        display: flex;
+    }
+}
+.cart-main {
+    margin-bottom: 25px;
+}
+
+@media only screen and (min-width: 1024px) {
+    .cart-header-title {
+        font-size: 34px;
+        line-height: 50px;
+    }
+}
+.cart-header-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26px;
+}
