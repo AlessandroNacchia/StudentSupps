@@ -1,12 +1,11 @@
 package com.tsw.studentsupps.Model;
 
-import com.fasterxml.uuid.Generators;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProdottocarrelloDAO {
     public static int doRetrieveQuantita(String carrelloId, String prodottoId) {
@@ -26,14 +25,33 @@ public class ProdottocarrelloDAO {
         }
     }
 
-    public static void doSave(String carrelloId, String prodottoId) {
+    public static List<String> doRetrieveProdotti(String carrelloId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT BIN_TO_UUID(id_prodotto, 1) FROM prodottocarrello " +
+                            "WHERE id_carrello= UUID_TO_BIN(?, 1)");
+            ps.setString(1, carrelloId);
+            ResultSet rs = ps.executeQuery();
+
+            List<String> prodList= new ArrayList<>();
+            while(rs.next()) {
+                prodList.add(rs.getString(1));
+            }
+            return prodList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void doSave(String carrelloId, String prodottoId, int quantita) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps= con.prepareStatement(
                     "INSERT INTO prodottocarrello (id_carrello, id_prodotto, quantita)" +
-                            "VALUES(UUID_TO_BIN(?, 1), UUID_TO_BIN(?, 1), 1)");
+                            "VALUES(UUID_TO_BIN(?, 1), UUID_TO_BIN(?, 1), ?)");
 
             ps.setString(1, carrelloId);
             ps.setString(2, prodottoId);
+            ps.setInt(3, quantita);
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }

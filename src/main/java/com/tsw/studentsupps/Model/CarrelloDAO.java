@@ -69,12 +69,11 @@ public class CarrelloDAO {
     public static void doUpdate(Carrello car) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE carrello SET totale= ?, updated_at= ? " +
+                    "UPDATE carrello SET totale= ? " +
                             "WHERE id= UUID_TO_BIN(?, 1)");
-            ps.setString(3, car.getId());
+            ps.setString(2, car.getId());
 
             ps.setDouble(1, car.getTotale());
-            ps.setTimestamp(2, car.getUpdated_at());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }
