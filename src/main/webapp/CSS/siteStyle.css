@@ -51,6 +51,7 @@ h1, h2, h3 {
     font-weight: 600;
     min-height: 40px;
     text-transform: uppercase;
+    text-align: center;
     transition: all .3s ease-in;
     display: inline-flex;
     padding: 10px 30px;

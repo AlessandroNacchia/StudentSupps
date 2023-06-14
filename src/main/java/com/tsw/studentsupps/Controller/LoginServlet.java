@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @WebServlet("/Login")
@@ -31,8 +32,11 @@ public class LoginServlet extends HttpServlet {
             userCart.setTotale(0);
             for(String idProd: prodList) {
                 int quantita= ProdottocarrelloDAO.doRetrieveQuantita(userCart.getId(), idProd);
-                double price= ProdottoDAO.doRetrieveById(idProd).getPrezzo();
-                userCart.setTotale(userCart.getTotale() + (price * quantita));
+                BigDecimal price= BigDecimal.valueOf(ProdottoDAO.doRetrieveById(idProd).getPrezzo());
+                userCart.setTotale(
+                        (BigDecimal.valueOf(userCart.getTotale()).add(
+                                price.multiply(BigDecimal.valueOf(quantita))
+                        )).doubleValue());
             }
 
             prodList= ProdottocarrelloDAO.doRetrieveProdotti(oldCart.getId());
@@ -44,8 +48,11 @@ public class LoginServlet extends HttpServlet {
                 }
                 else
                     ProdottocarrelloDAO.doUpdateQuantita(userCart.getId(), idProd, quantitaOldCart+quantitaUserCart);
-                double price= ProdottoDAO.doRetrieveById(idProd).getPrezzo();
-                userCart.setTotale(userCart.getTotale() + (price * quantitaOldCart));
+                BigDecimal price= BigDecimal.valueOf(ProdottoDAO.doRetrieveById(idProd).getPrezzo());
+                userCart.setTotale(
+                        (BigDecimal.valueOf(userCart.getTotale()).add(
+                                price.multiply(BigDecimal.valueOf(quantitaOldCart))
+                        )).doubleValue());
             }
 
             CarrelloDAO.doUpdate(userCart);
