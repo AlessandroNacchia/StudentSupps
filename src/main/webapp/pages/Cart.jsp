@@ -13,8 +13,15 @@
     <main class="cart">
         <header class="cart-header">
             <h1 class="cart-header-title">Il tuo Carrello</h1>
-            <section>
-
+            <section class="cart-header-right">
+                <div class="cart-header-actions">
+                    <div class="cart-header-actionShop">
+                        <a href="Shop" class="buttonPrimary buttonSecondary buttonHover">Torna al negozio</a>
+                    </div>
+                    <div class="cart-header-actionCheckout">
+                        <a href="Cart/Shop" class="buttonPrimary buttonHover">Procedi all'acquisto</a>
+                    </div>
+                </div>
             </section>
         </header>
         <section class="cart-main">

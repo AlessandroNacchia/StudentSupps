@@ -95,34 +95,34 @@
                 </li>
             <%}%>
             <li>
-                <div class="account">
+                <div class="account-btn">
                     <a href="Account"><i class="fa fa-user-circle"></i></a>
                 </div>
             </li>
             <%if(session.getAttribute("Utente")!=null)
             {%>
                 <li>
-                    <div class="logout">
+                    <div class="logout-btn">
                         <a href="Logout"><i class="fa fa-sign-out"></i></a>
                     </div>
                 </li>
             <%}%>
             <li>
-                <div class="cart">
+                <div class="cart-btn">
                     <a href="Cart"><i class="fa fa-shopping-cart"></i></a>
                 </div>
             </li>
             <%if(session.getAttribute("Utente")!=null)
             {%>
                 <li>
-                    <div class="orders">
+                    <div class="orders-btn">
                         <a href="Orders"><i class="fa fa-truck"></i></a>
                     </div>
                 </li>
             <%}%>
             <li>
                 <div class="search-container">
-                    <form action="Search">
+                    <form action="Search" style="margin-bottom: 0">
                         <input type="text" placeholder="Cerca..." name="search" class="searchField">
                         <button type="submit" value="Cerca" class="searchBtn"><i class="fa fa-search"></i></button>
                     </form>

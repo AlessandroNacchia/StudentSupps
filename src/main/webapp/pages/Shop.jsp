@@ -43,7 +43,7 @@
                         <form action="Cart" method="post">
                             <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
                             <input type="hidden" name="callerPage" value="Shop">
-                            <button class="productBox-addToCart" type="submit">Aggiungi al Carrello</button>
+                            <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
                         </form>
                     </div>
                 </article>

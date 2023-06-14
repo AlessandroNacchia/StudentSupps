@@ -37,6 +37,33 @@ img {
 figure {
     margin: 0;
 }
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+.buttonPrimary {
+    width: 100%;
+    color: #ffffff;
+    background-color: #620000;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    min-height: 40px;
+    text-transform: uppercase;
+    transition: all .3s ease-in;
+    display: inline-flex;
+    padding: 10px 30px;
+    justify-content: center;
+}
+.buttonSecondary {
+    background-color: transparent;
+    border: 1px solid #737373;
+}
+.buttonHover:hover {
+    color: black;
+    background-color: white;
+}
 /* General CSS */
 
 /* Site Header CSS */
@@ -75,7 +102,6 @@ figure {
     display: none;
     font-size: 25px;
     align-items: center;
-    padding-right: 50px;
 }
 @media screen and (max-width: 1024px) {
     .wrapperHeader .menuIcon{
@@ -88,17 +114,28 @@ figure {
     align-items: center;
     display: flex;
 }
-@media screen and (min-width: 1024px) {
-    .site-logo-link {
-        height: 30px;
-        width: 150px;
-    }
+.logo {
+    margin: 0 20px;
 }
 .site-logo-link {
     background: url(../images/studentsuppslogo.png) 100%/contain no-repeat;
     display: block;
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 33px;
+}
+@media screen and (min-width: 1024px) {
+    .site-logo-link {
+        height: 50px;
+        width: 41px;
+    }
+}
+@media screen and (max-width: 512px) {
+    .site-logo-link {
+        display: none;
+    }
+    .logo {
+        margin-right: 0;
+    }
 }
 
 
@@ -278,7 +315,7 @@ figure {
         margin-left: auto;
     }
 }
-.actions .account, .actions .cart, .actions .logout, .actions .orders {
+.actions .account-btn, .actions .cart-btn, .actions .logout-btn, .actions .orders-btn {
     display: block;
     font-size: 25px;
     cursor: pointer;
@@ -300,8 +337,8 @@ figure {
     width: calc(100% - 35px);
 }
 .search-container .searchBtn {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     margin-left: -3px;
 }
 /* Site Header CSS */
@@ -383,8 +420,9 @@ figure {
 @media screen and (min-width: 1024px)
 {
     .main-footer-logo {
-        display: block;
-        flex: 0 0 28%;
+        display: flex;
+        flex: 0 0 20%;
+        justify-content: center;
     }
 }
 
@@ -398,7 +436,7 @@ figure {
         grid-gap: 20px;
         display: grid;
         grid-template-columns: repeat(3,1fr);
-        flex: 0 0 72%;
+        flex: 0 0 80%;
     }
 }
 .main-footer-menu-head {

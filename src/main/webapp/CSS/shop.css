@@ -18,13 +18,14 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 26px;
     font-weight: 600;
+    margin: 15px 0 10px;
 }
 .productsHeader-descr {
     display: grid;
     grid-template-columns: 1fr auto;
     border-bottom: 1px solid #737373;
     margin-bottom: 40px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .productsHeader-left {
@@ -74,19 +75,4 @@
 .productBox-price span {
     color: #ffffff;
     font-weight: 700;
-}
-.productBox-addToCart {
-    width: 100%;
-    color: #ffffff;
-    background-color: #620000;
-    border: 1px solid #737373;
-    cursor: pointer;
-    font-weight: 600;
-    min-height: 40px;
-    text-transform: uppercase;
-    transition: all .3s ease-in;
-}
-.productBox-addToCart:hover {
-    color: black;
-    background-color: white;
 }
