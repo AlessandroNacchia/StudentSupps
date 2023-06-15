@@ -49,14 +49,14 @@ public class CartServlet extends HttpServlet {
 
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToUpdate);
             if(quantitaAttuale == -1) {
-                ProdottocarrelloDAO.doSave(cart.getId(), prodToUpdate, 1);
+                ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
             } else {
                 String updateType= request.getParameter("updateType");
-                if(updateType.equals("add")) {
+                if(updateType!=null && updateType.equals("add")) {
                     if((quantitaAttuale+1) <= 99)
                         ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, quantitaAttuale+1);
                 }
-                else if(updateType.equals("remove")) {
+                else if(updateType!=null && updateType.equals("remove")) {
                     if((quantitaAttuale-1) <= 0)
                         ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
                     else

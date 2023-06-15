@@ -70,11 +70,11 @@
                             <form action="Cart" method="post" id="quantitaForm" style="margin-bottom: 0;">
                                 <input type="hidden" name="prodToUpdate" value="<%=p.getId()%>">
                                 <input type="hidden" name="callerPage" value="Cart">
-                                <button id="rem1Btn" class="cart-products-colQuantity-btn" type="submit" name="updateType" value="remove">
+                                <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="remove">
                                     <i class="fa fa-minus"></i>
                                 </button>
-                                <input id="inputQnt" class="cart-products-colQuantity-input" name="updateQuantity" value="<%=quantita%>" autocomplete="off"
-                                       onkeydown="if (event.keyCode === 13) document.getElementById('rem1Btn').value= '';" disabled>
+                                <input class="cart-products-colQuantity-input" name="updateQuantity" value="<%=quantita%>" pattern=""
+                                       onkeydown="submitOnEnter(this.form)" onblur="submit()" autocomplete="off" disabled>
                                 <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="add">
                                     <i class="fa fa-plus"></i>
                                 </button>
@@ -117,8 +117,17 @@
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
 
-<script>
-    document.getElementById('inputQnt').removeAttribute("disabled");
-</script>
+    <script>
+        let colQntInput= document.getElementsByClassName('cart-products-colQuantity-input');
+        for(let i=0; i<colQntInput.length; i++)
+            colQntInput[i].removeAttribute('disabled');
+
+        function submitOnEnter(formEl) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                formEl.submit();
+            }
+        }
+    </script>
 </body>
 </html>
