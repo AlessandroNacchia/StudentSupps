@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsw.studentsupps.Model.ProdottocarrelloDAO" %>
-<%@ page import="com.tsw.studentsupps.Model.Carrello" %>
+<%@ page import="com.tsw.studentsupps.Model.*" %>
+<%@ page import="java.math.BigDecimal" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -33,7 +33,58 @@
         </header>
         <section class="cart-main">
             <aside class="cart-products">
-
+                <header class="cart-products-row">
+                    <div class="cart-products-col">Immagine</div>
+                    <div class="cart-products-col">Prodotto</div>
+                    <div class="cart-products-col">Prezzo Singolo</div>
+                    <div class="cart-products-col">Quantità</div>
+                    <div class="cart-products-col cart-products-colTotal">Prezzo Totale</div>
+                </header>
+                <%for (String prodId: productsList) {
+                    Prodotto p= ProdottoDAO.doRetrieveById(prodId);
+                    int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodId);
+                %>
+                    <div class="cart-products-row">
+                        <div class="cart-products-colImage">
+                            <a href="Shop/Prodotto?prodName=<%=p.getNome()%>">
+                                <picture>
+                                    <img src="<%="images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                </picture>
+                            </a>
+                        </div>
+                        <div class="cart-products-colProduct">
+                            <h3><a href="Shop/Prodotto?prodName=<%=p.getNome()%>"><%=p.getNome()%></a></h3>
+                            <div class="cart-products-colProduct-descr"><%=p.getDescrizione()%></div>
+                            <div class="cart-products-colProduct-remove">
+                                <form action="Cart" method="post" style="margin-bottom: 0;">
+                                    <input type="hidden" name="prodToRemove" value="<%=p.getId()%>">
+                                    <input type="hidden" name="callerPage" value="Cart">
+                                    <button class="buttonPrimary buttonHover" type="submit">Rimuovi</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="cart-products-colPrice">
+                            <span><%=p.getPrezzo()%>&nbsp;€</span>
+                        </div>
+                        <div class="cart-products-colQuantity">
+                            <form action="Cart" method="post" id="quantitaForm" style="margin-bottom: 0;">
+                                <input type="hidden" name="prodToUpdate" value="<%=p.getId()%>">
+                                <input type="hidden" name="callerPage" value="Cart">
+                                <button id="rem1Btn" class="cart-products-colQuantity-btn" type="submit" name="updateType" value="remove">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <input id="inputQnt" class="cart-products-colQuantity-input" name="updateQuantity" value="<%=quantita%>" autocomplete="off"
+                                       onkeydown="if (event.keyCode === 13) document.getElementById('rem1Btn').value= '';" disabled>
+                                <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="add">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="cart-products-colTotal">
+                            <span><%=(BigDecimal.valueOf(p.getPrezzo()).multiply(BigDecimal.valueOf(quantita)))%>&nbsp;€</span>
+                        </div>
+                    </div>
+                <%}%>
             </aside>
             <section class="cart-side">
                 <div class="cart-sideSummary">
@@ -65,5 +116,9 @@
     </main>
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
+
+<script>
+    document.getElementById('inputQnt').removeAttribute("disabled");
+</script>
 </body>
 </html>

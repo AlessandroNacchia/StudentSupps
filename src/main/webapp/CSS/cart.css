@@ -108,3 +108,100 @@
 .cart-sideSummary-checkout {
     margin-top: 10px;
 }
+
+.cart-products-row {
+    border-bottom: 1px solid #737373;
+    padding: 25px 5px;
+}
+.cart-products-row:last-child {
+    border-bottom: none;
+}
+.cart-products header {
+    background-color: #1d2021;
+    border-bottom: 3px solid #737373;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 15px 5px;
+}
+.cart-products header, .cart-products-row {
+    display: grid;
+    justify-items: center;
+}
+.cart-products header, .cart-products-row {
+    align-items: center;
+    grid-template-columns: 110px 23% 20% 17% 25%;
+}
+.cart-products-col {
+    font-weight: 600;
+    padding: 0 5px;
+    text-align: center;
+}
+@media screen and (max-width: 1023px) {
+    .cart-products header {
+        display: none;
+    }
+    .cart-products-row {
+        grid-template-areas:
+            "image product"
+            ". price"
+            ". quantity";
+        grid-template-columns: 150px 1fr;
+    }
+    .cart-products-colTotal {
+        display: none;
+    }
+}
+
+.cart-products-colImage {
+    align-self: flex-start;
+}
+.cart-products-colImage  img {
+    background-color: #1d2021;
+}
+
+@media screen and (max-width: 1023px) {
+    .cart-products-colImage {
+        grid-area: image;
+    }
+    .cart-products-colProduct {
+        grid-area: product;
+    }
+    .cart-products-colPrice {
+        grid-area: price;
+        margin: 5px 0;
+    }
+    .cart-products-colQuantity {
+        grid-area: quantity;
+        margin: 5px 0;
+    }
+}
+.cart-products-colProduct, .cart-products-colPrice, .cart-products-colQuantity, .cart-products-colTotal {
+    font-weight: 600;
+}
+.cart-products-colProduct-descr {
+    margin: 10px 0;
+    font-weight: 400;
+}
+.cart-products-colProduct-remove {
+     margin: 10px 0;
+ }
+@media only screen and (min-width: 1024px) {
+    .cart-products-colProduct-remove {
+        margin: 20px 0 0;
+    }
+}
+
+.cart-products-colQuantity-input {
+    border: none;
+    background-color: transparent;
+    color: #ffffff;
+    width: 26px;
+    font-size: 20px;
+    text-align: center;
+}
+.cart-products-colQuantity-btn {
+    border-radius: 50%;
+    font-size: 20px;
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+}

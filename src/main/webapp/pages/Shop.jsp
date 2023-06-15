@@ -36,7 +36,7 @@
                         </figure>
                     </a>
                     <div class="productBox-wrapper">
-                        <h3><a class="productBox-title" href="Shop/Prodotto?prodName=<%=p.getNome()%>"></a></h3>
+                        <h3><a class="productBox-title" href="Shop/Prodotto?prodName=<%=p.getNome()%>"><%=p.getNome()%></a></h3>
                         <div class="productBox-price">
                             <span><%=p.getPrezzo()%>&nbsp;€</span>
                         </div>
