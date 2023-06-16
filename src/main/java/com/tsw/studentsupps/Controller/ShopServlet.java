@@ -22,6 +22,7 @@ public class ShopServlet extends HttpServlet {
             request.setAttribute("prodotti", prodottiCategoria);
             RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Shop.jsp");
             dispatcher.forward(request, response);
+            return;
         }
         List<Prodotto> prodottiCategoria= ProdottoDAO.doRetrieveByCategoria(filter);
         request.setAttribute("prodotti", prodottiCategoria);

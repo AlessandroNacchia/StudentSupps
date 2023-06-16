@@ -96,30 +96,47 @@
             <%}%>
             <li>
                 <div class="account-btn">
-                    <a href="Account"><i class="fa fa-user-circle"></i></a>
+                    <a<%if(session.getAttribute("Utente")==null) {%>
+                            href="Account" <%
+                        } else {%>
+                            onclick="actionOpen('Account')"
+                        <%}%>
+                    >
+                        <i class="fa fa-user-circle"></i>
+                    </a>
                 </div>
+                <ul class="dropdown-content" id="drpCntAccount">
+                    <li>
+                        <span class="closeAction" id="closeAct" onclick="actionClose()">
+                            <i class="fa fa-times"></i>
+                        </span>
+                        <h2>Account</h2>
+                        <div class="navBarSecondaryCategory" onclick="location.href='Profile'">
+                            <a href="Profile">
+                                Profilo
+                                <i class="fa fa-user" style="margin-left: 5px"></i>
+                            </a>
+                        </div>
+                        <div class="navBarSecondaryCategory" onclick="location.href='Orders'">
+                            <a href="Orders">
+                                Ordini
+                                <i class="fa fa-truck" style="margin-left: 5px"></i>
+                            </a>
+                        </div>
+                        <div class="navBarSecondaryCategory" onclick="location.href='Logout'">
+                            <a href="Logout">
+                                Esci
+                                <i class="fa fa-sign-out" style="margin-left: 5px"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             </li>
-            <%if(session.getAttribute("Utente")!=null)
-            {%>
-                <li>
-                    <div class="logout-btn">
-                        <a href="Logout"><i class="fa fa-sign-out"></i></a>
-                    </div>
-                </li>
-            <%}%>
             <li>
                 <div class="cart-btn">
                     <a href="Cart"><i class="fa fa-shopping-cart"></i></a>
                 </div>
             </li>
-            <%if(session.getAttribute("Utente")!=null)
-            {%>
-                <li>
-                    <div class="orders-btn">
-                        <a href="Orders"><i class="fa fa-truck"></i></a>
-                    </div>
-                </li>
-            <%}%>
             <li>
                 <div class="search-container">
                     <form action="Search" style="margin-bottom: 0">
@@ -177,6 +194,32 @@
         let goBck= document.getElementById("goBck");
         if (goBck.className === "goBack goBack--appear")
             goBck.className = "goBack";
+    }
+
+    function actionOpen(drpName) {
+        let drpCnt= document.getElementById("drpCnt"+drpName);
+        if (drpCnt.className === "dropdown-content")
+            drpCnt.className = "dropdown-content dropdown-content--active";
+        else
+            drpCnt.className = "dropdown-content";
+
+        let closeAct= document.getElementById("closeAct");
+        if (closeAct.className === "closeAction")
+            closeAct.className = "closeAction closeAction--appear";
+        else
+            closeAct.className = "closeAction";
+    }
+    function actionClose() {
+        let drpCntArr= document.getElementsByClassName("dropdown-content");
+
+        for (let drpCnt of drpCntArr) {
+            if (drpCnt.className === "dropdown-content dropdown-content--active")
+                drpCnt.className = "dropdown-content";
+        }
+
+        let closeAct= document.getElementById("closeAct");
+        if (closeAct.className === "closeAction closeAction--appear")
+            closeAct.className = "closeAction";
     }
 </script>
 </body>
