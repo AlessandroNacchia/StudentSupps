@@ -63,7 +63,12 @@ public class CartServlet extends HttpServlet {
                         ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, quantitaAttuale-1);
                 }
                 else {
-                    int updatedQuantita= Integer.parseInt(request.getParameter("updateQuantity"));
+                    int updatedQuantita= 0;
+                    try {
+                        updatedQuantita= Integer.parseInt(request.getParameter("updateQuantity"));
+                    } catch (NumberFormatException ex) {
+                        updatedQuantita= quantitaAttuale;
+                    }
                     if((updatedQuantita) <= 0)
                         ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
                     else if(updatedQuantita <= 99)

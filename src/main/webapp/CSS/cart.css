@@ -194,7 +194,7 @@
     border: none;
     background-color: transparent;
     color: #ffffff;
-    width: 26px;
+    width: 30px;
     font-size: 20px;
     text-align: center;
 }
@@ -204,4 +204,24 @@
     height: 35px;
     width: 35px;
     cursor: pointer;
+}
+
+/*Carrello vuoto*/
+.cart-main-empty {
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    padding: 100px calc(50% - 250px);
+}
+.cart-main-emptyIcon {
+    display: block;
+    font-size: 50px;
+}
+.cart-main-emptyMessage {
+    margin-top: 25px;
+    text-transform: uppercase;
+}
+.cart-main-emptyBtn {
+    margin-top: 25px;
 }
