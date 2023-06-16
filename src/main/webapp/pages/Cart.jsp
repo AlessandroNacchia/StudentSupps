@@ -14,7 +14,7 @@
     <jsp:include page="/ReusedHTML/head.jsp"/>
 
     <%
-        List<String> productsList= (List) request.getAttribute("prodList");
+        List<String> productsList= (List<String>) request.getAttribute("prodList");
         Carrello cart= (Carrello) session.getAttribute("Cart");
 
         if(productsList.size()==0) {
@@ -88,7 +88,7 @@
                                     <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="remove">
                                         <i class="fa fa-minus"></i>
                                     </button>
-                                    <input class="cart-products-colQuantity-input" name="updateQuantity" value="<%=quantita%>" pattern=""
+                                    <input class="cart-products-colQuantity-input" name="updateQuantity" value="<%=quantita%>"
                                            onkeydown="submitOnEnter(this.form)" onblur="submit()" autocomplete="off" disabled>
                                     <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="add">
                                         <i class="fa fa-plus"></i>

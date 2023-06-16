@@ -20,8 +20,7 @@ public class AccountServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }
         else {
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Account.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect("./");
         }
     }
 }
