@@ -71,7 +71,7 @@
                             <span class="password-eye" onclick="revealPassword('Signup1')"><i class="fa fa-eye" id="passEyeSignup1" title="Mostra Password"></i></span>
                         </div>
                         <div class="form-field-comment">
-                            Minimo 8 caratteri, Massimo 30 caratteri. Accetta lettere, numeri e caratteri speciali tranne slash.
+                            Minimo 8 caratteri, Massimo 30 caratteri. Deve contenere lettere maiuscole, minuscole, numeri e caratteri speciali tranne slash.
                         </div>
                     </div>
                     <div class="form-field">
@@ -137,12 +137,12 @@
                 let lastname= document.getElementById('lastnameSignup').value;
                 let phone= document.getElementById('phoneSignup').value;
                 let username= document.getElementById('usernameSignup').value;
-                let email= document.getElementById('emailSignup').value;
+                let email= document.getElementById('emailSignup').value.toLowerCase();
                 let password= document.getElementById('passwordSignup1').value;
 
                 const nameRGX= /^[a-zA-Z\s]{2,30}$/;
                 const phoneRGX= /^([+]?[(]?[0-9]{1,3}[)]?[-\s])?([(]?[0-9]{3}[)]?[-\s]?)?([0-9][-\s]?){3,10}[0-9]$/;
-                const usernameRGX= /^[A-Za-z][A-Za-z0-9_]{5,29}$/;
+                const usernameRGX= /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
                 const emailRGX= /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
                 const passwordRGX=/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\[{}\]:;',?*~$^\-+=<>]).{8,30}$/;
 
@@ -150,7 +150,7 @@
                     alert("Nome e/o Cognome non validi!");
                     return false;
                 }
-                if(phone.isEmpty() || !phoneRGX.test(phone)) {
+                if(phone !== "" && !phoneRGX.test(phone)) {
                     alert("Numero di telefono non valido. Riprovare!");
                     return false;
                 }

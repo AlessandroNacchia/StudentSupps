@@ -111,18 +111,32 @@
                             <i class="fa fa-times"></i>
                         </span>
                         <h2>Account</h2>
-                        <div class="navBarSecondaryCategory" onclick="location.href='Profile'">
-                            <a href="Profile">
+                        <div class="navBarSecondaryCategory" onclick="location.href='Account/Profile'">
+                            <a href="Account/Profile">
                                 Profilo
                                 <i class="fa fa-user" style="margin-left: 5px"></i>
                             </a>
                         </div>
-                        <div class="navBarSecondaryCategory" onclick="location.href='Orders'">
-                            <a href="Orders">
+                        <div class="navBarSecondaryCategory" onclick="location.href='Account/Orders'">
+                            <a href="Account/Orders">
                                 Ordini
                                 <i class="fa fa-truck" style="margin-left: 5px"></i>
                             </a>
                         </div>
+                        <%if(session.getAttribute("Utente")!=null && ((Utente) session.getAttribute("Utente")).isAdmin()) {%>
+                            <div class="navBarSecondaryCategory" onclick="location.href='Admin/Products'">
+                                <a href="Admin/Products">
+                                    Gestisci i prodotti
+                                    <i class="fa fa-cart-plus" style="margin-left: 5px"></i>
+                                </a>
+                            </div>
+                            <div class="navBarSecondaryCategory" onclick="location.href='Admin/Users'">
+                                <a href="Admin/Products">
+                                    Gestisci gli utenti
+                                    <i class="fa fa-users" style="margin-left: 5px"></i>
+                                </a>
+                            </div>
+                        <%}%>
                         <div class="navBarSecondaryCategory" onclick="location.href='Logout'">
                             <a href="Logout">
                                 Esci
