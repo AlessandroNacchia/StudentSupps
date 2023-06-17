@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
             CarrelloDAO.doUpdate(userCart);
             CarrelloDAO.doDelete(oldCart);
             session.setAttribute("Cart", userCart);
-            response.sendRedirect(".");
+            response.sendRedirect(request.getContextPath());
         }
         else {
             request.setAttribute("loginStatus", "failedLogin");

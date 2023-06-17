@@ -131,7 +131,7 @@
                                 </a>
                             </div>
                             <div class="navBarSecondaryCategory" onclick="location.href='Admin/Users'">
-                                <a href="Admin/Products">
+                                <a href="Admin/Users">
                                     Gestisci gli utenti
                                     <i class="fa fa-users" style="margin-left: 5px"></i>
                                 </a>

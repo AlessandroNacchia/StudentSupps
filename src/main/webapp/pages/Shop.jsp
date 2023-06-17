@@ -12,7 +12,7 @@
 <body>
     <jsp:include page="/ReusedHTML/head.jsp"/>
 
-    <%List<Prodotto> productsList= (List) request.getAttribute("prodotti");%>
+    <%List<Prodotto> productsList= (List<Prodotto>) request.getAttribute("prodotti");%>
     <main class="products">
         <header class="productsHeader">
             <h1 class="productsHeader-title">Prodotti</h1>

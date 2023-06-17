@@ -19,7 +19,7 @@ public class SignupServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Utente u= new Utente();
         u.setNome(request.getParameter("name"));
         u.setCognome(request.getParameter("lastname"));
@@ -33,6 +33,6 @@ public class SignupServlet extends HttpServlet {
 
         u.setPasswordHash("");
         request.getSession().setAttribute("Utente", u);
-        response.sendRedirect(".");
+        response.sendRedirect(request.getContextPath());
     }
 }

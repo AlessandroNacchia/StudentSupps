@@ -2,7 +2,6 @@
 .news {
     margin: 0 auto !important;
     max-width: 1920px;
-    cursor: pointer;
 }
 @media (max-width: 1023px){
     .news {
