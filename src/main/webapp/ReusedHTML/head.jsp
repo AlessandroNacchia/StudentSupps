@@ -61,7 +61,7 @@
                     </li>
                     <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(3)">
-                            <a href="Shop?filter=Merch" title="Merch">Merce</a>
+                            <a href="Shop?filter=Merch" title="Merch">Merch</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
                         </div>
                         <ul class="dropdown-content" id="drpCnt3">
@@ -70,13 +70,10 @@
                                     <a href="Shop?filter=Merch">All Merch</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=MerchMaglie">Maglie</a>
+                                    <a href="Shop?filter=MerchTShirts">T-Shirts</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=MerchZaini">Zaini</a>
-                                </div>
-                                <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=MerchAltro">Altro</a>
+                                    <a href="Shop?filter=MerchBackpacks">Backpacks</a>
                                 </div>
                             </li>
                         </ul>

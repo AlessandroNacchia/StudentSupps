@@ -16,17 +16,18 @@
         Utente user= (Utente) session.getAttribute("Utente");
     %>
 
-    <table class="usersTable">
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Numero Telefono</th>
-            <th>Admin</th>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>Azione</th>
-        </tr>
-        <% for(Utente u: prodList){ %>
+    <div class="tableContainer">
+        <table class="usersTable">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Numero Telefono</th>
+                <th>Admin</th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Azione</th>
+            </tr>
+            <% for(Utente u: prodList){ %>
             <tr>
                 <td><%=u.getUsername()%></td>
                 <td><%=u.getEmail()%></td>
@@ -39,8 +40,10 @@
                     <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Cancella</button>
                 </td>
             </tr>
-        <%}%>
-    </table>
+            <%}%>
+        </table>
+    </div>
+
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>

@@ -493,7 +493,7 @@ input[type=number] {
 .main-footer-menu-head {
     color: #fff;
     display: block;
-    font-family: Galano Grotesque,Arial,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     font-weight: 800;
     line-height: 24px;
@@ -567,3 +567,40 @@ input[type=number] {
     }
 }
 /* footer css*/
+
+/*Tables*/
+.tableContainer {
+    overflow-x: auto;
+    margin: auto 50px;
+    border: 1px solid #737373;
+}
+
+.usersTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.usersTable td, .usersTable th {
+    border: 1px solid #737373;
+    padding: 8px;
+    text-align: center;
+}
+.usersTable tr:nth-child(even){
+    background-color: #1d2021;
+}
+.usersTable tr:hover {
+    background-color: #464646;
+}
+.usersTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #620000;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+.usersTable td button:not(:last-child) {
+    border-bottom: 1px solid #737373;
+}
+/*Tables*/

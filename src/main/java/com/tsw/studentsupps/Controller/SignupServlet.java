@@ -3,7 +3,6 @@ package com.tsw.studentsupps.Controller;
 import com.tsw.studentsupps.Model.Carrello;
 import com.tsw.studentsupps.Model.Utente;
 import com.tsw.studentsupps.Model.UtenteDAO;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
