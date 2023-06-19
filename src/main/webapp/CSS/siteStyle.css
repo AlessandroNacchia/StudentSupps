@@ -8,6 +8,9 @@ html {
 
 body {
     min-width: 480px;
+    height: calc(100% - 16px);
+    display: flex;
+    flex-flow: column;
 }
 
 a {
@@ -573,6 +576,8 @@ input[type=number] {
     overflow-x: auto;
     margin: 50px 50px;
     border: 1px solid #737373;
+    margin-bottom: auto;
+    min-height: 140px;
 }
 
 .usersTable {
