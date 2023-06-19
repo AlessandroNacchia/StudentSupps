@@ -571,7 +571,7 @@ input[type=number] {
 /*Tables*/
 .tableContainer {
     overflow-x: auto;
-    margin: auto 50px;
+    margin: 50px 50px;
     border: 1px solid #737373;
 }
 

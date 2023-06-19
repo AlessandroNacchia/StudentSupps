@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<%String sitePath= request.getContextPath();%>
 <footer class="site-footer">
     <div class="main-footer">
         <div class="main-footer-wrapper">
             <div class="main-footer-logo">
-                <a href="./" class="site-logo-link"></a>
+                <a href="<%=sitePath%>" class="site-logo-link"></a>
             </div>
             <div class="main-footer-menu">
                 <div class="main-footer-menu-container">

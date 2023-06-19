@@ -4,18 +4,18 @@
 <head>
     <title>Site Head Nav Bar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
 </head>
 <body>
+<%String sitePath= request.getContextPath();%>
 <header class="mainHeader">
     <div class="wrapperHeader">
         <a onclick="openNav()" class="menuIcon"><i class="fa fa-bars"></i></a>
         <div class="logo">
-            <a href="./" class="site-logo-link"></a>
+            <a href="<%=sitePath%>" class="site-logo-link"></a>
         </div>
         <nav class="navBar" id="myNavBar">
             <div class="mobileHeader">
-                <a href="./" class="homeBtn" id="hmBtn"><i class="fa fa-home"></i></a>
+                <a href="<%=sitePath%>" class="homeBtn" id="hmBtn"><i class="fa fa-home"></i></a>
                 <a onclick="subCatClose()" class="goBack" id="goBck"><i class="fa fa-angle-left"></i></a>
                 <a style="flex-grow: 1"></a>
                 <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()"><i class="fa fa-times"></i></a>
@@ -24,56 +24,56 @@
                 <ul class="navCategories" id="navCats">
                     <li>
                         <div class="navBarPrimaryCategory">
-                            <a href="Shop" title="Shop All">Shop All</a>
+                            <a href="<%=sitePath%>/Shop" title="Shop All">Shop All</a>
                         </div>
                     </li>
                     <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(1)">
-                            <a href="Shop?filter=Boosters" title="Boosters">Boosters</a>
+                            <a href="<%=sitePath%>/Shop?filter=Boosters" title="Boosters">Boosters</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
                         </div>
                         <ul class="dropdown-content" id="drpCnt1">
                             <li>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=Boosters">All Boosters</a>
+                                    <a href="<%=sitePath%>/Shop?filter=Boosters">All Boosters</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=BoosterBundles">Booster Bundles</a>
+                                    <a href="<%=sitePath%>/Shop?filter=BoosterBundles">Booster Bundles</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(2)">
-                            <a href="Shop?filter=Shakers" title="Shakers">Shakers</a>
+                            <a href="<%=sitePath%>/Shop?filter=Shakers" title="Shakers">Shakers</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
                         </div>
                         <ul class="dropdown-content" id="drpCnt2">
                             <li>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=Shakers">All Shakers</a>
+                                    <a href="<%=sitePath%>/Shop?filter=Shakers">All Shakers</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=ShakerBundles">Shaker Bundles</a>
+                                    <a href="<%=sitePath%>/Shop?filter=ShakerBundles">Shaker Bundles</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <div class="navBarPrimaryCategory" onclick="subCatOpen(3)">
-                            <a href="Shop?filter=Merch" title="Merch">Merch</a>
+                            <a href="<%=sitePath%>/Shop?filter=Merch" title="Merch">Merch</a>
                             <i class="fa fa-caret-down" style="margin-left: 5px"></i>
                         </div>
                         <ul class="dropdown-content" id="drpCnt3">
                             <li>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=Merch">All Merch</a>
+                                    <a href="<%=sitePath%>/Shop?filter=Merch">All Merch</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=MerchTShirts">T-Shirts</a>
+                                    <a href="<%=sitePath%>/Shop?filter=MerchTShirts">T-Shirts</a>
                                 </div>
                                 <div class="navBarSecondaryCategory">
-                                    <a href="Shop?filter=MerchBackpacks">Backpacks</a>
+                                    <a href="<%=sitePath%>/Shop?filter=MerchBackpacks">Backpacks</a>
                                 </div>
                             </li>
                         </ul>
@@ -94,7 +94,7 @@
             <li>
                 <div class="account-btn">
                     <a<%if(session.getAttribute("Utente")==null) {%>
-                            href="Account" <%
+                            href="<%=sitePath%>/Account" <%
                         } else {%>
                             onclick="actionOpen('Account')"
                         <%}%>
@@ -108,34 +108,34 @@
                             <i class="fa fa-times"></i>
                         </span>
                         <h2>Account</h2>
-                        <div class="navBarSecondaryCategory" onclick="location.href='Account/Profile'">
-                            <a href="Account/Profile">
+                        <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Account/Profile'">
+                            <a href="<%=sitePath%>/Account/Profile">
                                 Profilo
                                 <i class="fa fa-user" style="margin-left: 5px"></i>
                             </a>
                         </div>
-                        <div class="navBarSecondaryCategory" onclick="location.href='Account/Orders'">
-                            <a href="Account/Orders">
+                        <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Account/Orders'">
+                            <a href="<%=sitePath%>/Account/Orders">
                                 Ordini
                                 <i class="fa fa-truck" style="margin-left: 5px"></i>
                             </a>
                         </div>
                         <%if(session.getAttribute("Utente")!=null && ((Utente) session.getAttribute("Utente")).isAdmin()) {%>
-                            <div class="navBarSecondaryCategory" onclick="location.href='Admin/Products'">
-                                <a href="Admin/Products">
+                            <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Admin/Products'">
+                                <a href="<%=sitePath%>/Admin/Products">
                                     Gestisci i prodotti
                                     <i class="fa fa-cart-plus" style="margin-left: 5px"></i>
                                 </a>
                             </div>
-                            <div class="navBarSecondaryCategory" onclick="location.href='Admin/Users'">
-                                <a href="Admin/Users">
+                            <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Admin/Users'">
+                                <a href="<%=sitePath%>/Admin/Users">
                                     Gestisci gli utenti
                                     <i class="fa fa-users" style="margin-left: 5px"></i>
                                 </a>
                             </div>
                         <%}%>
-                        <div class="navBarSecondaryCategory" onclick="location.href='Logout'">
-                            <a href="Logout">
+                        <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Logout'">
+                            <a href="<%=sitePath%>/Logout">
                                 Esci
                                 <i class="fa fa-sign-out" style="margin-left: 5px"></i>
                             </a>
@@ -145,12 +145,12 @@
             </li>
             <li>
                 <div class="cart-btn">
-                    <a href="Cart"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="<%=sitePath%>/Cart"><i class="fa fa-shopping-cart"></i></a>
                 </div>
             </li>
             <li>
                 <div class="search-container">
-                    <form action="Search" style="margin-bottom: 0">
+                    <form action="<%=sitePath%>/Search" style="margin-bottom: 0">
                         <input type="text" placeholder="Cerca..." name="search" class="searchField">
                         <button type="submit" value="Cerca" class="searchBtn"><i class="fa fa-search"></i></button>
                     </form>
