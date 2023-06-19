@@ -36,8 +36,12 @@
                 <td><%=u.getNome()%></td>
                 <td><%=u.getCognome()%></td>
                 <td>
-                    <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Modifica</button>
-                    <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Cancella</button>
+                    <% if(user.getId().equals(u.getId())) {%>
+                        Non puoi interagire con il tuo account.
+                    <%} else {%>
+                        <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Modifica</button>
+                        <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Cancella</button>
+                    <%}%>
                 </td>
             </tr>
             <%}%>
