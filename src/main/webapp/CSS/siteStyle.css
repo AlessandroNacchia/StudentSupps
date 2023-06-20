@@ -7,7 +7,7 @@ html {
 }
 
 body {
-    min-width: 480px;
+    min-width: 300px;
     height: calc(100% - 16px);
     display: flex;
     flex-flow: column;

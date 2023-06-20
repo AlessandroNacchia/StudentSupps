@@ -40,7 +40,7 @@
                         Non puoi interagire con il tuo account.
                     <%} else {%>
                         <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Modifica</button>
-                        <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Cancella</button>
+                        <button class="buttonPrimary buttonHover" onclick=location.href="DeleteUser?id=<%=u.getId()%>">Cancella</button>
                     <%}%>
                 </td>
             </tr>
