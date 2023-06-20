@@ -79,18 +79,17 @@
     }
 }
 
-@media (max-width: 1023px) and (min-width:767px) {
+@media  (max-width:767px) {
     .banner-text-content {
-        width: 50%;
-        background: rgba(0,0,0,0.3);
+        background: rgba(0,0,0,0.5);
         padding: 1rem;
     }
 }
 
-@media (min-width: 1024px){
+@media (min-width: 768px){
     .banner-text-content {
         width: 50%;
-        background: rgba(0,0,0,0.3);
+        background: rgba(0,0,0,0.5);
         padding: 1rem;
     }
 }

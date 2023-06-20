@@ -17,8 +17,8 @@
             <div class="banner">
                 <div class="background-wrapper">
                     <picture>
-                        <source media="(max-width: 767px)" srcset="images\banner-placeholder2.jpg">
-                        <img src="images\banner-placeholder.jpg">
+                        <source media="(max-width: 767px)" srcset="images\banner-2.jpg">
+                        <img alt="banner" src="images\banner-1.jpg">
                     </picture>
                     <div class="banner-content">
                         <div class="banner-text-content">
@@ -35,7 +35,7 @@
         <div class="info-wrapper">
             <section class="info">
                 <header class="header-info">
-                    <h2 class="header-text">Perché StudentSupps</h2>
+                    <h2 class="header-text">Perché StudentSupps?</h2>
                 </header>
                 <a href="" class="link-to-FAQ">
                     <article class="info-section" style="background-color:#1f1f1f">
