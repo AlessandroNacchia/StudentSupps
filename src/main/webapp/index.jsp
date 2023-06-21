@@ -17,8 +17,8 @@
             <div class="banner">
                 <div class="background-wrapper">
                     <picture>
-                        <source media="(max-width: 767px)" srcset="images\banner-placeholder2.jpg">
-                        <img src="images\banner-placeholder.jpg">
+                        <source media="(max-width: 767px)" srcset="images\banner-2.jpg">
+                        <img alt="banner" src="images\banner-1.jpg">
                     </picture>
                     <div class="banner-content">
                         <div class="banner-text-content">
@@ -32,6 +32,63 @@
                 </div>
             </div>
         </section>
+        <div class="info-wrapper">
+            <section class="info">
+                <header class="header-info">
+                    <h2 class="header-text">Perché StudentSupps?</h2>
+                </header>
+                <a href="" class="link-to-FAQ">
+                    <article class="info-section" style="background-color:#1f1f1f">
+                        <div class="background-wrapper-info">
+                           <div class="banner-content">
+                               <div class="info-icon">
+                                   <i class="fa fa-book" style="color:#620000"></i>
+                               </div>
+                               <div class="text-info">
+                                   Formula speciale per studenti con caffeina e vitamina B12
+                               </div>
+                           </div>
+                        </div>
+                    </article>
+                    <article class="info-section" style="background-color:#282828">
+                        <div class="background-wrapper-info">
+                            <div class="banner-content">
+                                <div class="info-icon">
+                                    <i class="fa fa-money" style="color:#620000"></i>
+                                </div>
+                                <div class="text-info">
+                                    Rapporto qualità/prezzo: una porzione da 500ml costa meno di 1 Euro
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="info-section" style="background-color:#2f2f2f">
+                        <div class="background-wrapper-info">
+                            <div class="banner-content">
+                                <div class="info-icon">
+                                    <i class="fa fa-cubes" style="color:#620000"></i>
+                                </div>
+                                <div class="text-info">
+                                    una porzione da 500ml contiene solo circa 4 grammi di zucchero
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="info-section" style="background-color:#1f1f1f">
+                        <div class="background-wrapper-info">
+                            <div class="banner-content">
+                                <div class="info-icon">
+                                    <i class="fa fa-flag-o" style="color:#620000"></i>
+                                </div>
+                                <div class="text-info">
+                                    Ingriedenti di alta qualità rigorosamente made in Italy
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+            </section>
+        </div>
     </section>
 
     <jsp:include page="ReusedHTML/tail.jsp"/>
