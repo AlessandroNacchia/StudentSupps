@@ -15,34 +15,39 @@
     <main class="editUser">
         <h1 class="editUser-title">Modifica i parametri dell'utente</h1>
         <div class="editUser-wrapper">
-            <section class="editUser-section" id="section-Signup">
+            <section class="editUser-section">
                 <form action="<%=request.getContextPath()%>/UpdateUser" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="userToEditId">Id</label>
-                        <input class="form-field-input" id="userToEditId" value="<%=u.getId()%>" type="text" readonly>
+                        <input class="form-field-input" id="userToEditId" name="id" type="text" value="<%=u.getId()%>" readonly>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="nameUpdate">Nome</label>
-                        <input class="form-field-input" id="nameUpdate" name="name" type="text" value="<%=u.getNome()%>">
+                        <input class="form-field-input" id="nameUpdate" name="name" type="text" value="<%=u.getNome()%>" autocomplete="off">
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="lastnameUpdate">Cognome</label>
-                        <input class="form-field-input" id="lastnameUpdate" name="lastname" type="text" value="<%=u.getCognome()%>">
+                        <input class="form-field-input" id="lastnameUpdate" name="lastname" type="text" value="<%=u.getCognome()%>" autocomplete="off">
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="phoneUpdate">Numero di Telefono (Opzionale)</label>
-                        <input class="form-field-input" id="phoneUpdate" name="phone" type="text" value="<%=u.getNumeroTel()%>">
+                        <input class="form-field-input" id="phoneUpdate" name="phone" type="text" value="<%=u.getNumeroTel()%>" autocomplete="off">
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="usernameUpdate">Username</label>
-                        <input class="form-field-input" id="usernameUpdate" name="username" type="text" value="<%=u.getUsername()%>">
+                        <input class="form-field-input" id="usernameUpdate" name="username" type="text" value="<%=u.getUsername()%>" autocomplete="off">
                         <div class="form-field-comment">
                             Minimo 5 caratteri, Massimo 30 caratteri. Accetta lettere, numeri e trattino basso.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="emailUpdate">Email</label>
-                        <input class="form-field-input" id="emailUpdate" name="email" type="email" value="<%=u.getEmail()%>">
+                        <input class="form-field-input" id="emailUpdate" name="email" type="email" value="<%=u.getEmail()%>" autocomplete="off">
+                    </div>
+                    <div class="form-field">
+                        <label class="form-field-label" for="isAdminUpdate">Admin</label>
+                        <input class="form-field-input" id="isAdminUpdate" name="isAdmin" type="checkbox" value="true"
+                            style="width: 40px; cursor: pointer; margin: 5px 20px;" <%if(u.isAdmin()) {%> checked <%}%>>
                     </div>
                     <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiorna</button>
                 </form>

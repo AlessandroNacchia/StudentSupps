@@ -18,7 +18,7 @@ public class UtenteDAO {
                 Utente u= new Utente();
                 u.setId(rs.getString(1));
                 u.setUsername(rs.getString(2));
-                u.setPasswordHash(rs.getString(3));
+                u.setPasswordAlreadyHashed(rs.getString(3));
                 u.setEmail(rs.getString(4));
                 u.setNumeroTel(rs.getString(5));
                 u.setAdmin(rs.getBoolean(6));
@@ -33,7 +33,7 @@ public class UtenteDAO {
     }
     public static List<Utente> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), username, passwordHash, email, numeroTel, isAdmin, nome, cognome FROM utente");
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), username, email, numeroTel, isAdmin, nome, cognome FROM utente");
             ResultSet rs= ps.executeQuery();
 
             List<Utente> UList= new ArrayList<>();
@@ -41,12 +41,11 @@ public class UtenteDAO {
                 Utente u= new Utente();
                 u.setId(rs.getString(1));
                 u.setUsername(rs.getString(2));
-                u.setPasswordHash(rs.getString(3));
-                u.setEmail(rs.getString(4));
-                u.setNumeroTel(rs.getString(5));
-                u.setAdmin(rs.getBoolean(6));
-                u.setNome(rs.getString(7));
-                u.setCognome(rs.getString(8));
+                u.setEmail(rs.getString(3));
+                u.setNumeroTel(rs.getString(4));
+                u.setAdmin(rs.getBoolean(5));
+                u.setNome(rs.getString(6));
+                u.setCognome(rs.getString(7));
 
                 UList.add(u);
             }

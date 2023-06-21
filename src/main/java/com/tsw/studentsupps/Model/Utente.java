@@ -37,18 +37,21 @@ public class Utente {
     public String getPasswordHash() {
         return passwordHash;
     }
-    public void setPasswordHash(String password) {
-        if(password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\[{}\\]:;',?*~$^\\-+=<>]).{8,30}$"))
+    public void setPasswordHash(String passwordToHash) {
+        if(passwordToHash.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\[{}\\]:;',?*~$^\\-+=<>]).{8,30}$"))
         {
             try {
                 MessageDigest digest= MessageDigest.getInstance("SHA-1");
                 digest.reset();
-                digest.update(password.getBytes(StandardCharsets.UTF_8));
+                digest.update(passwordToHash.getBytes(StandardCharsets.UTF_8));
                 this.passwordHash= String.format("%040x", new BigInteger(1, digest.digest()));
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+    public void setPasswordAlreadyHashed(String hashedPassword) {
+        this.passwordHash= hashedPassword;
     }
 
     public String getEmail() {
@@ -90,5 +93,25 @@ public class Utente {
     public void setCognome(String cognome) {
         if(cognome.matches("^[a-zA-Z\\s]{2,30}$"))
             this.cognome= cognome;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == this) {
+            return true;
+        }
+        if(!(o instanceof Utente)) {
+            return false;
+        }
+
+        Utente u= (Utente) o;
+        return id.equals(u.getId()) &&
+                username.equals(u.getUsername()) &&
+                email.equals(u.getEmail()) &&
+                numeroTel.equals(u.getNumeroTel()) &&
+                isAdmin == u.isAdmin &&
+                nome.equals(u.getNome()) &&
+                cognome.equals(u.getCognome());
     }
 }

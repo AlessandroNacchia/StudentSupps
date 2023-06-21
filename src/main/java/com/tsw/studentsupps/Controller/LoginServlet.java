@@ -17,6 +17,11 @@ import java.util.List;
 public class LoginServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("Utente")!=null) {
+            response.sendRedirect("Account");
+            return;
+        }
+
         Utente u= UtenteDAO.doRetrieveByUsernamePassword(
                 request.getParameter("username"), request.getParameter("password"));
 
@@ -27,7 +32,7 @@ public class LoginServlet extends HttpServlet {
             Carrello oldCart= (Carrello) session.getAttribute("Cart");
             Carrello userCart= CarrelloDAO.doRetrieveById(UtenteDAO.doRetrieveIdCart(u));
 
-            //Ricalcolo da 0 il totale al login
+            //Ricalcolo da zero il totale al login
             List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(userCart.getId());
             userCart.setTotale(0);
             for(String idProd: prodList) {
