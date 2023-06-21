@@ -20,7 +20,7 @@ public class AccountServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }
         else {
-            response.sendRedirect(request.getContextPath());
+            response.sendRedirect(request.getContextPath()+'/');
         }
     }
 }

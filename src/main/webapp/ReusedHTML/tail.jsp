@@ -10,7 +10,7 @@
     <div class="main-footer">
         <div class="main-footer-wrapper">
             <div class="main-footer-logo">
-                <a href="<%=sitePath%>" class="site-logo-link"></a>
+                <a href="<%=sitePath%>/" class="site-logo-link"></a>
             </div>
             <div class="main-footer-menu">
                 <div class="main-footer-menu-container">

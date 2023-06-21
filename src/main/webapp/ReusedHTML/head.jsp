@@ -11,11 +11,11 @@
     <div class="wrapperHeader">
         <a onclick="openNav()" class="menuIcon"><i class="fa fa-bars"></i></a>
         <div class="logo">
-            <a href="<%=sitePath%>" class="site-logo-link"></a>
+            <a href="<%=sitePath%>/" class="site-logo-link"></a>
         </div>
         <nav class="navBar" id="myNavBar">
             <div class="mobileHeader">
-                <a href="<%=sitePath%>" class="homeBtn" id="hmBtn"><i class="fa fa-home"></i></a>
+                <a href="<%=sitePath%>/" class="homeBtn" id="hmBtn"><i class="fa fa-home"></i></a>
                 <a onclick="subCatClose()" class="goBack" id="goBck"><i class="fa fa-angle-left"></i></a>
                 <a style="flex-grow: 1"></a>
                 <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()"><i class="fa fa-times"></i></a>

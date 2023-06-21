@@ -13,7 +13,7 @@
         <h1 class="success-title">Aggiornato con Successo</h1>
         <div class="success-wrapper">
             <section class="success-section">
-                <button class="buttonPrimary buttonHover" style="margin-top: 40px;" onclick="location.href='<%=request.getContextPath()%>'">Torna alla Home</button>
+                <button class="buttonPrimary buttonHover" style="margin-top: 40px;" onclick="location.href='<%=request.getContextPath()%>/'">Torna alla Home</button>
             </section>
         </div>
     </main>

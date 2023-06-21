@@ -32,6 +32,6 @@ public class SignupServlet extends HttpServlet {
 
         u.setPasswordHash("");
         request.getSession().setAttribute("Utente", u);
-        response.sendRedirect(request.getContextPath());
+        response.sendRedirect(request.getContextPath()+'/');
     }
 }
