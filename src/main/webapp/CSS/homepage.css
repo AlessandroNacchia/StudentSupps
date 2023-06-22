@@ -31,9 +31,9 @@
     padding-bottom: 116.67%;
 }
 
-@media  screen and (max-width: 1023px )and (min-width: 750px){
+@media  screen and (max-width: 1023px )and (min-width: 767px){
     .background-wrapper {
-        padding-bottom: 54.69%;
+        padding-bottom: 44.69%;
     }
 
 }

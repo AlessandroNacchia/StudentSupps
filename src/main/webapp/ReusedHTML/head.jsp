@@ -7,7 +7,7 @@
 </head>
 <body>
 <%String sitePath= request.getContextPath();%>
-<header class="mainHeader">
+<header class="mainHeader" >
     <div class="wrapperHeader">
         <a onclick="openNav()" class="menuIcon"><i class="fa fa-bars"></i></a>
         <div class="logo">
@@ -232,6 +232,31 @@
         if (closeAct.className === "closeAction closeAction--appear")
             closeAct.className = "closeAction";
     }
+
+
+    window.addEventListener("scroll", function() {
+        let body=  document.getElementsByTagName("body")[0];
+        let head=  document.getElementsByClassName("mainHeader")[0];
+        if (window.scrollY!==0){
+            if (window.innerWidth>=1024){
+                body.style.paddingTop="80px";
+            }
+            else{
+                body.style.paddingTop="62px";
+            }
+            head.style.position="fixed";
+            head.style.top="0px";
+            head.style.left="0px";
+            head.style.width="100%";
+        } else{
+            body.style.removeProperty("padding-top");
+            head.style.removeProperty("position");
+            head.style.removeProperty("top");
+            head.style.removeProperty("left");
+            head.style.removeProperty("width");
+        }
+
+    });
 </script>
 </body>
 </html>
