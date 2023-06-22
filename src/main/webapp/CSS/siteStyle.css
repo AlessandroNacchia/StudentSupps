@@ -84,6 +84,7 @@ input[type=number] {
 .mainHeader {
     background: #1d2021;
     margin: -8px;
+    position: relative;
 }
 
 @media screen and (min-width: 1024px) {

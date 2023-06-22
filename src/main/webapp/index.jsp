@@ -89,6 +89,45 @@
                 </a>
             </section>
         </div>
+        <div class="dim-wrapper">
+            <section class="header-dim">
+                <p style="text-align:center ">
+                    <span class="header-dim-text">Come funziona StudentSupps</span>
+                </p>
+            </section>
+            <section class="dim-images">
+                <article class="dim-section">
+                    <div class="background-wrapper-dim">
+                        <picture>
+                            <img alt="dim1" src="images\dim1.jpg">
+                        </picture>
+                        <div class="banner-content-dim">
+                            <div class="banner-content-dim-text">Metti un misurino di StudentSupps in 500ml di acqua</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="dim-section">
+                    <div class="background-wrapper-dim">
+                        <picture>
+                            <img alt="dim2" src="images\dim2.jpg">
+                        </picture>
+                        <div class="banner-content-dim">
+                            <div class="banner-content-dim-text">Agita lo shaker</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="dim-section">
+                    <div class="background-wrapper-dim">
+                        <picture>
+                            <img alt="dim3" src="images\dim3.jpg">
+                        </picture>
+                        <div class="banner-content-dim">
+                            <div class="banner-content-dim-text">Goditi il tuo StudentSupps</div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
     </section>
 
     <jsp:include page="ReusedHTML/tail.jsp"/>
