@@ -7,8 +7,9 @@ html {
 }
 
 body {
+    margin: 0;
     min-width: 300px;
-    height: calc(100% - 16px);
+    height: 100%;
     display: flex;
     flex-flow: column;
 }
@@ -83,7 +84,6 @@ input[type=number] {
 /* Site Header CSS */
 .mainHeader {
     background: #1d2021;
-    margin: -8px;
     position: relative;
 }
 
@@ -460,7 +460,6 @@ input[type=number] {
 .main-footer{
     background:#1d2021;
     padding: 30px 0 0;
-    margin:-8px;
 }
 .main-footer-wrapper {
     display: flex;
