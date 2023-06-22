@@ -40,14 +40,19 @@
                         Non puoi interagire con il tuo account.
                     <%} else {%>
                         <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Modifica</button>
-                        <button class="buttonPrimary buttonHover" onclick=location.href="DeleteUser?id=<%=u.getId()%>">Cancella</button>
+                        <form action="<%=request.getContextPath()%>/DeleteUser" method="post" style="margin:0">
+                            <input type="hidden" name="id" value="<%=u.getId()%>">
+                            <button class="buttonPrimary buttonHover" onclick="return confirm(
+                                    'Vuoi eliminare l\x27utente con dati:\n id=\x27<%=u.getId()%>\x27\n username=\x27<%=u.getNome()%>\x27?\n' +
+                                    'Quest\x27azione non è reversibile!'
+                                    )" type="submit">Cancella</button>
+                        </form>
                     <%}%>
                 </td>
             </tr>
             <%}%>
         </table>
     </div>
-
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>

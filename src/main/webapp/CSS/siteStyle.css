@@ -576,7 +576,7 @@ input[type=number] {
     overflow-x: auto;
     border: 1px solid #737373;
     margin: 50px 50px auto;
-    min-height: 140px;
+    min-height: 75px;
 }
 
 .usersTable {

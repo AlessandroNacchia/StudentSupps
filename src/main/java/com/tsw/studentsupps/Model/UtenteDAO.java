@@ -126,6 +126,20 @@ public class UtenteDAO {
         }
     }
 
+    public static void doDelete(Utente u) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM utente WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, u.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void doUpdateIdCart(Utente u, Carrello cart) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
