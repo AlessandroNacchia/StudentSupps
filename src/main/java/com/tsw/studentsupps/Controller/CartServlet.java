@@ -20,10 +20,17 @@ public class CartServlet extends HttpServlet {
         String prodToAdd= request.getParameter("prodToAdd");
         String prodToRemove= request.getParameter("prodToRemove");
         String prodToUpdate= request.getParameter("prodToUpdate");
-        if(prodToAdd != null) {
-            HttpSession session= request.getSession();
-            Carrello cart= (Carrello) session.getAttribute("Cart");
 
+        HttpSession session= request.getSession();
+        Carrello cart;
+        if(session.getAttribute("Cart")==null) {
+            cart= new Carrello();
+            CarrelloDAO.doSave(cart);
+            session.setAttribute("Cart", cart);
+        } else
+            cart= (Carrello) session.getAttribute("Cart");
+
+        if(prodToAdd != null) {
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToAdd);
             if(quantitaAttuale == -1) {
                 ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, 1);
@@ -35,18 +42,12 @@ public class CartServlet extends HttpServlet {
             //Ricalcolo da 0 il totale all'inserimento di un prodotto
             calcoloTotale(session, cart, prodList);
         } else if(prodToRemove != null) {
-            HttpSession session= request.getSession();
-            Carrello cart= (Carrello) session.getAttribute("Cart");
-
             ProdottocarrelloDAO.doDelete(cart.getId(), prodToRemove);
 
             List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
             //Ricalcolo da 0 il totale alla rimozione di un prodotto
             calcoloTotale(session, cart, prodList);
         } else if(prodToUpdate != null) {
-            HttpSession session= request.getSession();
-            Carrello cart= (Carrello) session.getAttribute("Cart");
-
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToUpdate);
             if(quantitaAttuale == -1) {
                 ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
@@ -63,7 +64,7 @@ public class CartServlet extends HttpServlet {
                         ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, quantitaAttuale-1);
                 }
                 else {
-                    int updatedQuantita= 0;
+                    int updatedQuantita;
                     try {
                         updatedQuantita= Integer.parseInt(request.getParameter("updateQuantity"));
                     } catch (NumberFormatException ex) {
@@ -87,7 +88,14 @@ public class CartServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session= request.getSession();
-        Carrello cart= (Carrello) session.getAttribute("Cart");
+
+        Carrello cart;
+        if(session.getAttribute("Cart")==null) {
+            cart= new Carrello();
+            CarrelloDAO.doSave(cart);
+            session.setAttribute("Cart", cart);
+        } else
+            cart= (Carrello) session.getAttribute("Cart");
 
         List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
         request.setAttribute("prodList", prodList);
@@ -104,7 +112,11 @@ public class CartServlet extends HttpServlet {
         cart.setTotale(0);
         for(String idProd: prodList) {
             int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), idProd);
-            BigDecimal price= BigDecimal.valueOf(ProdottoDAO.doRetrieveById(idProd).getPrezzo());
+            Prodotto prod= ProdottoDAO.doRetrieveById(idProd);
+            if(prod==null) {
+                continue;
+            }
+            BigDecimal price= BigDecimal.valueOf(prod.getPrezzo());
             cart.setTotale(
                     (BigDecimal.valueOf(cart.getTotale()).add(
                             price.multiply(BigDecimal.valueOf(quantita))

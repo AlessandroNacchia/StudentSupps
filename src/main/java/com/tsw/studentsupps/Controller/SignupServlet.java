@@ -1,12 +1,14 @@
 package com.tsw.studentsupps.Controller;
 
 import com.tsw.studentsupps.Model.Carrello;
+import com.tsw.studentsupps.Model.CarrelloDAO;
 import com.tsw.studentsupps.Model.Utente;
 import com.tsw.studentsupps.Model.UtenteDAO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -28,7 +30,15 @@ public class SignupServlet extends HttpServlet {
         u.setPasswordHash(request.getParameter("password"));
 
         UtenteDAO.doSave(u);
-        UtenteDAO.doUpdateIdCart(u, (Carrello) request.getSession().getAttribute("Cart"));
+        HttpSession session= request.getSession();
+        Carrello cart;
+        if(session.getAttribute("Cart")==null) {
+            cart= new Carrello();
+            CarrelloDAO.doSave(cart);
+            session.setAttribute("Cart", cart);
+        } else
+            cart= (Carrello) session.getAttribute("Cart");
+        UtenteDAO.doUpdateIdCart(u, cart);
 
         u.setPasswordHash("");
         request.getSession().setAttribute("Utente", u);

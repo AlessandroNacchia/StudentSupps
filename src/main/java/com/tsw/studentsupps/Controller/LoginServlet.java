@@ -29,15 +29,32 @@ public class LoginServlet extends HttpServlet {
             HttpSession session= request.getSession();
             session.setAttribute("Utente", u);
 
-            Carrello oldCart= (Carrello) session.getAttribute("Cart");
+            Carrello oldCart;
+            if(session.getAttribute("Cart")==null) {
+                oldCart= new Carrello();
+                CarrelloDAO.doSave(oldCart);
+                session.setAttribute("Cart", oldCart);
+            } else
+                oldCart= (Carrello) session.getAttribute("Cart");
+
             Carrello userCart= CarrelloDAO.doRetrieveById(UtenteDAO.doRetrieveIdCart(u));
+            if(userCart==null) {
+                request.setAttribute("errorMessage", "Carrello utente: null");
+                RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+                dispatcher.forward(request,response);
+                return;
+            }
 
             //Ricalcolo da zero il totale al login
             List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(userCart.getId());
             userCart.setTotale(0);
             for(String idProd: prodList) {
                 int quantita= ProdottocarrelloDAO.doRetrieveQuantita(userCart.getId(), idProd);
-                BigDecimal price= BigDecimal.valueOf(ProdottoDAO.doRetrieveById(idProd).getPrezzo());
+                Prodotto prod= ProdottoDAO.doRetrieveById(idProd);
+                if(prod==null) {
+                    continue;
+                }
+                BigDecimal price= BigDecimal.valueOf(prod.getPrezzo());
                 userCart.setTotale(
                         (BigDecimal.valueOf(userCart.getTotale()).add(
                                 price.multiply(BigDecimal.valueOf(quantita))
@@ -53,7 +70,12 @@ public class LoginServlet extends HttpServlet {
                 }
                 else
                     ProdottocarrelloDAO.doUpdateQuantita(userCart.getId(), idProd, quantitaOldCart+quantitaUserCart);
-                BigDecimal price= BigDecimal.valueOf(ProdottoDAO.doRetrieveById(idProd).getPrezzo());
+
+                Prodotto prod= ProdottoDAO.doRetrieveById(idProd);
+                if(prod==null) {
+                    continue;
+                }
+                BigDecimal price= BigDecimal.valueOf(prod.getPrezzo());
                 userCart.setTotale(
                         (BigDecimal.valueOf(userCart.getTotale()).add(
                                 price.multiply(BigDecimal.valueOf(quantitaOldCart))
