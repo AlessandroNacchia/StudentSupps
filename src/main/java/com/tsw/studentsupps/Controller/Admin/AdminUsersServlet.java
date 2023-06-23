@@ -21,8 +21,8 @@ public class AdminUsersServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath());
             return;
         }
-        List<Utente> prodList= UtenteDAO.doRetrieveAll();
-        request.setAttribute("prodList", prodList);
+        List<Utente> userList= UtenteDAO.doRetrieveAll();
+        request.setAttribute("userList", userList);
         RequestDispatcher dispatcher=request.getRequestDispatcher("/pages/Admin/ViewUsers.jsp");
         dispatcher.forward(request,response);
     }

@@ -95,7 +95,7 @@ input[type=number] {
 }
 @media screen and (max-width: 1023px) {
     .mainHeader .wrapperHeader {
-        min-height: 0px;
+        min-height: 0;
     }
 }
 .mainHeader .wrapperHeader {
@@ -580,24 +580,24 @@ input[type=number] {
     min-height: 75px;
 }
 
-.usersTable {
+.defaultTable {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-.usersTable td, .usersTable th {
+.defaultTable td, .defaultTable th {
     border: 1px solid #737373;
     padding: 8px;
     text-align: center;
 }
-.usersTable tr:nth-child(even){
+.defaultTable tr:nth-child(even){
     background-color: #1d2021;
 }
-.usersTable tr:hover {
+.defaultTable tr:hover {
     background-color: #464646;
 }
-.usersTable th {
+.defaultTable th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -605,7 +605,7 @@ input[type=number] {
     color: #ffffff;
     text-transform: uppercase;
 }
-.usersTable td button:not(:last-child) {
+.defaultTable td button:not(:last-child) {
     border-bottom: 1px solid #737373;
 }
 /*Tables*/

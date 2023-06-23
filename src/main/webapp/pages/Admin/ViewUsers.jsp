@@ -12,12 +12,12 @@
     <jsp:include page="/ReusedHTML/head.jsp"/>
 
     <%
-        List<Utente> prodList= (List<Utente>) request.getAttribute("prodList");
+        List<Utente> userList= (List<Utente>) request.getAttribute("userList");
         Utente user= (Utente) session.getAttribute("Utente");
     %>
 
     <div class="tableContainer">
-        <table class="usersTable">
+        <table class="defaultTable">
             <tr>
                 <th>Username</th>
                 <th>Email</th>
@@ -27,7 +27,7 @@
                 <th>Cognome</th>
                 <th>Azione</th>
             </tr>
-            <% for(Utente u: prodList){ %>
+            <% for(Utente u: userList){ %>
             <tr>
                 <td><%=u.getUsername()%></td>
                 <td><%=u.getEmail()%></td>
