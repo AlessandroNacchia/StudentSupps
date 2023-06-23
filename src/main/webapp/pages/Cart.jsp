@@ -88,7 +88,7 @@
                                     <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="remove">
                                         <i class="fa fa-minus"></i>
                                     </button>
-                                    <input class="cart-products-colQuantity-input" name="updateQuantity" value="<%=quantita%>"
+                                    <input class="cart-products-colQuantity-input" type="number" name="updateQuantity" value="<%=quantita%>"
                                            onkeydown="submitOnEnter(this.form)" onblur="submit()" autocomplete="off" disabled>
                                     <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="add">
                                         <i class="fa fa-plus"></i>

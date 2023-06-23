@@ -32,20 +32,23 @@ public class CartServlet extends HttpServlet {
 
         if(prodToAdd != null) {
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToAdd);
-            if(quantitaAttuale == -1) {
-                ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, 1);
-            } else {
-                ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToAdd, quantitaAttuale+1);
+            Prodotto prod= ProdottoDAO.doRetrieveById(prodToAdd);
+            if(prod != null) {
+                if(quantitaAttuale == -1 && prod.getQuantita() > 0) {
+                    ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, 1);
+                } else if(prod.getQuantita() > quantitaAttuale) {
+                    ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToAdd, Math.min(quantitaAttuale+1, 99));
+                }
             }
 
             List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
-            //Ricalcolo da 0 il totale all'inserimento di un prodotto
+            //Ricalcolo da zero il totale all'inserimento di un prodotto
             calcoloTotale(session, cart, prodList);
         } else if(prodToRemove != null) {
             ProdottocarrelloDAO.doDelete(cart.getId(), prodToRemove);
 
             List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
-            //Ricalcolo da 0 il totale alla rimozione di un prodotto
+            //Ricalcolo da zero il totale alla rimozione di un prodotto
             calcoloTotale(session, cart, prodList);
         } else if(prodToUpdate != null) {
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToUpdate);
@@ -53,32 +56,36 @@ public class CartServlet extends HttpServlet {
                 ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
             } else {
                 String updateType= request.getParameter("updateType");
-                if(updateType!=null && updateType.equals("add")) {
-                    if((quantitaAttuale+1) <= 99)
-                        ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, quantitaAttuale+1);
-                }
-                else if(updateType!=null && updateType.equals("remove")) {
-                    if((quantitaAttuale-1) <= 0)
-                        ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
-                    else
-                        ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, quantitaAttuale-1);
-                }
-                else {
-                    int updatedQuantita;
-                    try {
-                        updatedQuantita= Integer.parseInt(request.getParameter("updateQuantity"));
-                    } catch (NumberFormatException ex) {
-                        updatedQuantita= quantitaAttuale;
+
+                Prodotto prod= ProdottoDAO.doRetrieveById(prodToUpdate);
+                if(prod != null) {
+                    if(updateType!=null && updateType.equals("add")) {
+                        if((quantitaAttuale+1) <= 99 && prod.getQuantita() > quantitaAttuale)
+                            ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, quantitaAttuale+1);
                     }
-                    if((updatedQuantita) <= 0)
-                        ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
-                    else if(updatedQuantita <= 99)
-                        ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, updatedQuantita);
+                    else if(updateType!=null && updateType.equals("remove")) {
+                        if((quantitaAttuale-1) <= 0)
+                            ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
+                        else
+                            ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, Math.min(quantitaAttuale-1, 99));
+                    }
+                    else {
+                        int updatedQuantita;
+                        try {
+                            updatedQuantita= Integer.parseInt(request.getParameter("updateQuantity"));
+                        } catch (NumberFormatException ex) {
+                            updatedQuantita= quantitaAttuale;
+                        }
+                        if((updatedQuantita) <= 0)
+                            ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);
+                        else if(updatedQuantita <= 99)
+                            ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToUpdate, Math.min(prod.getQuantita(), updatedQuantita));
+                    }
                 }
             }
 
             List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
-            //Ricalcolo da 0 il totale alla rimozione di un prodotto
+            //Ricalcolo da zero il totale alla rimozione di un prodotto
             calcoloTotale(session, cart, prodList);
         }
 
@@ -97,11 +104,10 @@ public class CartServlet extends HttpServlet {
         } else
             cart= (Carrello) session.getAttribute("Cart");
 
-        List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
-        request.setAttribute("prodList", prodList);
+        //Ricalcolo da zero il totale per sicurezza
+        calcoloTotale(session, cart, ProdottocarrelloDAO.doRetrieveProdotti(cart.getId()));
 
-        //Ricalcolo da 0 il totale per sicurezza
-        calcoloTotale(session, cart, prodList);
+        request.setAttribute("prodList", ProdottocarrelloDAO.doRetrieveProdotti(cart.getId()));
 
         RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Cart.jsp");
         dispatcher.forward(request, response);
@@ -114,8 +120,19 @@ public class CartServlet extends HttpServlet {
             int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), idProd);
             Prodotto prod= ProdottoDAO.doRetrieveById(idProd);
             if(prod==null) {
+                ProdottocarrelloDAO.doDelete(cart.getId(), idProd);
                 continue;
             }
+            if(prod.getQuantita() < quantita || quantita > 99) {
+                if(prod.getQuantita() <= 0) {
+                    ProdottocarrelloDAO.doDelete(cart.getId(), idProd);
+                    continue;
+                }
+                else {
+                    ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), idProd, Math.min(prod.getQuantita(), 99));
+                }
+            }
+
             BigDecimal price= BigDecimal.valueOf(prod.getPrezzo());
             cart.setTotale(
                     (BigDecimal.valueOf(cart.getTotale()).add(

@@ -26,28 +26,29 @@
             </div>
         </header>
         <section class="productsSlots">
-            <%for (Prodotto p: productsList) {%>
-                <article class="productBox">
-                    <a class="productBox-image" href="Shop/Prodotto?prodName=<%=p.getNome()%>">
-                        <figure class="imageWrapper">
-                            <picture>
-                                <img src="<%="images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
-                            </picture>
-                        </figure>
-                    </a>
-                    <div class="productBox-wrapper">
-                        <h3><a class="productBox-title" href="Shop/Prodotto?prodName=<%=p.getNome()%>"><%=p.getNome()%></a></h3>
-                        <div class="productBox-price">
-                            <span><%=p.getPrezzo()%>&nbsp;€</span>
+            <%for (Prodotto p: productsList)
+                if(p.getQuantita()>0) {%>
+                    <article class="productBox">
+                        <a class="productBox-image" href="Shop/Prodotto?prodName=<%=p.getNome()%>">
+                            <figure class="imageWrapper">
+                                <picture>
+                                    <img src="<%="images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                </picture>
+                            </figure>
+                        </a>
+                        <div class="productBox-wrapper">
+                            <h3><a class="productBox-title" href="Shop/Prodotto?prodName=<%=p.getNome()%>"><%=p.getNome()%></a></h3>
+                            <div class="productBox-price">
+                                <span><%=p.getPrezzo()%>&nbsp;€</span>
+                            </div>
+                            <form action="Cart" method="post">
+                                <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
+                                <input type="hidden" name="callerPage" value="Shop">
+                                <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
+                            </form>
                         </div>
-                        <form action="Cart" method="post">
-                            <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
-                            <input type="hidden" name="callerPage" value="Shop">
-                            <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
-                        </form>
-                    </div>
-                </article>
-            <%}%>
+                    </article>
+                <%}%>
         </section>
     </main>
 
