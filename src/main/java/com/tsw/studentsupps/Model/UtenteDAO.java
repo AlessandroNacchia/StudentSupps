@@ -105,6 +105,20 @@ public class UtenteDAO {
             throw new RuntimeException(e);
         }
     }
+    //Using Username or Email (Both are unique)
+    public static boolean doExistsByUsername(String username) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1)" +
+                            "FROM Utente WHERE (username=? OR email=?)");
+            ps.setString(1, username);
+            ps.setString(2, username);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void doUpdate(Utente u) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(

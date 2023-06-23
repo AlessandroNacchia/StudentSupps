@@ -40,6 +40,12 @@
             </section>
             <section class="login-section" id="section-Signup">
                 <h2 class="login-subtitle">Registrati</h2>
+                <c:if test="${requestScope.signupStatus == 'usernameTaken'}">
+                    <p style="color: red">Username già usato!</p>
+                </c:if>
+                <c:if test="${requestScope.signupStatus == 'emailTaken'}">
+                    <p style="color: red">Email già usata!</p>
+                </c:if>
                 <form action="Signup" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="nameSignup">Nome</label>

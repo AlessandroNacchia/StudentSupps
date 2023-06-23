@@ -4,6 +4,8 @@ import com.tsw.studentsupps.Model.Carrello;
 import com.tsw.studentsupps.Model.CarrelloDAO;
 import com.tsw.studentsupps.Model.Utente;
 import com.tsw.studentsupps.Model.UtenteDAO;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +22,20 @@ public class SignupServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if(UtenteDAO.doExistsByUsername(request.getParameter("username"))) {
+            request.setAttribute("signupStatus", "usernameTaken");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(UtenteDAO.doExistsByUsername(request.getParameter("email"))) {
+            request.setAttribute("signupStatus", "emailTaken");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
         Utente u= new Utente();
         u.setNome(request.getParameter("name"));
         u.setCognome(request.getParameter("lastname"));
