@@ -18,7 +18,7 @@ public class AdminUsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Utente user= (Utente) request.getSession().getAttribute("Utente");
         if(user == null || !user.isAdmin()) {
-            response.sendRedirect(request.getContextPath());
+            response.sendRedirect(request.getContextPath()+'/');
             return;
         }
         List<Utente> userList= UtenteDAO.doRetrieveAll();

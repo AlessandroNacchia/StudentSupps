@@ -19,7 +19,7 @@ public class AdminEditUserServlet extends HttpServlet {
         Utente user= (Utente) request.getSession().getAttribute("Utente");
         String id= request.getParameter("id");
         if(user == null || !user.isAdmin() || id == null || !UUID.fromString(id).toString().equals(id)) {
-            response.sendRedirect(request.getContextPath());
+            response.sendRedirect(request.getContextPath()+'/');
             return;
         }
         Utente u= UtenteDAO.doRetrieveById(request.getParameter("id"));

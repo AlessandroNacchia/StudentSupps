@@ -41,13 +41,13 @@
                     </div>
                 </td>
                 <td><%=p.getNome()%></td>
-                <td style="max-width: 0; overflow-x: auto;">
+                <td style="max-width: 0; word-break: break-word">
                     <%=p.getDescrizione()%>
                 </td>
                 <td><%=p.getPrezzo()%>&nbsp;€</td>
                 <td><%=p.getIVA()%>%</td>
                 <td><%=p.getQuantita()%></td>
-                <td style="max-width: 0; overflow-x: auto;">
+                <td style="max-width: 0; word-break: break-word">
                     <%for(String catId: ProdottocategoriaDAO.doRetrieveCategorie(p.getId())) {%>
                         <%=CategoriaDAO.doRetrieveById(catId).getNome()%><br>
                     <%}%>
@@ -66,6 +66,8 @@
             <%}%>
         </table>
     </div>
+
+    <button class="buttonPrimary buttonHover" style="width: auto; margin: 20px auto 0;" onclick=location.href="AddProduct">Aggiungi Prodotto</button>
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>

@@ -122,6 +122,20 @@ public class ProdottoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void doDelete(Prodotto p) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM prodotto WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, p.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

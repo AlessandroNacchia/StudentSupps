@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/siteStyle.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/Admin/editUser.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/Admin/formContainer.css">
 </head>
 <body>
     <jsp:include page="/ReusedHTML/head.jsp"/>
@@ -23,11 +23,11 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="nameUpdate">Nome</label>
-                        <input class="form-field-input" id="nameUpdate" name="name" type="text" value="<%=u.getNome()%>" autocomplete="off">
+                        <input class="form-field-input" id="nameUpdate" name="name" type="text" value="<%=u.getNome()%>" autocomplete="off" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="lastnameUpdate">Cognome</label>
-                        <input class="form-field-input" id="lastnameUpdate" name="lastname" type="text" value="<%=u.getCognome()%>" autocomplete="off">
+                        <input class="form-field-input" id="lastnameUpdate" name="lastname" type="text" value="<%=u.getCognome()%>" autocomplete="off" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="phoneUpdate">Numero di Telefono (Opzionale)</label>
@@ -35,14 +35,14 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="usernameUpdate">Username</label>
-                        <input class="form-field-input" id="usernameUpdate" name="username" type="text" value="<%=u.getUsername()%>" autocomplete="off">
+                        <input class="form-field-input" id="usernameUpdate" name="username" type="text" value="<%=u.getUsername()%>" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 5 caratteri, Massimo 30 caratteri. Accetta lettere, numeri e trattino basso.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="emailUpdate">Email</label>
-                        <input class="form-field-input" id="emailUpdate" name="email" type="email" value="<%=u.getEmail()%>" autocomplete="off">
+                        <input class="form-field-input" id="emailUpdate" name="email" type="email" value="<%=u.getEmail()%>" autocomplete="off" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="isAdminUpdate">Admin</label>

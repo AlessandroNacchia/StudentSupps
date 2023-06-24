@@ -157,6 +157,9 @@
 .cart-products-colImage  img {
     background-color: #1d2021;
 }
+.cart-products-colProduct {
+    margin-left: 10px;
+}
 
 @media screen and (max-width: 1023px) {
     .cart-products-colImage {
@@ -180,6 +183,7 @@
 .cart-products-colProduct-descr {
     margin: 10px 0;
     font-weight: 400;
+    word-break: break-word;
 }
 .cart-products-colProduct-remove {
      margin: 10px 0;
