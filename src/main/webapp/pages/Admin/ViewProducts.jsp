@@ -54,7 +54,7 @@
                 </td>
                 <td>
                     <button class="buttonPrimary buttonHover" onclick=location.href="EditProduct?id=<%=p.getId()%>">Modifica</button>
-                    <form action="<%=request.getContextPath()%>/DeleteProduct" method="post" style="margin:0">
+                    <form action="<%=request.getContextPath()%>/Admin/DeleteProduct" method="post" style="margin:0">
                         <input type="hidden" name="id" value="<%=p.getId()%>">
                         <button class="buttonPrimary buttonHover" onclick="return confirm(
                                 'Vuoi eliminare il prodotto con dati:\n id=\x27<%=p.getId()%>\x27\n name=\x27<%=p.getNome()%>\x27?\n' +

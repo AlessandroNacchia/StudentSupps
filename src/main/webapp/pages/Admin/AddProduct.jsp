@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="priceAdd">Prezzo</label>
-                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" autocomplete="off" required>
+                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" step="0.01" autocomplete="off" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="ivaAdd">IVA</label>

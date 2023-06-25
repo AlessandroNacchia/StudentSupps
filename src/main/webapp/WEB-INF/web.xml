@@ -12,4 +12,9 @@
         <error-code>404</error-code>
         <location>/RedirectHome</location>
     </error-page>
+
+    <context-param>
+        <param-name>uploadImageProduct.location</param-name>
+        <param-value>C:\Users\pietr\IdeaProjects\TSW\StudentSupps\src\main\webapp\images\products</param-value>
+    </context-param>
 </web-app>
