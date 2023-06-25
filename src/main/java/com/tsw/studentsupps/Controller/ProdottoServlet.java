@@ -16,12 +16,24 @@ import java.util.List;
 public class ProdottoServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
+        String pName=request.getParameter("prodName");
+        if(pName== null){
+            response.sendRedirect(request.getContextPath()+"/Shop");
+            return;
+        }
+        Prodotto p=ProdottoDAO.doRetrieveByName(pName);
+        if(p== null){
+            response.sendRedirect(request.getContextPath()+"/Shop");
+            return;
+        }
+        request.setAttribute("prodotto",p);
+        RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Product.jsp");
+        dispatcher.forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+        resp.sendRedirect(req.getContextPath()+'/');
     }
 
 }

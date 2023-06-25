@@ -30,6 +30,28 @@ public class ProdottoDAO {
         }
     }
 
+    public static Prodotto doRetrieveByName(String name) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita FROM Prodotto WHERE nome=?");
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Prodotto p= new Prodotto();
+                p.setId(rs.getString(1));
+                p.setNome(rs.getString(2));
+                p.setDescrizione(rs.getString(3));
+                p.setPrezzo(rs.getDouble(4));
+                p.setIVA(rs.getShort(5));
+                p.setQuantita(rs.getInt(6));
+                return p;
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static List<Prodotto> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita FROM prodotto");
