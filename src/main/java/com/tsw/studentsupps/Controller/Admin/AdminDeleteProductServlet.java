@@ -38,7 +38,7 @@ public class AdminDeleteProductServlet extends HttpServlet {
         if(callingUser.isAdmin() || prodToDelete.getId().equals(callingUser.getId())) {
             ProdottoDAO.doDelete(prodToDelete);
             String imageToDelete= prodToDelete.getNome() + ".png";
-            File image= new File(getServletContext().getInitParameter("uploadImageProduct.location"), imageToDelete);
+            File image= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToDelete);
             if(!image.delete()) {
                 request.setAttribute("errorMessage", "Delete Image Error");
                 RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");

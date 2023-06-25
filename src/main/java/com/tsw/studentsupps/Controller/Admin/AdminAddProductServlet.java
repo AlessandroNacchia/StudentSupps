@@ -51,6 +51,13 @@ public class AdminAddProductServlet extends HttpServlet {
             return;
         }
 
+        if(ProdottoDAO.doExistsByName(request.getParameter("name"))) {
+            request.setAttribute("addProductStatus", "nameTaken");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Admin/AddProduct.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
         Prodotto p= new Prodotto();
         String name= request.getParameter("name");
         p.setNome(name);
@@ -59,14 +66,14 @@ public class AdminAddProductServlet extends HttpServlet {
         p.setIVA(Short.parseShort(request.getParameter("iva")));
         p.setQuantita(Integer.parseInt(request.getParameter("quantity")));
 
-        /* FUNZIONANTE IN PARTE*/
         Part imagePart= request.getPart("image");
-        File uploads= new File(getServletContext().getInitParameter("uploadImageProduct.location"));
+        File uploads= new File((String) getServletContext().getAttribute("prodImageFolder"));
         String imageName= imagePart.getSubmittedFileName();
         File imageFile= new File(uploads, name + imageName.substring(imageName.lastIndexOf(".")));
 
         try (InputStream input= imagePart.getInputStream()) {
-            Files.copy(input, imageFile.toPath());
+            if(!Files.exists(imageFile.toPath()))
+                Files.copy(input, imageFile.toPath());
         }
 
         ProdottoDAO.doSave(p);

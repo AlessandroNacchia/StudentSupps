@@ -35,7 +35,7 @@
                     <div style="position: relative;padding-top: 100%;">
                         <figure style="position: absolute;top: 0;">
                             <picture>
-                                <img src="<%=request.getContextPath() + "/images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
                             </picture>
                         </figure>
                     </div>

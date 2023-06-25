@@ -15,6 +15,6 @@
 
     <context-param>
         <param-name>uploadImageProduct.location</param-name>
-        <param-value>C:\Users\pietr\IdeaProjects\TSW\StudentSupps\src\main\webapp\images\products</param-value>
+        <param-value>\src\main\webapp\images\products</param-value>
     </context-param>
 </web-app>

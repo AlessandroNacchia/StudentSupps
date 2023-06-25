@@ -32,7 +32,7 @@
                         <a class="productBox-image" href="Shop/Prodotto?prodName=<%=p.getNome()%>">
                             <figure class="imageWrapper">
                                 <picture>
-                                    <img src="<%="images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                    <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
                                 </picture>
                             </figure>
                         </a>

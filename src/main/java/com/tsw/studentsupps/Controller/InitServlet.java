@@ -11,6 +11,11 @@ public class InitServlet extends HttpServlet {
     public void init() throws ServletException {
         //Cancella i carrelli non collegati ad account non aggiornati da più di un giorno (86400000)
         CarrelloDAO.doDeleteUnlinkedCarts(0);
+
+        //PATH immagini prodotti non assoluta ma tramite environment variable in modo da poterlo usare su pc diversi anche avendo path diversi.
+        //Andrà modificata e spostata la cartella delle immagini prodotti quando finito il sito.
+        String prodImageFolder= System.getenv("STUDENT_SUPPS") + getServletContext().getInitParameter("uploadImageProduct.location");
+        getServletContext().setAttribute("prodImageFolder", prodImageFolder);
         super.init();
     }
 }

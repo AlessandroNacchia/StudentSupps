@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -14,6 +15,9 @@
         <h1 class="formContainer-title">Aggiungi i parametri del prodotto</h1>
         <div class="formContainer-wrapper">
             <section class="formContainer-section">
+                <c:if test="${requestScope.addProductStatus == 'nameTaken'}">
+                    <p style="color: red">Nome Prodotto già usato!</p>
+                </c:if>
                 <form action="<%=request.getContextPath()%>/Admin/AddProduct" method="post" enctype="multipart/form-data">
                     <div class="form-field">
                         <label class="form-field-label" for="imageAdd">Immagine</label>
@@ -51,7 +55,7 @@
             let name= document.getElementById('nameAdd').value;
             let descr= document.getElementById('descrAdd').value;
 
-            const nameRGX= /^.{2,30}$/;
+            const nameRGX= /^[\w\-. ]{2,50}$/;
             const descrRGX= /^.{2,250}$/;
 
             if(!nameRGX.test(name)){

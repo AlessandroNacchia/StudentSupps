@@ -63,7 +63,7 @@
                             <div class="cart-products-colImage">
                                 <a href="Shop/Prodotto?prodName=<%=p.getNome()%>">
                                     <picture>
-                                        <img src="<%="images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                        <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
                                     </picture>
                                 </a>
                             </div>

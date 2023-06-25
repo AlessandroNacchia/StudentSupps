@@ -103,9 +103,6 @@ public class CarrelloDAO {
                             "AND updated_at<(current_timestamp-?)");
 
             ps.setLong(1, timeInMillis);
-            if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("DELETE error.");
-            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

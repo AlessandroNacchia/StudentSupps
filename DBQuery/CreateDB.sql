@@ -78,7 +78,7 @@ CREATE TABLE Sconto
 CREATE TABLE Prodotto
 (
 	id				binary(16)	 		DEFAULT (UUID_TO_BIN(UUID(), 1)) PRIMARY KEY,
-    nome			varchar(30)			NOT NULL,
+    nome			varchar(50)			NOT NULL UNIQUE,
     descrizione		varchar(250),
     prezzo			decimal(10,2)		NOT NULL	CHECK(prezzo>=0),
     IVA				tinyint UNSIGNED 	NOT NULL,	

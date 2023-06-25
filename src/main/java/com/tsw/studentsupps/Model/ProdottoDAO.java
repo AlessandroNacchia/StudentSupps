@@ -136,6 +136,19 @@ public class ProdottoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean doExistsByName(String name) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1)" +
+                            "FROM Prodotto WHERE nome=?");
+            ps.setString(1, name);
+            ResultSet rs= ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
