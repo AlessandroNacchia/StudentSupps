@@ -21,6 +21,13 @@ public class AdminUsersServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath()+'/');
             return;
         }
+        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
+            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
+
         List<Utente> userList= UtenteDAO.doRetrieveAll();
         request.setAttribute("userList", userList);
         RequestDispatcher dispatcher=request.getRequestDispatcher("/pages/Admin/ViewUsers.jsp");

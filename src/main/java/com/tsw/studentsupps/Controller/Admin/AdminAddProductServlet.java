@@ -32,6 +32,12 @@ public class AdminAddProductServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath()+'/');
             return;
         }
+        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
+            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
 
         RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Admin/AddProduct.jsp");
         dispatcher.forward(request, response);

@@ -19,7 +19,12 @@ import java.util.UUID;
 public class AdminDeleteProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utente callingUser= (Utente) request.getSession().getAttribute("Utente");
+        Utente user= (Utente) request.getSession().getAttribute("Utente");
+        if(user == null || !user.isAdmin()) {
+            response.sendRedirect(request.getContextPath()+'/');
+            return;
+        }
+
         String prodToDeleteId= request.getParameter("id");
         if(!UUID.fromString(prodToDeleteId).toString().equals(prodToDeleteId)) {
             request.setAttribute("errorMessage", "UUID non valido");
@@ -27,32 +32,32 @@ public class AdminDeleteProductServlet extends HttpServlet {
             dispatcher.forward(request,response);
             return;
         }
-        Prodotto prodToDelete= ProdottoDAO.doRetrieveById(prodToDeleteId);
-        if(!callingUser.equals(UtenteDAO.doRetrieveById(callingUser.getId())) || prodToDelete == null) {
+        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
             request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return;
         }
 
-        if(callingUser.isAdmin() || prodToDelete.getId().equals(callingUser.getId())) {
-            ProdottoDAO.doDelete(prodToDelete);
-            String imageToDelete= prodToDelete.getNome() + ".png";
-            File image= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToDelete);
-            if(!image.delete()) {
-                request.setAttribute("errorMessage", "Delete Image Error");
-                RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-                dispatcher.forward(request,response);
-                return;
-            }
-
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
+        Prodotto prodToDelete= ProdottoDAO.doRetrieveById(prodToDeleteId);
+        if(prodToDelete == null) {
+            request.setAttribute("errorMessage", "Prodotto da cancellare non esistente");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return;
         }
 
-        request.setAttribute("errorMessage", "Delete Servlet Error");
-        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+        ProdottoDAO.doDelete(prodToDelete);
+        String imageToDelete= prodToDelete.getNome() + ".png";
+        File image= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToDelete);
+        if(!image.delete()) {
+            request.setAttribute("errorMessage", "Delete Image Error");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
+
+        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);
     }
 

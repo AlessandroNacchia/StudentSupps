@@ -24,23 +24,28 @@ public class DeleteUserServlet extends HttpServlet {
             dispatcher.forward(request,response);
             return;
         }
+
         Utente userToDelete= UtenteDAO.doRetrieveById(userToDeleteId);
-        if(!callingUser.equals(UtenteDAO.doRetrieveById(callingUser.getId())) || userToDelete == null) {
+        if(userToDelete == null) {
+            request.setAttribute("errorMessage", "Utente da cancellare non esistente");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
+        if(callingUser == null || (!callingUser.isAdmin() && !userToDelete.getId().equals(callingUser.getId())) ) {
+            response.sendRedirect(request.getContextPath()+'/');
+            return;
+        }
+
+        if(!callingUser.equals(UtenteDAO.doRetrieveById(callingUser.getId()))) {
             request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return;
         }
 
-        if(callingUser.isAdmin() || userToDelete.getId().equals(callingUser.getId())) {
-            UtenteDAO.doDelete(userToDelete);
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
-
-        request.setAttribute("errorMessage", "Delete Servlet Error");
-        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+        UtenteDAO.doDelete(userToDelete);
+        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);
     }
 

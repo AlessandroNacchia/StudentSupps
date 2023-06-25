@@ -22,7 +22,21 @@ public class AdminEditUserServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath()+'/');
             return;
         }
+        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
+            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
+
         Utente u= UtenteDAO.doRetrieveById(request.getParameter("id"));
+        if(u == null) {
+            request.setAttribute("errorMessage", "Utente da modificare non esistente");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
+
         request.setAttribute("userToEdit", u);
         RequestDispatcher dispatcher=request.getRequestDispatcher("/pages/Admin/EditUser.jsp");
         dispatcher.forward(request,response);

@@ -24,35 +24,40 @@ public class UpdateUserServlet extends HttpServlet {
             dispatcher.forward(request,response);
             return;
         }
+
         Utente userToUpdate= UtenteDAO.doRetrieveById(userToUpdateId);
-        if(!callingUser.equals(UtenteDAO.doRetrieveById(callingUser.getId())) || userToUpdate == null) {
+        if(userToUpdate == null) {
+            request.setAttribute("errorMessage", "Utente da aggiornare non esistente");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
+        if(callingUser == null || (!callingUser.isAdmin() && !userToUpdate.getId().equals(callingUser.getId())) ) {
+            response.sendRedirect(request.getContextPath()+'/');
+            return;
+        }
+
+        if(!callingUser.equals(UtenteDAO.doRetrieveById(callingUser.getId()))) {
             request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return;
         }
 
-        if(callingUser.isAdmin() || userToUpdate.getId().equals(callingUser.getId())) {
-            userToUpdate.setNome(request.getParameter("name"));
-            userToUpdate.setCognome(request.getParameter("lastname"));
-            userToUpdate.setNumeroTel(request.getParameter("phone"));
-            userToUpdate.setUsername(request.getParameter("username"));
-            userToUpdate.setEmail(request.getParameter("email"));
-            if(request.getParameter("isAdmin")==null)
-                userToUpdate.setAdmin(false);
-            else if(request.getParameter("isAdmin").equals("true"))
-                userToUpdate.setAdmin(true);
-            if(userToUpdate.getId().equals(callingUser.getId()))
-                userToUpdate.setPasswordHash(request.getParameter("password"));
+        userToUpdate.setNome(request.getParameter("name"));
+        userToUpdate.setCognome(request.getParameter("lastname"));
+        userToUpdate.setNumeroTel(request.getParameter("phone"));
+        userToUpdate.setUsername(request.getParameter("username"));
+        userToUpdate.setEmail(request.getParameter("email"));
+        if(request.getParameter("isAdmin")==null)
+            userToUpdate.setAdmin(false);
+        else if(request.getParameter("isAdmin").equals("true"))
+            userToUpdate.setAdmin(true);
+        if(userToUpdate.getId().equals(callingUser.getId()))
+            userToUpdate.setPasswordHash(request.getParameter("password"));
 
-            UtenteDAO.doUpdate(userToUpdate);
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
-
-        request.setAttribute("errorMessage", "Update Servlet Error");
-        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+        UtenteDAO.doUpdate(userToUpdate);
+        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);
     }
 
