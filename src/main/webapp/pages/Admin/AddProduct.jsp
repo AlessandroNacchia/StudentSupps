@@ -17,7 +17,7 @@
                 <form action="<%=request.getContextPath()%>/Admin/AddProduct" method="post" enctype="multipart/form-data">
                     <div class="form-field">
                         <label class="form-field-label" for="imageAdd">Immagine</label>
-                        <input class="form-field-inputFile" id="imageAdd" name="image" type="file" accept=".jpg, .jpeg, .png, .webp" required>
+                        <input class="form-field-inputFile" id="imageAdd" name="image" type="file" accept=".png" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="nameAdd">Nome</label>

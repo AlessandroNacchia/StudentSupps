@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -36,6 +37,15 @@ public class AdminDeleteProductServlet extends HttpServlet {
 
         if(callingUser.isAdmin() || prodToDelete.getId().equals(callingUser.getId())) {
             ProdottoDAO.doDelete(prodToDelete);
+            String imageToDelete= prodToDelete.getNome() + ".png";
+            File image= new File(getServletContext().getInitParameter("uploadImageProduct.location"), imageToDelete);
+            if(!image.delete()) {
+                request.setAttribute("errorMessage", "Delete Image Error");
+                RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+                dispatcher.forward(request,response);
+                return;
+            }
+
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
             dispatcher.forward(request,response);
             return;

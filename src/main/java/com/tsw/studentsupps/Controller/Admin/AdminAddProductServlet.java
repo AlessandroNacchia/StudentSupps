@@ -59,7 +59,7 @@ public class AdminAddProductServlet extends HttpServlet {
         p.setIVA(Short.parseShort(request.getParameter("iva")));
         p.setQuantita(Integer.parseInt(request.getParameter("quantity")));
 
-        /*   NON FUNZIONANTE O FUNZIONANTE IN PARTE
+        /* FUNZIONANTE IN PARTE*/
         Part imagePart= request.getPart("image");
         File uploads= new File(getServletContext().getInitParameter("uploadImageProduct.location"));
         String imageName= imagePart.getSubmittedFileName();
@@ -68,7 +68,7 @@ public class AdminAddProductServlet extends HttpServlet {
         try (InputStream input= imagePart.getInputStream()) {
             Files.copy(input, imageFile.toPath());
         }
-        */
+
         ProdottoDAO.doSave(p);
 
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
