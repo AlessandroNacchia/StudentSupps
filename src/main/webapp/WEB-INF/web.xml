@@ -17,4 +17,8 @@
         <param-name>uploadImageProduct.location</param-name>
         <param-value>\src\main\webapp\images\products</param-value>
     </context-param>
+    <context-param>
+        <param-name>delUploadImageProduct.location</param-name>
+        <param-value>\src\main\webapp\images\delProducts</param-value>
+    </context-param>
 </web-app>

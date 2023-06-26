@@ -74,4 +74,18 @@ public class ProdottocategoriaDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean doExists(String prodottoId, String categoriaId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 FROM prodottocategoria " +
+                            "WHERE id_prodotto= UUID_TO_BIN(?, 1) AND id_categoria= UUID_TO_BIN(?, 1)");
+            ps.setString(1, prodottoId);
+            ps.setString(2, categoriaId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

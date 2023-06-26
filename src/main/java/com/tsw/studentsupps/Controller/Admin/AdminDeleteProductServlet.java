@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.UUID;
 
 @WebServlet("/Admin/DeleteProduct")
@@ -47,15 +48,23 @@ public class AdminDeleteProductServlet extends HttpServlet {
             return;
         }
 
-        ProdottoDAO.doDelete(prodToDelete);
-        String imageToDelete= prodToDelete.getNome() + ".png";
-        File image= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToDelete);
-        if(!image.delete()) {
-            request.setAttribute("errorMessage", "Delete Image Error");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
+        String prodName= prodToDelete.getNome();
+        String imageToDelete= prodName + ".png";
+        File imageToMove= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToDelete);
+
+        String delProdImageFolder= (String) getServletContext().getAttribute("delProdImageFolder");
+        File movedImage= new File(delProdImageFolder, imageToDelete);
+        for(int i= 0; i<1000; i++) {
+            if(!Files.exists(movedImage.toPath())) {
+                Files.move(imageToMove.toPath(), movedImage.toPath());
+                break;
+            }
+            else {
+                movedImage= new File(delProdImageFolder, prodName + i + imageToDelete.substring(imageToDelete.lastIndexOf(".")));
+            }
         }
+
+        ProdottoDAO.doDelete(prodToDelete);
 
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);

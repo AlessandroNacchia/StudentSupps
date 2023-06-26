@@ -82,8 +82,10 @@ public class AdminAddProductServlet extends HttpServlet {
         ProdottoDAO.doSave(p);
 
         String[] categorie= request.getParameterValues("categories");
-        for(String catId: categorie) {
-            ProdottocategoriaDAO.doSave(p.getId(), catId);
+        if(categorie != null){
+            for(String catId: categorie) {
+                ProdottocategoriaDAO.doSave(p.getId(), catId);
+            }
         }
 
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");

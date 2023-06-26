@@ -16,6 +16,10 @@ public class InitServlet extends HttpServlet {
         //Andrà modificata e spostata la cartella delle immagini prodotti quando finito il sito.
         String prodImageFolder= System.getenv("STUDENT_SUPPS") + getServletContext().getInitParameter("uploadImageProduct.location");
         getServletContext().setAttribute("prodImageFolder", prodImageFolder);
+
+        String delProdImageFolder= System.getenv("STUDENT_SUPPS") + getServletContext().getInitParameter("delUploadImageProduct.location");
+        getServletContext().setAttribute("delProdImageFolder", delProdImageFolder);
+
         super.init();
     }
 }

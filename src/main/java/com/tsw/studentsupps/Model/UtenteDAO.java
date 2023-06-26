@@ -109,7 +109,7 @@ public class UtenteDAO {
     public static boolean doExistsByUsername(String username) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps=
-                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1)" +
+                    con.prepareStatement("SELECT 1 " +
                             "FROM Utente WHERE (username=? OR email=?)");
             ps.setString(1, username);
             ps.setString(2, username);

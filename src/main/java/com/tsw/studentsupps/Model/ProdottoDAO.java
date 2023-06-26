@@ -162,7 +162,7 @@ public class ProdottoDAO {
     public static boolean doExistsByName(String name) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps=
-                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1)" +
+                    con.prepareStatement("SELECT 1 " +
                             "FROM Prodotto WHERE nome=?");
             ps.setString(1, name);
             ResultSet rs= ps.executeQuery();

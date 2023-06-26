@@ -1,9 +1,6 @@
 package com.tsw.studentsupps.Controller.Admin;
 
-import com.tsw.studentsupps.Model.Prodotto;
-import com.tsw.studentsupps.Model.ProdottoDAO;
-import com.tsw.studentsupps.Model.Utente;
-import com.tsw.studentsupps.Model.UtenteDAO;
+import com.tsw.studentsupps.Model.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -17,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @WebServlet("/Admin/EditProduct")
@@ -86,30 +85,47 @@ public class AdminEditProductServlet extends HttpServlet {
 
         String oldName= prodToUpdate.getNome();
         String name= request.getParameter("name");
+
+        if(!oldName.equals(name) && ProdottoDAO.doExistsByName(name)) {
+            request.setAttribute("prodToEdit", prodToUpdate);
+            request.setAttribute("addProductStatus", "nameTaken");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Admin/EditProduct.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
         prodToUpdate.setNome(name);
-        prodToUpdate.setNome(request.getParameter("description"));
+        prodToUpdate.setDescrizione(request.getParameter("description"));
         prodToUpdate.setPrezzo((double) Math.round(Double.parseDouble(request.getParameter("price")) * 100) / 100);
         prodToUpdate.setIVA(Short.parseShort(request.getParameter("iva")));
         prodToUpdate.setQuantita(Integer.parseInt(request.getParameter("quantity")));
 
         Part imagePart= request.getPart("image");
-        if(imagePart == null) {
+        if(imagePart.getSubmittedFileName().equals("") && imagePart.getSize() == 0) {
             String imageToRename= oldName + ".png";
             File image= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToRename);
-            if(!image.renameTo(new File((String) getServletContext().getAttribute("prodImageFolder"), name + ".png"))) {
-                request.setAttribute("errorMessage", "Rename Image Error");
-                RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-                dispatcher.forward(request,response);
-                return;
+            if(Files.exists(image.toPath())) {
+                if(!image.renameTo(new File((String) getServletContext().getAttribute("prodImageFolder"), name + ".png"))) {
+                    request.setAttribute("errorMessage", "Rename Image Error");
+                    RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+                    dispatcher.forward(request,response);
+                    return;
+                }
             }
         } else {
-            String imageToDelete= name + ".png";
-            File image= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToDelete);
-            if(!image.delete()) {
-                request.setAttribute("errorMessage", "Delete Image Error");
-                RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-                dispatcher.forward(request,response);
-                return;
+            String imageToDelete= oldName + ".png";
+            File imageToMove= new File((String) getServletContext().getAttribute("prodImageFolder"), imageToDelete);
+
+            String delProdImageFolder= (String) getServletContext().getAttribute("delProdImageFolder");
+            File movedImage= new File(delProdImageFolder, imageToDelete);
+            for(int i= 0; i<1000; i++) {
+                if(!Files.exists(movedImage.toPath())) {
+                    Files.move(imageToMove.toPath(), movedImage.toPath());
+                    break;
+                }
+                else {
+                    movedImage= new File(delProdImageFolder, oldName + i + imageToDelete.substring(imageToDelete.lastIndexOf(".")));
+                }
             }
 
             File uploads= new File((String) getServletContext().getAttribute("prodImageFolder"));
@@ -122,9 +138,20 @@ public class AdminEditProductServlet extends HttpServlet {
             }
         }
 
-
-
         ProdottoDAO.doUpdate(prodToUpdate);
+
+        String[] categorie= request.getParameterValues("categories");
+        if(categorie == null)
+            categorie= new String[]{""};
+        List<String> catList= Arrays.asList(categorie);
+        for(Categoria cat: CategoriaDAO.doRetrieveAll()) {
+            if(catList.contains(cat.getId()) && !ProdottocategoriaDAO.doExists(prodToUpdate.getId(), cat.getId())) {
+                ProdottocategoriaDAO.doSave(prodToUpdate.getId(), cat.getId());
+            }
+            else if(!catList.contains(cat.getId()) && ProdottocategoriaDAO.doExists(prodToUpdate.getId(), cat.getId())) {
+                ProdottocategoriaDAO.doDelete(prodToUpdate.getId(), cat.getId());
+            }
+        }
 
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);
