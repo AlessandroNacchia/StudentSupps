@@ -31,27 +31,24 @@
            </div>
            <div class="product-addtocart-section">
                <strong class="product-quantity-selector-label">Quantità</strong>
-               <div class="product-quantity-selector">
-                   <!--<form action="<%=request.getContextPath()%>/Cart" method="post" id="quantitaForm" style="margin-bottom: 0;">
-                       <input type="hidden" name="prodToUpdate" value="<%=p.getId()%>">
-                       <input type="hidden" name="callerPage" value="Shop/Prodotto?<%=p.getId()%>">
-                       <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="remove">
-                           <i class="fa fa-minus"></i>
-                       </button>
-                       <input class="cart-products-colQuantity-input" type="number" name="updateQuantity" value="1"
-                              onkeydown="submitOnEnter(this.form)" onblur="submit()" autocomplete="off" disabled>
-                       <button class="cart-products-colQuantity-btn" type="submit" name="updateType" value="add">
-                           <i class="fa fa-plus"></i>
-                       </button>
-                   </form>-->
-               </div>
-               <div class="product-addtocart">
-                   <form action="<%=request.getContextPath()%>/Cart" method="post">
-                       <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
-                       <input type="hidden" name="callerPage" value="Cart">
+               <form action="<%=request.getContextPath()%>/Cart" method="post"  style="margin-bottom: 0;">
+                   <div class="product-quantity-selector">
+
+                        <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
+                        <input type="hidden" name="callerPage" value="Cart">
+                        <button class="quantity-selector-button-decrese" type="button">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <input class="quantity-selector-input" onblur="quantity_limit()" type="number" name="quantityToAdd" step="1" value="1" size="3">
+                        <button class="quantity-selector-button-increase" type="button">
+                            <i class="fa fa-plus"></i>
+                        </button>
+
+                   </div>
+                   <div class="product-addtocart">
                        <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
-                   </form>
-               </div>
+                   </div>
+               </form>
            </div>
        </section>
        <ul class="product-details-general-info">
@@ -70,29 +67,43 @@
                 <p><%=p.getDescrizione()%></p>
             </div>
             <div class="prduct-review-header"></div>
-            <div class="product-review-content"
+            <div class="product-review-content"></div>
         </section>
     </section>
 </main>
+
 <jsp:include page="/ReusedHTML/tail.jsp"/>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
+
+    let plus_b=document.querySelectorAll('.quantity-selector-button-increase');
+    let minus_b=document.querySelectorAll('.quantity-selector-button-decrese');
+    let quantity=document.querySelectorAll('.quantity-selector-input');
+
+    plus_b.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+            btn.previousElementSibling.value = (btn.previousElementSibling.value == 99) ? 99 : ++btn.previousElementSibling.value;
+        })
+    })
+
+    minus_b.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+            btn.nextElementSibling.value = (btn.nextElementSibling.value == 0) ? 0 : btn.nextElementSibling.value - 1;
+        })
+    })
+
+    function quantity_limit() {
+        quantity.forEach(qnt=>{
+            if(qnt.value>=99){
+                qnt.value=99;
+            }
+            if(qnt.value<0){
+                qnt.value=0;
+            }
+        })
+
+    }
+
     let colQntInput= document.getElementsByClassName('cart-products-colQuantity-input');
     for(let i=0; i<colQntInput.length; i++)
         colQntInput[i].removeAttribute('disabled');
