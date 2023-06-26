@@ -34,10 +34,18 @@ public class CartServlet extends HttpServlet {
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToAdd);
             Prodotto prod= ProdottoDAO.doRetrieveById(prodToAdd);
             if(prod != null) {
-                if(quantitaAttuale == -1 && prod.getQuantita() > 0) {
-                    ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, 1);
-                } else if(prod.getQuantita() > quantitaAttuale) {
-                    ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToAdd, Math.min(quantitaAttuale+1, 99));
+                int quantityToAdd= 1;
+                if(request.getParameter("quantityToAdd") != null) {
+                    try {
+                        quantityToAdd= Integer.parseInt(request.getParameter("quantityToAdd"));
+                    } catch (NumberFormatException ex) {
+                        quantityToAdd= 0;
+                    }
+                }
+                if(quantitaAttuale == -1 && prod.getQuantita() >= quantityToAdd) {
+                    ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, Math.min(quantityToAdd, 99));
+                } else if(prod.getQuantita() >= (quantitaAttuale + quantityToAdd)) {
+                    ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToAdd, Math.min(quantitaAttuale+quantityToAdd, 99));
                 }
             }
 
