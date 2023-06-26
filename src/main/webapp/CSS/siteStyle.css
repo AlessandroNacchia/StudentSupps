@@ -459,6 +459,25 @@ input[type=number] {
     text-transform: uppercase;
     width: 100%;
 }
+
+.form-field-multipleCheckbox {
+    cursor: pointer;
+    width: max-content;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+}
+
+.form-field-nav-checkbox {
+    list-style: none;
+    padding: 0;
+    margin-left: 20px;
+    overflow: hidden;
+}
+.form-field-checkbox {
+    display: inline-block;
+    width: 12em;
+    margin-bottom: 10px;
+}
 /* Forms */
 
 /* footer css*/

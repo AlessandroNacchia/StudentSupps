@@ -1,9 +1,6 @@
 package com.tsw.studentsupps.Controller.Admin;
 
-import com.tsw.studentsupps.Model.Prodotto;
-import com.tsw.studentsupps.Model.ProdottoDAO;
-import com.tsw.studentsupps.Model.Utente;
-import com.tsw.studentsupps.Model.UtenteDAO;
+import com.tsw.studentsupps.Model.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -83,6 +80,11 @@ public class AdminAddProductServlet extends HttpServlet {
         }
 
         ProdottoDAO.doSave(p);
+
+        String[] categorie= request.getParameterValues("categories");
+        for(String catId: categorie) {
+            ProdottocategoriaDAO.doSave(p.getId(), catId);
+        }
 
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);

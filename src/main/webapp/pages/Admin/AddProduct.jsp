@@ -1,3 +1,6 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.tsw.studentsupps.Model.Categoria" %>
+<%@ page import="com.tsw.studentsupps.Model.CategoriaDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
@@ -6,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/siteStyle.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/Admin/formContainer.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/formContainer.css">
 </head>
 <body>
     <jsp:include page="/ReusedHTML/head.jsp"/>
@@ -43,6 +46,22 @@
                         <label class="form-field-label" for="quantityAdd">Quantità</label>
                         <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" autocomplete="off" required>
                     </div>
+                    <div class="form-field">
+                        <div class="form-field-multipleCheckbox" onclick="openCheckboxs('Categorie')">
+                            Categorie
+                            <i class="fa fa-caret-down" ></i>
+                        </div>
+                        <ul class="form-field-nav-checkbox" style="height:0px" id="navCheckboxCategorie">
+                            <%List<Categoria> catList= CategoriaDAO.doRetrieveAll();
+                            for(Categoria cat: catList) {%>
+                                <li class="form-field-checkbox">
+                                    <input class="form-field-input" style="height: auto; width: auto;" id="category<%=cat.getNome()%>"
+                                           name="categories" type="checkbox" value="<%=cat.getId()%>">
+                                    <label class="form-field-label" style="display: inline; margin-left: 5px;" for="category<%=cat.getNome()%>"><%=cat.getNome()%></label>
+                                </li>
+                            <%}%>
+                        </ul>
+                    </div>
 
                     <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiorna</button>
                 </form>
@@ -68,6 +87,14 @@
             }
 
             return true;
+        }
+
+        function openCheckboxs(x){
+            let navlink=document.getElementById("navCheckbox"+x);
+            if (navlink.style.height==="0px")
+                navlink.style.height="auto";
+            else
+                navlink.style.height="0px";
         }
     </script>
 
