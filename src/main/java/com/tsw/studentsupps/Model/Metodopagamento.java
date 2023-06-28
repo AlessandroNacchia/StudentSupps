@@ -11,6 +11,7 @@ public class Metodopagamento {
     private String id;
     private String provider;
     private String numeroHash;
+    private String lastDigits;
     private  Date dataScadenza;
 
 
@@ -35,7 +36,7 @@ public class Metodopagamento {
     }
 
     public void setNumeroHash(String numero) {
-        if(numero.matches("^\\b(\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}$)\\b$"))
+        if(numero.matches("^\\b(\\d{4}\\s?\\d{4}\\s?\\d{4}\\s?\\d{4}$)\\b$"))
         {
             try {
                 MessageDigest digest= MessageDigest.getInstance("SHA-1");
@@ -45,7 +46,18 @@ public class Metodopagamento {
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
+
+            setLastDigits(numero.substring(numero.length() - 4));
         }
+    }
+
+    public String getLastDigits(){
+        return lastDigits;
+    }
+
+    public void setLastDigits(String lastDigits) {
+        if(lastDigits.matches("^\\d{4}$"))
+            this.lastDigits= lastDigits;
     }
 
     public Date getDataScadenza() {

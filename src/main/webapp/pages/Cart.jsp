@@ -41,7 +41,7 @@
                             <a href="Shop" class="buttonPrimary buttonSecondary buttonHover">Torna al negozio</a>
                         </div>
                         <div class="cart-header-actionCheckout">
-                            <a href="Cart/Shop" class="buttonPrimary buttonHover">Procedi all'acquisto</a>
+                            <a href="Cart/Checkout" class="buttonPrimary buttonHover">Procedi all'acquisto</a>
                         </div>
                     </div>
                 </section>
@@ -123,7 +123,7 @@
                             <span><%=cart.getTotale()%>&nbsp;€</span>
                         </div>
                         <div class="cart-sideSummary-checkout">
-                            <a href="Cart/Shop" class="buttonPrimary buttonHover">Procedi all'acquisto</a>
+                            <a href="Cart/Checkout" class="buttonPrimary buttonHover">Procedi all'acquisto</a>
                         </div>
                     </div>
                 </section>

@@ -11,7 +11,7 @@ public class IndirizzoDAO {
     public static Indirizzo doRetrieveById(String id) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps =
-                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nazione, provincia, citta, CAP, via, numeroTel, is_fatt FROM indirizzo WHERE id= UUID_TO_BIN(?, 1)");
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nazione, provincia, citta, CAP, via, numeroTel FROM indirizzo WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -23,7 +23,6 @@ public class IndirizzoDAO {
                 i.setCAP(rs.getString(5));
                 i.setVia(rs.getString(6));
                 i.setNumeroTel(rs.getString(7));
-                i.setFatt(rs.getBoolean(8));
                 return i;
             }
             return null;
@@ -33,7 +32,7 @@ public class IndirizzoDAO {
     }
     public static List<Indirizzo> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nazione, provincia, citta, CAP, via, numeroTel, is_fatt FROM indirizzo");
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nazione, provincia, citta, CAP, via, numeroTel FROM indirizzo");
             ResultSet rs= ps.executeQuery();
 
             List<Indirizzo> indList= new ArrayList<>();
@@ -46,7 +45,6 @@ public class IndirizzoDAO {
                 i.setCAP(rs.getString(5));
                 i.setVia(rs.getString(6));
                 i.setNumeroTel(rs.getString(7));
-                i.setFatt(rs.getBoolean(8));
 
                 indList.add(i);
             }
@@ -59,8 +57,8 @@ public class IndirizzoDAO {
     public static void doSave(Indirizzo Ind) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO indirizzo (id, nazione, provincia, citta, CAP, via, numeroTel, is_fatt)" +
-                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,?,?,?)");
+                    "INSERT INTO indirizzo (id, nazione, provincia, citta, CAP, via, numeroTel)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,?,?)");
 
             UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
             ps.setString(1, randUUID.toString());
@@ -70,7 +68,6 @@ public class IndirizzoDAO {
             ps.setString(5, Ind.getCAP());
             ps.setString(6, Ind.getVia());
             ps.setString(7, Ind.getNumeroTel());
-            ps.setBoolean(8, Ind.isFatt());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
@@ -84,9 +81,9 @@ public class IndirizzoDAO {
     public static void doUpdate(Indirizzo Ind) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE indirizzo SET nazione= ?, provincia= ?, citta= ?, CAP= ?, via= ?, numeroTel= ?, is_fatt= ? " +
+                    "UPDATE indirizzo SET nazione= ?, provincia= ?, citta= ?, CAP= ?, via= ?, numeroTel= ? " +
                             "WHERE id= UUID_TO_BIN(?, 1)");
-            ps.setString(8, Ind.getId());
+            ps.setString(7, Ind.getId());
 
             ps.setString(1, Ind.getNazione());
             ps.setString(2, Ind.getProvincia());
@@ -94,7 +91,6 @@ public class IndirizzoDAO {
             ps.setString(4, Ind.getCAP());
             ps.setString(5, Ind.getVia());
             ps.setString(6, Ind.getNumeroTel());
-            ps.setBoolean(7, Ind.isFatt());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }
@@ -103,4 +99,29 @@ public class IndirizzoDAO {
         }
     }
 
+    public static List<Indirizzo> doRetrieveByUserId(String userId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nazione, provincia, citta, CAP, via, numeroTel " +
+                    "FROM indirizzo WHERE id_utente= UUID_TO_BIN(?, 1)");
+            ps.setString(1, userId);
+            ResultSet rs= ps.executeQuery();
+
+            List<Indirizzo> indList= new ArrayList<>();
+            while(rs.next()) {
+                Indirizzo i= new Indirizzo();
+                i.setId(rs.getString(1));
+                i.setNazione(rs.getString(2));
+                i.setProvincia(rs.getString(3));
+                i.setCitta(rs.getString(4));
+                i.setCAP(rs.getString(5));
+                i.setVia(rs.getString(6));
+                i.setNumeroTel(rs.getString(7));
+
+                indList.add(i);
+            }
+            return indList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

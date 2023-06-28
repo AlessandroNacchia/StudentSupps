@@ -10,7 +10,6 @@ public class Indirizzo {
     private String CAP;
     private String via;
     private String numeroTel;
-    private boolean is_fatt;
 
     public String getId() {
         return id;
@@ -70,11 +69,4 @@ public class Indirizzo {
             this.numeroTel= numeroTel;
     }
 
-    public boolean isFatt() {
-        return is_fatt;
-    }
-
-    public void setFatt(boolean is_fatt) {
-        this.is_fatt = is_fatt;
-    }
 }

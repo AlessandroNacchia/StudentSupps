@@ -44,7 +44,6 @@ CREATE TABLE Indirizzo
     CAP				char(5)			NOT NULL,
     via				varchar(60)		NOT NULL,
     numeroTel		varchar(24),
-    is_fatt			boolean			NOT NULL,
     
     id_utente		binary(16),
     FOREIGN KEY (id_utente) REFERENCES Utente(id) ON UPDATE CASCADE
