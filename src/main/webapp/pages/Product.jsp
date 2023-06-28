@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/siteStyle.css">
-    <!--<link rel="stylesheet" href="CSS/product.css">-->
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/product.css">
 </head>
 <body>
 <jsp:include page="/ReusedHTML/head.jsp"/>
@@ -15,35 +15,38 @@
     <figure class="product-page-image">
         <div class="product-image-wrapper">
             <picture>
-                <img src="src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                <img src="<%=request.getContextPath() + "/images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
             </picture>
         </div>
 
     </figure>
-   <header product-page-section>
+   <header class="product-page-section">
        <div class="product-details">
            <div class="product-details-name"><%=p.getNome()%></div>
            <div class="product-details-rating"></div>
        </div>
        <section class="product-cart-controls">
            <div class="product-price">
-               <span class="product-price-value"><%=p.getPrezzo()%></span>
+               <div class="product-price-primary">
+                   <span class="product-price-value"><%=p.getPrezzo()%></span>
+               </div>
            </div>
            <div class="product-addtocart-section">
                <strong class="product-quantity-selector-label">Quantità</strong>
                <form action="<%=request.getContextPath()%>/Cart" method="post"  style="margin-bottom: 0;">
                    <div class="product-quantity-selector">
+                       <div class="product-selector-quantity">
 
                         <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
                         <input type="hidden" name="callerPage" value="Cart">
-                        <button class="quantity-selector-button-decrese" type="button">
+                        <button class="quantity-selector-button-decrease" type="button">
                             <i class="fa fa-minus"></i>
                         </button>
                         <input class="quantity-selector-input" onblur="quantity_limit()" type="number" name="quantityToAdd" step="1" value="1" size="3">
                         <button class="quantity-selector-button-increase" type="button">
                             <i class="fa fa-plus"></i>
                         </button>
-
+                       </div>
                    </div>
                    <div class="product-addtocart">
                        <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
@@ -77,7 +80,7 @@
 <script>
 
     let plus_b=document.querySelectorAll('.quantity-selector-button-increase');
-    let minus_b=document.querySelectorAll('.quantity-selector-button-decrese');
+    let minus_b=document.querySelectorAll('.quantity-selector-button-decrease');
     let quantity=document.querySelectorAll('.quantity-selector-input');
 
     plus_b.forEach(btn=>{
