@@ -31,9 +31,9 @@
                    <span class="product-price-value"><%=p.getPrezzo()%></span>
                </div>
            </div>
-           <div class="product-addtocart-section">
-               <strong class="product-quantity-selector-label">Quantità</strong>
-               <form action="<%=request.getContextPath()%>/Cart" method="post"  style="margin-bottom: 0;">
+           <form action="<%=request.getContextPath()%>/Cart" method="post"  style="margin-bottom: 0;">
+               <div class="product-addtocart-section">
+                   <strong class="product-quantity-selector-label">Quantità</strong>
                    <div class="product-quantity-selector">
                        <div class="product-selector-quantity">
 
@@ -51,8 +51,8 @@
                    <div class="product-addtocart">
                        <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
                    </div>
-               </form>
-           </div>
+                </div>
+           </form>
        </section>
        <ul class="product-details-general-info">
           <li>
@@ -65,12 +65,20 @@
             <h2>Info sul prodotto</h2>
         </header>
         <section class="product-tab-content">
-            <div class="product-info-header">StudentSupps <%=p.getNome()%></div>
-            <div class="product-info-description">
-                <p><%=p.getDescrizione()%></p>
+            <div class="product-tab-content-info">
+                <div class="product-info-header" onclick="openTabContent('Info')" >
+                    StudentSupps <%=p.getNome()%>
+                    <i class="fa fa-caret-down" ></i>
+                </div>
+                <div class="product-info-description" style="height:0px" id="tab-content-Info">
+                    <p><%=p.getDescrizione()%></p>
+                </div>
             </div>
-            <div class="prduct-review-header"></div>
-            <div class="product-review-content"></div>
+            <div class="product-tab-content-review">
+                <div class="product-review-header" onclick="openTabContent('Review')"></div>
+                <div class="product-review-content" style="height:0px" id="tab-content-Review"></div>
+            </div>
+
         </section>
     </section>
 </main>
@@ -116,6 +124,14 @@
             event.preventDefault();
             formEl.submit();
         }
+    }
+
+    function openTabContent(x){
+        let navlink=document.getElementById("tab-content-"+x);
+        if (navlink.style.height==="0px")
+            navlink.style.height="auto";
+        else
+            navlink.style.height="0px";
     }
 </script>
 </body>
