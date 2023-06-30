@@ -460,23 +460,31 @@ input[type=number] {
     width: 100%;
 }
 
-.form-field-multipleCheckbox {
+.form-field-multipleCheckbox, .form-field-multipleRadio {
     cursor: pointer;
     width: max-content;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 600;
 }
 
-.form-field-nav-checkbox {
+.form-field-nav-checkbox, .form-field-nav-radio {
     list-style: none;
     padding: 0;
-    margin-left: 20px;
+    margin: 8px 0 8px 20px;
     overflow: hidden;
 }
-.form-field-checkbox {
+.form-field-checkbox, .form-field-radio {
     display: inline-block;
     width: 12em;
     margin-bottom: 10px;
+}
+
+.form-botBorder {
+    border-bottom: #737373 1px solid;
+}
+
+.form-field-navEmpty {
+    margin-right: 20px;
 }
 /* Forms */
 

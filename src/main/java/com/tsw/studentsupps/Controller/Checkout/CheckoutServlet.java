@@ -18,6 +18,18 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session= request.getSession();
+        Utente user= (Utente) session.getAttribute("Utente");
+
+        if(user == null) {
+            response.sendRedirect(request.getContextPath()+"/Login");
+            return;
+        }
+        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
+            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
 
         Carrello cart;
         if(session.getAttribute("Cart")==null) {

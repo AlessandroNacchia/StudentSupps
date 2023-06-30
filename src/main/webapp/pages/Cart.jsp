@@ -69,7 +69,6 @@
                             </div>
                             <div class="cart-products-colProduct">
                                 <h3><a href="Shop/Prodotto?prodName=<%=p.getNome()%>"><%=p.getNome()%></a></h3>
-                                <div class="cart-products-colProduct-descr"><%=p.getDescrizione()%></div>
                                 <div class="cart-products-colProduct-remove">
                                     <form action="Cart" method="post" style="margin-bottom: 0;">
                                         <input type="hidden" name="prodToRemove" value="<%=p.getId()%>">

@@ -81,7 +81,7 @@
                         </ul>
                     </div>
 
-                    <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiorna</button>
+                    <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
                 </form>
             </section>
         </div>
