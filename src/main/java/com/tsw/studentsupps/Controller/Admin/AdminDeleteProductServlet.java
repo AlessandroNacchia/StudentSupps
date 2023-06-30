@@ -1,9 +1,8 @@
 package com.tsw.studentsupps.Controller.Admin;
 
+import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.Prodotto;
 import com.tsw.studentsupps.Model.ProdottoDAO;
-import com.tsw.studentsupps.Model.Utente;
-import com.tsw.studentsupps.Model.UtenteDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,21 +19,11 @@ import java.util.UUID;
 public class AdminDeleteProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utente user= (Utente) request.getSession().getAttribute("Utente");
-        if(user == null || !user.isAdmin()) {
-            response.sendRedirect(request.getContextPath()+'/');
-            return;
-        }
+        if(Checks.adminCheck(request, response)) return;
 
         String prodToDeleteId= request.getParameter("id");
         if(!UUID.fromString(prodToDeleteId).toString().equals(prodToDeleteId)) {
             request.setAttribute("errorMessage", "UUID non valido");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
-        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
-            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return;

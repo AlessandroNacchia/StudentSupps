@@ -53,10 +53,15 @@
                                             <%=ind.getVia()%>, <%=ind.getCitta()%>, <%=ind.getProvincia()%>, <%=ind.getCAP()%>, <%=ind.getNazione()%>,
                                             Numero di telefono: <%=ind.getNumeroTel()%>
                                         </label>
+                                        <a href="<%=request.getContextPath()%>/Cart/Checkout/DeleteAddress?<%=ind.getId()%>"
+                                           class="buttonPrimary buttonSecondary buttonHover" style="width: max-content"
+                                           onclick="return confirm('Vuoi davvero eliminare questo indirizzo?')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     </li>
                                 <%}
                             }%>
-                            <a href="Cart/Checkout/AddAddress" class="buttonPrimary buttonSecondary buttonHover">Aggiungi indirizzo</a>
+                            <a href="<%=request.getContextPath()%>/Cart/Checkout/AddAddress" class="buttonPrimary buttonSecondary buttonHover">Aggiungi indirizzo</a>
                         </ul>
                     </div>
                     <div class="form-field form-botBorder">
@@ -83,10 +88,15 @@
                                             <%LocalDate date= mp.getDataScadenza().toLocalDate();%>
                                             Data di scadenza: <%=date.getMonthValue()%>/<%=date.getYear()%>
                                         </label>
+                                        <a href="<%=request.getContextPath()%>/Cart/Checkout/DeletePayMethod?<%=mp.getId()%>"
+                                           class="buttonPrimary buttonSecondary buttonHover" style="width: max-content"
+                                           onclick="return confirm('Vuoi davvero eliminare questo metodo di pagamento?')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     </li>
                                 <%}
                             }%>
-                            <a href="Cart/Checkout/AddPayMethod" class="buttonPrimary buttonSecondary buttonHover">Aggiungi metodo di pagamento</a>
+                            <a href="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" class="buttonPrimary buttonSecondary buttonHover">Aggiungi metodo di pagamento</a>
                         </ul>
                     </div>
                     <button class="buttonPrimary buttonHover" type="submit">Completa l'acquisto</button>

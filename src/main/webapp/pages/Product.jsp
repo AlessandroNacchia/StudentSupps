@@ -1,5 +1,5 @@
 <%@ page import="com.tsw.studentsupps.Model.*" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <title>Prodotto | StudentSupps</title>
@@ -69,7 +69,7 @@
             <div class="product-tab-content-info">
                 <div class="product-info-header" onclick="openTabContent('Info')" >
                     StudentSupps <%=p.getNome()%>
-                    <i class="fa fa-caret-down" ></i>
+                    <i class="fa fa-caret-down" style="float: right"></i>
                 </div>
                 <div class="product-info-description" style="height:0px" id="tab-content-Info">
                     <p><%=p.getDescrizione()%></p>
@@ -94,13 +94,13 @@
 
     plus_b.forEach(btn=>{
         btn.addEventListener('click', ()=>{
-            btn.previousElementSibling.value = (btn.previousElementSibling.value == 99) ? 99 : ++btn.previousElementSibling.value;
+            btn.previousElementSibling.firstElementChild.value = (btn.previousElementSibling.firstElementChild.value === '99') ? 99 : ++btn.previousElementSibling.firstElementChild.value;
         })
     })
 
     minus_b.forEach(btn=>{
         btn.addEventListener('click', ()=>{
-            btn.nextElementSibling.value = (btn.nextElementSibling.value == 0) ? 0 : btn.nextElementSibling.value - 1;
+            btn.nextElementSibling.firstElementChild.value = (btn.nextElementSibling.firstElementChild.value === '0') ? 0 : btn.nextElementSibling.firstElementChild.value - 1;
         })
     })
 

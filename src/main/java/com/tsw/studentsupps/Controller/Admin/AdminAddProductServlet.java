@@ -1,5 +1,6 @@
 package com.tsw.studentsupps.Controller.Admin;
 
+import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -24,17 +25,7 @@ import java.nio.file.Files;
 public class AdminAddProductServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utente user= (Utente) request.getSession().getAttribute("Utente");
-        if(user == null || !user.isAdmin()) {
-            response.sendRedirect(request.getContextPath()+'/');
-            return;
-        }
-        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
-            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
+        if(Checks.adminCheck(request, response)) return;
 
         RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Admin/AddProduct.jsp");
         dispatcher.forward(request, response);
@@ -42,17 +33,7 @@ public class AdminAddProductServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utente user = (Utente) request.getSession().getAttribute("Utente");
-        if(user == null || !user.isAdmin()) {
-            response.sendRedirect(request.getContextPath()+'/');
-            return;
-        }
-        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
-            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
+        if(Checks.adminCheck(request, response)) return;
 
         if(ProdottoDAO.doExistsByName(request.getParameter("name"))) {
             request.setAttribute("addProductStatus", "nameTaken");

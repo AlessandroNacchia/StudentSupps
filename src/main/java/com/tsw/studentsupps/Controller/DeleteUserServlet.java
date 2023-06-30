@@ -1,5 +1,6 @@
 package com.tsw.studentsupps.Controller;
 
+import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.Utente;
 import com.tsw.studentsupps.Model.UtenteDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -16,7 +17,8 @@ import java.util.UUID;
 public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utente callingUser= (Utente) request.getSession().getAttribute("Utente");
+        if(Checks.userCheck(request, response)) return;
+
         String userToDeleteId= request.getParameter("id");
         if(!UUID.fromString(userToDeleteId).toString().equals(userToDeleteId)) {
             request.setAttribute("errorMessage", "UUID non valido");
@@ -32,15 +34,10 @@ public class DeleteUserServlet extends HttpServlet {
             dispatcher.forward(request,response);
             return;
         }
-        if(callingUser == null || (!callingUser.isAdmin() && !userToDelete.getId().equals(callingUser.getId())) ) {
-            response.sendRedirect(request.getContextPath()+'/');
-            return;
-        }
 
-        if(!callingUser.equals(UtenteDAO.doRetrieveById(callingUser.getId()))) {
-            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
+        Utente callingUser= (Utente) request.getSession().getAttribute("Utente");
+        if(!callingUser.isAdmin() && !userToDelete.getId().equals(callingUser.getId()) ) {
+            response.sendRedirect(request.getContextPath()+'/');
             return;
         }
 

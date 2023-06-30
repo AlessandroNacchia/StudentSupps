@@ -1,5 +1,6 @@
 package com.tsw.studentsupps.Controller.Checkout;
 
+import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -17,20 +18,9 @@ import java.util.List;
 public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(Checks.userCheck(request, response)) return;
+
         HttpSession session= request.getSession();
-        Utente user= (Utente) session.getAttribute("Utente");
-
-        if(user == null) {
-            response.sendRedirect(request.getContextPath()+"/Login");
-            return;
-        }
-        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
-            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
-
         Carrello cart;
         if(session.getAttribute("Cart")==null) {
             cart= new Carrello();

@@ -1,5 +1,6 @@
 package com.tsw.studentsupps.Controller.Admin;
 
+import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.Utente;
 import com.tsw.studentsupps.Model.UtenteDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -16,20 +17,15 @@ import java.util.UUID;
 public class AdminEditUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utente user= (Utente) request.getSession().getAttribute("Utente");
+        if(Checks.adminCheck(request,response)) return;
+
         String id= request.getParameter("id");
-        if(user == null || !user.isAdmin() || id == null || !UUID.fromString(id).toString().equals(id)) {
+        if(id == null || !UUID.fromString(id).toString().equals(id)) {
             response.sendRedirect(request.getContextPath()+'/');
             return;
         }
-        if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
-            request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
 
-        Utente u= UtenteDAO.doRetrieveById(request.getParameter("id"));
+        Utente u= UtenteDAO.doRetrieveById(id);
         if(u == null) {
             request.setAttribute("errorMessage", "Utente da modificare non esistente");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
