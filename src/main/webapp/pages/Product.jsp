@@ -69,7 +69,7 @@
             <div class="product-tab-content-info">
                 <div class="product-info-header" onclick="openTabContent('Info')" >
                     StudentSupps <%=p.getNome()%>
-                    <i class="fa fa-caret-down" style="float: right"></i>
+                    <i class="fa fa-caret-down" ></i>
                 </div>
                 <div class="product-info-description" style="height:0px" id="tab-content-Info">
                     <p><%=p.getDescrizione()%></p>
