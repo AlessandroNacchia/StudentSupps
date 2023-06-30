@@ -36,16 +36,17 @@
                    <strong class="product-quantity-selector-label">Quantità</strong>
                    <div class="product-quantity-selector">
                        <div class="product-selector-quantity">
-
-                        <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
-                        <input type="hidden" name="callerPage" value="Cart">
-                        <button class="quantity-selector-button-decrease" type="button">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                        <input class="quantity-selector-input" onblur="quantity_limit()" type="number" name="quantityToAdd" step="1" value="1" size="3">
-                        <button class="quantity-selector-button-increase" type="button">
-                            <i class="fa fa-plus"></i>
-                        </button>
+                           <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
+                           <input type="hidden" name="callerPage" value="Cart">
+                           <button class="quantity-selector-button-decrease" type="button">
+                               <i class="fa fa-minus"></i>
+                           </button>
+                           <label>
+                               <input class="quantity-selector-input" onblur="quantity_limit()" type="number" name="quantityToAdd" step="1" value="1" size="3">
+                           </label>
+                           <button class="quantity-selector-button-increase" type="button">
+                               <i class="fa fa-plus"></i>
+                           </button>
                        </div>
                    </div>
                    <div class="product-addtocart">

@@ -27,19 +27,21 @@
                 Conferma acquisto
             </h1>
             <section class="checkout-section">
+                <h2 class="checkout-subtitle">Dati ordine</h2>
                 <form action="<%=request.getContextPath()%>/Cart/Checkout" method="post" style="margin:0">
                     <div class="form-field form-botBorder">
                         <div class="form-field-multipleRadio" onclick="openRadios('Indirizzi')">
-                            Indirizzi
-                            <i class="fa fa-caret-down" ></i>
+                            <h3 style="display: inline;">Indirizzi</h3>
+                            <i class="fa fa-caret-down" style="float: right;"></i>
                         </div>
                         <ul class="form-field-nav-radio" style="height:0px" id="navRadioIndirizzi">
                             <%List<Indirizzo> indList= IndirizzoDAO.doRetrieveByUserId(user.getId());
                             if(indList.size() == 0) {%>
                                 <div class="form-field-navEmpty">
-                                    <h3>Non hai nessun indirizzo salvato!</h3>
-                                    <input type="hidden" oninvalid="this.setCustomValidity('Devi aggiungere un indirizzo!')" required>
-                                    <a href="Cart/Checkout/AddAddress" class="buttonPrimary buttonHover">Aggiungi indirizzo</a>
+                                    <h4 style="margin-bottom: 5px;">Non hai nessun indirizzo salvato!</h4>
+                                    <label>
+                                        <input class="hiddenInput" oninvalid="this.setCustomValidity('Devi aggiungere un indirizzo!')" required>
+                                    </label>
                                 </div>
                             <%} else {
                                 for(Indirizzo ind: indList) {%>
@@ -53,20 +55,22 @@
                                     </li>
                                 <%}
                             }%>
+                            <a href="Cart/Checkout/AddAddress" class="buttonPrimary buttonSecondary buttonHover">Aggiungi indirizzo</a>
                         </ul>
                     </div>
                     <div class="form-field form-botBorder">
                         <div class="form-field-multipleRadio" onclick="openRadios('MetodiPagamento')">
-                            Metodi di pagamento
-                            <i class="fa fa-caret-down" ></i>
+                            <h3 style="display: inline;">Metodi di pagamento</h3>
+                            <i class="fa fa-caret-down" style="float: right;"></i>
                         </div>
                         <ul class="form-field-nav-radio" style="height:0px" id="navRadioMetodiPagamento">
                             <%List<Metodopagamento> mpList= MetodopagamentoDAO.doRetrieveByUserId(user.getId());
                             if(mpList.size() == 0) {%>
                                 <div class="form-field-navEmpty">
-                                    <h3>Non hai nessun metodo di pagamento salvato!</h3>
-                                    <input type="hidden" oninvalid="this.setCustomValidity('Devi aggiungere un indirizzo!')" required>
-                                    <a href="Cart/Checkout/AddPayMethod" class="buttonPrimary buttonHover">Aggiungi metodo di pagamento</a>
+                                    <h4 style="margin-bottom: 5px;">Non hai nessun metodo di pagamento salvato!</h4>
+                                    <label>
+                                        <input class="hiddenInput" oninvalid="this.setCustomValidity('Devi aggiungere un metodo di pagamento!')" required>
+                                    </label>
                                 </div>
                             <%} else {
                                 for(Metodopagamento mp: mpList) {%>
@@ -81,12 +85,38 @@
                                     </li>
                                 <%}
                             }%>
+                            <a href="Cart/Checkout/AddPayMethod" class="buttonPrimary buttonSecondary buttonHover">Aggiungi metodo di pagamento</a>
                         </ul>
                     </div>
+                    <button class="buttonPrimary buttonHover" type="submit">Completa l'acquisto</button>
                 </form>
             </section>
             <section class="checkout-section">
+                <h2 class="checkout-subtitle">Riassunto ordine</h2>
+                <div>
 
+                </div>
+                <div class="cart-summary">
+                    <header class="cart-summary-head">
+                        <span>Riassunto</span>
+                        <span><%=productsList.size()%> Prodotti</span>
+                    </header>
+                    <div class="cart-summary-item">
+                        <span>Totale parziale</span>
+                        <span><%=cart.getTotale()%>&nbsp;€</span>
+                    </div>
+                    <div class="cart-summary-item">
+                            <span>
+                                Spedizione
+                                <span class="cart-summary-itemDescription">(3-5 Giorni Lavorativi)</span>
+                            </span>
+                        <span>Gratis</span>
+                    </div>
+                    <div class="cart-summary-item cart-summary-total">
+                        <span>Totale</span>
+                        <span><%=cart.getTotale()%>&nbsp;€</span>
+                    </div>
+                </div>
             </section>
         </main>
     <%}%>

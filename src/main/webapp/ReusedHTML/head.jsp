@@ -151,7 +151,9 @@
             <li>
                 <div class="search-container">
                     <form action="<%=sitePath%>/Search" style="margin-bottom: 0">
-                        <input type="text" placeholder="Cerca..." name="search" class="searchField">
+                        <label>
+                            <input type="text" placeholder="Cerca..." name="search" class="searchField">
+                        </label>
                         <button type="submit" value="Cerca" class="searchBtn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>

@@ -42,7 +42,7 @@ figure {
     margin: 0;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
     margin: 0;
 }
 
@@ -78,6 +78,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
     -moz-appearance:textfield;
+}
+
+.hiddenInput {
+    width: 0;
+    opacity: 0;
+    height: 0;
+    cursor: default;
 }
 /* General CSS */
 
@@ -462,7 +469,7 @@ input[type=number] {
 
 .form-field-multipleCheckbox, .form-field-multipleRadio {
     cursor: pointer;
-    width: max-content;
+    width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 600;
 }
@@ -470,7 +477,7 @@ input[type=number] {
 .form-field-nav-checkbox, .form-field-nav-radio {
     list-style: none;
     padding: 0;
-    margin: 8px 0 8px 20px;
+    margin: 8px 20px;
     overflow: hidden;
 }
 .form-field-checkbox, .form-field-radio {

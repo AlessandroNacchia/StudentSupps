@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="form-field">
-                        <div class="form-field-multipleCheckbox" onclick="openCheckboxs('Categorie')">
+                        <div class="form-field-multipleCheckbox" style="width: max-content" onclick="openCheckboxs('Categorie')">
                             Categorie
                             <i class="fa fa-caret-down" ></i>
                         </div>
