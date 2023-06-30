@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="java.math.BigDecimal" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -93,9 +94,30 @@
             </section>
             <section class="checkout-section">
                 <h2 class="checkout-subtitle">Riassunto ordine</h2>
-                <div>
+                <section>
+                    <%for (String prodId: productsList) {
+                        Prodotto p= ProdottoDAO.doRetrieveById(prodId);
+                        int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodId);%>
 
-                </div>
+                        <div class="checkout-summary-product">
+                            <div class="checkout-summary-productImage">
+                                <picture>
+                                    <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                </picture>
+                            </div>
+                            <div class="checkout-summary-productInfo">
+                                <div class="checkout-summary-productInfo-name"><%=p.getNome()%></div>
+                                <div class="checkout-summary-productInfo-price">
+                                    <span><%=(BigDecimal.valueOf(p.getPrezzo()).multiply(BigDecimal.valueOf(quantita))).doubleValue()%>&nbsp;€</span>
+                                    <span style="float: right;">(Prezzo singolo: <%=p.getPrezzo()%>&nbsp;€)</span>
+                                </div>
+                                <div class="checkout-summary-productInfo-quantity">
+                                    <span>Quantità: <%=quantita%></span>
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+                </section>
                 <div class="cart-summary">
                     <header class="cart-summary-head">
                         <span>Riassunto</span>
@@ -106,10 +128,10 @@
                         <span><%=cart.getTotale()%>&nbsp;€</span>
                     </div>
                     <div class="cart-summary-item">
-                            <span>
-                                Spedizione
-                                <span class="cart-summary-itemDescription">(3-5 Giorni Lavorativi)</span>
-                            </span>
+                        <span>
+                            Spedizione
+                            <span class="cart-summary-itemDescription">(3-5 Giorni Lavorativi)</span>
+                        </span>
                         <span>Gratis</span>
                     </div>
                     <div class="cart-summary-item cart-summary-total">

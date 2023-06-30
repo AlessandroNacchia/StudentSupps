@@ -71,3 +71,38 @@
     font-weight: 600;
     padding-top: 25px;
 }
+
+.checkout-summary-product {
+    border-bottom: 1px solid #737373;
+    margin: 20px 0;
+    overflow: hidden;
+    padding-bottom: 20px;
+}
+.checkout-summary-product:last-child {
+    border: 0;
+    padding: 0;
+}
+
+.checkout-summary-productImage {
+    background: #1d2021;
+    float: left;
+    width: 100px;
+}
+
+.checkout-summary-productInfo {
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: 150px;
+}
+.checkout-summary-productInfo-name {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+.checkout-summary-productInfo-price, .checkout-summary-productInfo-quantity {
+    font-weight: 600;
+    flex-basis: 100%;
+}
+.checkout-summary-productInfo-quantity {
+    margin-top: 15px;
+}
