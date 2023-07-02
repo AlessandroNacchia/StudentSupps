@@ -69,7 +69,7 @@
                             <h3 style="display: inline;">Metodi di pagamento</h3>
                             <i class="fa fa-caret-down" style="float: right;"></i>
                         </div>
-                        <ul class="form-field-nav-radio" style="height:0px" id="navRadioMetodiPagamento">
+                        <ul class="form-field-nav-radio gridWithTrash" style="height:0px" id="navRadioMetodiPagamento">
                             <%List<Metodopagamento> mpList= MetodopagamentoDAO.doRetrieveByUserId(user.getId());
                             if(mpList.isEmpty()) {%>
                                 <div class="form-field-navEmpty">
@@ -85,18 +85,18 @@
                                                name="payMethod" type="radio" value="<%=mp.getId()%>" required>
                                         <label class="form-field-label" style="display: inline; margin-left: 5px;" for="payMethod<%=mp.getId()%>">
                                             <%=mp.getProvider()%>, termina con <%=mp.getLastDigits()%>
-                                            <%LocalDate date= mp.getDataScadenza().toLocalDate();%>
+                                            <%LocalDate date= mp.getDataScadenza().toLocalDate();%><br>
                                             Data di scadenza: <%=date.getMonthValue()%>/<%=date.getYear()%>
                                         </label>
-                                        <a href="<%=request.getContextPath()%>/Cart/Checkout/DeletePayMethod?<%=mp.getId()%>"
-                                           class="buttonPrimary buttonSecondary buttonHover" style="width: max-content"
-                                           onclick="return confirm('Vuoi davvero eliminare questo metodo di pagamento?')">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
                                     </li>
+                                    <a href="<%=request.getContextPath()%>/Cart/Checkout/DeletePayMethod?id=<%=mp.getId()%>"
+                                       class="buttonPrimary buttonSecondary buttonHover trashButton"
+                                       onclick="return confirm('Vuoi davvero eliminare questo metodo di pagamento?')">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 <%}
                             }%>
-                            <a href="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" class="buttonPrimary buttonSecondary buttonHover">Aggiungi metodo di pagamento</a>
+                            <a href="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" class="buttonPrimary buttonSecondary buttonHover gridWithTrash-submit">Aggiungi metodo di pagamento</a>
                         </ul>
                     </div>
                     <button class="buttonPrimary buttonHover" type="submit">Completa l'acquisto</button>

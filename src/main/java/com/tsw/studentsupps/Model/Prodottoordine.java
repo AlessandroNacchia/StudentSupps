@@ -11,7 +11,7 @@ public class Prodottoordine {
     }
 
     public void setNome_prodotto(String nome_prodotto) {
-        if(nome_prodotto.matches("^[a-zA-Z0-9\\s]*$"))
+        if(nome_prodotto.matches("^[\\w\\-. ]{2,50}$"))
             this.nome_prodotto= nome_prodotto;
     }
 
@@ -38,7 +38,7 @@ public class Prodottoordine {
     }
 
     public void setIVA_acquisto(short IVA_acquisto) {
-        if(IVA_acquisto>=0)
+        if(IVA_acquisto>=0 && IVA_acquisto<=100)
             this.IVA_acquisto = IVA_acquisto;
     }
 }

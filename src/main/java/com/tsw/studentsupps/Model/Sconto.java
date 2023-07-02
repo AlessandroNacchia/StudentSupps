@@ -24,7 +24,8 @@ public class Sconto {
         return nome;
     }
     public void setNome(String nome) {
-        this.nome = nome;
+        if(nome.matches("^[a-zA-Z0-9\\-\\s]{2,50}$"))
+            this.nome = nome;
     }
 
     public int getPercentuale() {

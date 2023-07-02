@@ -24,7 +24,8 @@ public class Indirizzo {
     }
 
     public void setNazione(String nazione) {
-        this.nazione = nazione;
+        if(nazione.matches("^[a-zA-Z0-9\\-\\s]{2,60}$"))
+            this.nazione= nazione;
     }
 
     public String getProvincia() {
@@ -32,7 +33,8 @@ public class Indirizzo {
     }
 
     public void setProvincia(String provincia) {
-        this.provincia = provincia;
+        if(provincia.matches("^[a-zA-Z0-9\\-\\s]{2,60}$"))
+            this.provincia= provincia;
     }
 
     public String getCitta() {
@@ -40,7 +42,8 @@ public class Indirizzo {
     }
 
     public void setCitta(String citta) {
-        this.citta = citta;
+        if(citta.matches("^[a-zA-Z0-9\\-\\s]{2,60}$"))
+            this.citta= citta;
     }
 
     public String getCAP() {
@@ -57,7 +60,8 @@ public class Indirizzo {
     }
 
     public void setVia(String via) {
-        this.via = via;
+        if(via.matches("^.{2,100}$"))
+            this.via = via;
     }
 
     public String getNumeroTel() {

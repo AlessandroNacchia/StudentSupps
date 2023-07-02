@@ -24,7 +24,8 @@ public class Recensione {
     }
 
     public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
+        if(descrizione.matches("^.{2,1000}$"))
+            this.descrizione = descrizione;
     }
 
     public short getVoto() {
@@ -32,7 +33,7 @@ public class Recensione {
     }
 
     public void setVoto(short voto) {
-        if(voto>=0 && voto<=10)
+        if(voto>0 && voto<=5)
             this.voto = voto;
     }
 

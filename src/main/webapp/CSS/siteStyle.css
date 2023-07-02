@@ -27,7 +27,7 @@ a:hover {
     box-sizing: border-box;
 }
 
-button, input {
+button, input, textarea {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
@@ -498,6 +498,7 @@ input[type=number] {
     margin-bottom: 20px;
     margin-left: 12px;
     padding: 10px;
+    justify-self: end;
 }
 
 .gridWithTrash {

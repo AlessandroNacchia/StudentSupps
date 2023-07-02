@@ -149,7 +149,7 @@
                 let email= document.getElementById('emailSignup').value.toLowerCase();
                 let password= document.getElementById('passwordSignup1').value;
 
-                const nameRGX= /^[a-zA-Z\s]{2,30}$/;
+                const nameRGX= /^[a-zA-Z.\s]{2,30}$/;
                 const phoneRGX= /^([+]?[(]?[0-9]{1,3}[)]?[-\s])?([(]?[0-9]{3}[)]?[-\s]?)?([0-9][-\s]?){3,10}[0-9]$/;
                 const usernameRGX= /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
                 const emailRGX= /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;

@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Ordine {
     private String id;
     private double totale;
-    private Timestamp dataAquisto;
+    private Timestamp dataAcquisto;
     private Timestamp dataConsegna;
     private String stato;
 
@@ -17,12 +17,12 @@ public class Ordine {
             this.id = id;
     }
 
-    public Timestamp getDataAquisto() {
-        return dataAquisto;
+    public Timestamp getDataAcquisto() {
+        return dataAcquisto;
     }
 
-    public void setDataAquisto(Timestamp dataAquisto) {
-        this.dataAquisto = dataAquisto;
+    public void setDataAcquisto(Timestamp dataAcquisto) {
+        this.dataAcquisto = dataAcquisto;
     }
 
     public Timestamp getDataConsegna() {

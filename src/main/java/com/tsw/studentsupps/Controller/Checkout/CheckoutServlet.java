@@ -18,6 +18,10 @@ import java.util.List;
 public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("Utente") == null) {
+            response.sendRedirect(request.getContextPath()+"/Login");
+            return;
+        }
         if(Checks.userCheck(request, response)) return;
 
         HttpSession session= request.getSession();

@@ -12,7 +12,7 @@ public class Metodopagamento {
     private String provider;
     private String numeroHash;
     private String lastDigits;
-    private  Date dataScadenza;
+    private Date dataScadenza;
 
 
     public String getId() {
@@ -28,7 +28,8 @@ public class Metodopagamento {
     }
 
     public void setProvider(String provider) {
-        this.provider = provider;
+        if(provider.matches("^[a-zA-Z.\\s]{2,30}$"))
+            this.provider= provider;
     }
 
     public String getNumeroHash() {

@@ -50,11 +50,11 @@ public class MetodopagamentoDAO {
         }
 
     }
-    public static void doSave(Metodopagamento mp) {
+    public static void doSave(Metodopagamento mp, String userId) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO metodopagamento (id, provider, numeroHash, lastDigits, dataScadenza)" +
-                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?)");
+                    "INSERT INTO metodopagamento (id, provider, numeroHash, lastDigits, dataScadenza, id_utente)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,UUID_TO_BIN(?, 1))");
 
             UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
             ps.setString(1, randUUID.toString());
@@ -62,6 +62,7 @@ public class MetodopagamentoDAO {
             ps.setString(3, mp.getNumeroHash());
             ps.setString(4, mp.getLastDigits());
             ps.setDate(5, mp.getDataScadenza());
+            ps.setString(6, userId);
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
@@ -83,6 +84,34 @@ public class MetodopagamentoDAO {
             ps.setString(2, mp.getNumeroHash());
             ps.setString(3, mp.getLastDigits());
             ps.setDate(4, mp.getDataScadenza());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void doDelete(Metodopagamento mp) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM metodopagamento WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, mp.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void doRemoveUserId(Metodopagamento mp) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE metodopagamento SET id_utente= null " +
+                            "WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, mp.getId());
+
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }

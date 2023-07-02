@@ -38,14 +38,14 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="descrAdd">Descrizione</label>
-                        <input class="form-field-input" id="descrAdd" name="description" type="text" maxlength="250" autocomplete="off" required>
+                        <textarea class="form-field-input" style="height: auto; resize: none;" id="descrAdd" name="description" rows="5" maxlength="1000" autocomplete="off" required></textarea>
                         <div class="form-field-comment">
-                            Minimo 2 caratteri. Massimo 250 caratteri.
+                            Minimo 2 caratteri. Massimo 1000 caratteri.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="priceAdd">Prezzo</label>
-                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" step="0.01" autocomplete="off" required>
+                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" max="10000000" step="0.01" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 0. Massimo 10000000.
                         </div>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="quantityAdd">Quantità</label>
-                        <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" autocomplete="off" required>
+                        <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" max="10000000" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 0. Massimo 10000000.
                         </div>
@@ -93,7 +93,7 @@
             let descr= document.getElementById('descrAdd').value;
 
             const nameRGX= /^[\w\-. ]{2,50}$/;
-            const descrRGX= /^.{2,250}$/;
+            const descrRGX= /^.{2,1000}$/;
 
             if(!nameRGX.test(name)){
                 alert("Nome non valido!");

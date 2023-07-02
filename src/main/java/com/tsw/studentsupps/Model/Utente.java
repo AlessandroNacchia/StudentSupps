@@ -82,7 +82,7 @@ public class Utente {
         return nome;
     }
     public void setNome(String nome) {
-        if(nome.matches("^[a-zA-Z\\s]{2,30}$"))
+        if(nome.matches("^[a-zA-Z.\\s]{2,30}$"))
             this.nome= nome;
     }
 

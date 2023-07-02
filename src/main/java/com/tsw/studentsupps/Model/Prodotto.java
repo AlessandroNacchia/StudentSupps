@@ -22,14 +22,16 @@ public class Prodotto {
         return nome;
     }
     public void setNome(String nome) {
-        this.nome = nome;
+        if(nome.matches("^[\\w\\-. ]{2,50}$"))
+            this.nome = nome;
     }
 
     public String getDescrizione() {
         return descrizione;
     }
     public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
+        if(descrizione.matches("^.{2,1000}$"))
+            this.descrizione = descrizione;
     }
 
     public double getPrezzo() {
@@ -44,8 +46,8 @@ public class Prodotto {
         return IVA;
     }
     public void setIVA(short IVA) {
-        if(IVA>=0)
-            this.IVA = IVA;
+        if(IVA>=0 && IVA<=100)
+            this.IVA= IVA;
     }
 
     public int getQuantita() {

@@ -18,7 +18,7 @@ public class OrdineDAO {
             Ordine o= new Ordine();
             o.setId(rs.getString(1));
             o.setTotale(rs.getDouble(2));
-            o.setDataAquisto(rs.getTimestamp(3));
+            o.setDataAcquisto(rs.getTimestamp(3));
             o.setDataConsegna(rs.getTimestamp(4));
             o.setStato(rs.getString(5));
 
@@ -39,7 +39,7 @@ public class OrdineDAO {
                 Ordine o= new Ordine();
                 o.setId(rs.getString(1));
                 o.setTotale(rs.getDouble(2));
-                o.setDataAquisto(rs.getTimestamp(3));
+                o.setDataAcquisto(rs.getTimestamp(3));
                 o.setDataConsegna(rs.getTimestamp(4));
                 o.setStato(rs.getString(5));
 
@@ -65,7 +65,7 @@ public class OrdineDAO {
                 Ordine o= new Ordine();
                 o.setId(rs.getString(1));
                 o.setTotale(rs.getDouble(2));
-                o.setDataAquisto(rs.getTimestamp(3));
+                o.setDataAcquisto(rs.getTimestamp(3));
                 o.setDataConsegna(rs.getTimestamp(4));
                 o.setStato(rs.getString(5));
 
@@ -86,7 +86,7 @@ public class OrdineDAO {
             UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
             ps.setString(1, randUUID.toString());
             ps.setDouble(2, ord.getTotale());
-            ps.setTimestamp(3, ord.getDataAquisto());
+            ps.setTimestamp(3, ord.getDataAcquisto());
             ps.setTimestamp(4, ord.getDataConsegna());
             ps.setString(5, ord.getStato());
             if (ps.executeUpdate() != 1) {
@@ -107,7 +107,7 @@ public class OrdineDAO {
             ps.setString(5, ord.getId());
 
             ps.setDouble(1, ord.getTotale());
-            ps.setTimestamp(2, ord.getDataAquisto());
+            ps.setTimestamp(2, ord.getDataAcquisto());
             ps.setTimestamp(3, ord.getDataConsegna());
             ps.setString(4, ord.getStato());
             if (ps.executeUpdate() != 1) {

@@ -41,7 +41,7 @@ CREATE TABLE Indirizzo
     nazione			varchar(60)		NOT NULL,
     provincia		varchar(60)		NOT NULL,
     citta			varchar(60)		NOT NULL,
-    CAP				char(10)		NOT NULL,
+    CAP				varchar(10)		NOT NULL,
     via				varchar(100)	NOT NULL,
     numeroTel		varchar(24),
     
