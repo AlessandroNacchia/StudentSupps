@@ -275,28 +275,28 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="provinceAdd">Provincia</label>
-                        <input class="form-field-input" id="provinceAdd" name="province" type="text" maxlength="60" autocomplete="off" required>
+                        <input class="form-field-input" id="provinceAdd" name="province" type="text" maxlength="60" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 60 caratteri.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="cityAdd">Città</label>
-                        <input class="form-field-input" id="cityAdd" name="city" type="text" maxlength="60" autocomplete="off" required>
+                        <input class="form-field-input" id="cityAdd" name="city" type="text" maxlength="60" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 60 caratteri.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="CAPAdd">CAP</label>
-                        <input class="form-field-input" id="CAPAdd" name="CAP" type="text" maxlength="12" autocomplete="off" required>
+                        <label class="form-field-label" for="capAdd">CAP</label>
+                        <input class="form-field-input" id="capAdd" name="cap" type="text" maxlength="12" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 10 caratteri. Inserire 00000 in caso di CAP mancante.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="streetAdd">Via/Piazza</label>
-                        <input class="form-field-input" id="streetAdd" name="street" type="text" maxlength="100" autocomplete="off" required>
+                        <input class="form-field-input" id="streetAdd" name="street" type="text" maxlength="100" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 100 caratteri.
                         </div>
@@ -317,7 +317,7 @@
             let country= document.getElementById('countryAdd').value;
             let province= document.getElementById('provinceAdd').value;
             let city= document.getElementById('cityAdd').value;
-            let cap= document.getElementById('CAPAdd').value;
+            let cap= document.getElementById('capAdd').value;
             let street= document.getElementById('streetAdd').value;
             let phone= document.getElementById('phoneAdd').value;
 

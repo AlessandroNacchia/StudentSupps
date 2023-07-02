@@ -54,11 +54,11 @@ public class IndirizzoDAO {
         }
 
     }
-    public static void doSave(Indirizzo Ind) {
+    public static void doSave(Indirizzo Ind, String userId) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO indirizzo (id, nazione, provincia, citta, CAP, via, numeroTel)" +
-                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,?,?)");
+                    "INSERT INTO indirizzo (id, nazione, provincia, citta, CAP, via, numeroTel, id_utente)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,?,?, UUID_TO_BIN(?, 1))");
 
             UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
             ps.setString(1, randUUID.toString());
@@ -68,6 +68,7 @@ public class IndirizzoDAO {
             ps.setString(5, Ind.getCAP());
             ps.setString(6, Ind.getVia());
             ps.setString(7, Ind.getNumeroTel());
+            ps.setString(8, userId);
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
@@ -91,6 +92,34 @@ public class IndirizzoDAO {
             ps.setString(4, Ind.getCAP());
             ps.setString(5, Ind.getVia());
             ps.setString(6, Ind.getNumeroTel());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void doDelete(Indirizzo ind) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM indirizzo WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, ind.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void doRemoveUserId(Indirizzo Ind) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE indirizzo SET id_utente= null " +
+                            "WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, Ind.getId());
+
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }

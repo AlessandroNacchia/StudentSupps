@@ -11,23 +11,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @WebServlet("/UpdateUser")
 public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.userCheck(request, response)) return;
+        if(Checks.UUIDCheck(request, response)) return;
 
-        String userToUpdateId= request.getParameter("id");
-        if(!UUID.fromString(userToUpdateId).toString().equals(userToUpdateId)) {
-            request.setAttribute("errorMessage", "UUID non valido");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
-
-        Utente userToUpdate= UtenteDAO.doRetrieveById(userToUpdateId);
+        Utente userToUpdate= UtenteDAO.doRetrieveById(request.getParameter("id"));
         if(userToUpdate == null) {
             request.setAttribute("errorMessage", "Utente da aggiornare non esistente");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");

@@ -5,7 +5,6 @@ import com.fasterxml.uuid.Generators;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 public class OrdineDAO {        
@@ -52,6 +51,32 @@ public class OrdineDAO {
         }
 
     }
+
+    public static List<Ordine> doRetrieveByUserId(String userId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps= con.prepareStatement("" +
+                    "SELECT BIN_TO_UUID(id, 1), totale, dataAcquisto, dataConsegna, stato, id_mp, id_ind " +
+                    "FROM ordine WHERE id_utente= UUID_TO_BIN(?, 1)");
+            ps.setString(1, userId);
+            ResultSet rs= ps.executeQuery();
+
+            List<Ordine> ordList= new ArrayList<>();
+            while(rs.next()) {
+                Ordine o= new Ordine();
+                o.setId(rs.getString(1));
+                o.setTotale(rs.getDouble(2));
+                o.setDataAquisto(rs.getTimestamp(3));
+                o.setDataConsegna(rs.getTimestamp(4));
+                o.setStato(rs.getString(5));
+
+                ordList.add(o);
+            }
+            return ordList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void doSave(Ordine ord) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(

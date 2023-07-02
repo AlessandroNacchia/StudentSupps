@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class Checks {
     public static boolean userCheck(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -33,6 +34,17 @@ public class Checks {
         }
         if(!user.equals(UtenteDAO.doRetrieveById(user.getId()))) {
             request.setAttribute("errorMessage", "Dati Utente Session/DB non coincidenti");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean UUIDCheck(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String id= request.getParameter("id");
+        if(!UUID.fromString(id).toString().equals(id)) {
+            request.setAttribute("errorMessage", "UUID non valido");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return true;

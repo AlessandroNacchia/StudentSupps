@@ -11,23 +11,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @WebServlet("/DeleteUser")
 public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.userCheck(request, response)) return;
+        if(Checks.UUIDCheck(request, response)) return;
 
-        String userToDeleteId= request.getParameter("id");
-        if(!UUID.fromString(userToDeleteId).toString().equals(userToDeleteId)) {
-            request.setAttribute("errorMessage", "UUID non valido");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
-
-        Utente userToDelete= UtenteDAO.doRetrieveById(userToDeleteId);
+        Utente userToDelete= UtenteDAO.doRetrieveById(request.getParameter("id"));
         if(userToDelete == null) {
             request.setAttribute("errorMessage", "Utente da cancellare non esistente");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");

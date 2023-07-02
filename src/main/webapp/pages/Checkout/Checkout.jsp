@@ -35,9 +35,9 @@
                             <h3 style="display: inline;">Indirizzi</h3>
                             <i class="fa fa-caret-down" style="float: right;"></i>
                         </div>
-                        <ul class="form-field-nav-radio" style="height:0px" id="navRadioIndirizzi">
+                        <ul class="form-field-nav-radio gridWithTrash" style="height:0px; " id="navRadioIndirizzi">
                             <%List<Indirizzo> indList= IndirizzoDAO.doRetrieveByUserId(user.getId());
-                            if(indList.size() == 0) {%>
+                            if(indList.isEmpty()) {%>
                                 <div class="form-field-navEmpty">
                                     <h4 style="margin-bottom: 5px;">Non hai nessun indirizzo salvato!</h4>
                                     <label>
@@ -53,15 +53,15 @@
                                             <%=ind.getVia()%>, <%=ind.getCitta()%>, <%=ind.getProvincia()%>, <%=ind.getCAP()%>, <%=ind.getNazione()%>,
                                             Numero di telefono: <%=ind.getNumeroTel()%>
                                         </label>
-                                        <a href="<%=request.getContextPath()%>/Cart/Checkout/DeleteAddress?<%=ind.getId()%>"
-                                           class="buttonPrimary buttonSecondary buttonHover" style="width: max-content"
-                                           onclick="return confirm('Vuoi davvero eliminare questo indirizzo?')">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
                                     </li>
+                                    <a href="<%=request.getContextPath()%>/Cart/Checkout/DeleteAddress?id=<%=ind.getId()%>"
+                                       class="buttonPrimary buttonSecondary buttonHover trashButton"
+                                       onclick="return confirm('Vuoi davvero eliminare questo indirizzo?')">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 <%}
                             }%>
-                            <a href="<%=request.getContextPath()%>/Cart/Checkout/AddAddress" class="buttonPrimary buttonSecondary buttonHover">Aggiungi indirizzo</a>
+                            <a href="<%=request.getContextPath()%>/Cart/Checkout/AddAddress" class="buttonPrimary buttonSecondary buttonHover gridWithTrash-submit">Aggiungi indirizzo</a>
                         </ul>
                     </div>
                     <div class="form-field form-botBorder">
@@ -71,7 +71,7 @@
                         </div>
                         <ul class="form-field-nav-radio" style="height:0px" id="navRadioMetodiPagamento">
                             <%List<Metodopagamento> mpList= MetodopagamentoDAO.doRetrieveByUserId(user.getId());
-                            if(mpList.size() == 0) {%>
+                            if(mpList.isEmpty()) {%>
                                 <div class="form-field-navEmpty">
                                     <h4 style="margin-bottom: 5px;">Non hai nessun metodo di pagamento salvato!</h4>
                                     <label>

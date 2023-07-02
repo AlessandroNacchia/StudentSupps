@@ -482,8 +482,31 @@ input[type=number] {
 }
 .form-field-checkbox, .form-field-radio {
     display: inline-block;
+    margin-bottom: 15px;
+}
+.form-field-checkbox{
     width: 12em;
-    margin-bottom: 10px;
+}
+.form-field-radio{
+    margin-right: auto;
+}
+
+.trashButton {
+    width: max-content;
+    height: max-content;
+    float: right;
+    margin-bottom: 20px;
+    margin-left: 12px;
+    padding: 10px;
+}
+
+.gridWithTrash {
+    display: grid;
+    grid-template-areas: "main trash";
+}
+.gridWithTrash-submit {
+    grid-column-start: main;
+    grid-column-end: trash;
 }
 
 .form-botBorder {
