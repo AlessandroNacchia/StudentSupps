@@ -10,7 +10,8 @@
 </head>
 <body>
 <jsp:include page="/ReusedHTML/head.jsp"/>
-<%Prodotto p= (Prodotto) request.getAttribute("prodotto");%>
+<%Prodotto p= (Prodotto) request.getAttribute("prodotto");
+  Utente   u= (Utente)   request.getAttribute("Utente");%>
 <main class="product-page">
     <figure class="product-page-image">
         <div class="product-image-wrapper">
@@ -76,8 +77,35 @@
                 </div>
             </div>
             <div class="product-tab-content-review">
-                <div class="product-review-header" onclick="openTabContent('Review')"></div>
-                <div class="product-review-content" style="height:0px" id="tab-content-Review"></div>
+                <div class="product-review-header" onclick="openTabContent('Review')">
+                    Recensioni
+                    <i class="fa fa-caret-down" ></i>
+                </div>
+                <div class="product-review-content" style="height:0px" id="tab-content-Review">
+                    <%if(session.getAttribute("Utente")!= null){%>
+                    <button class="buttonPrimary buttonHover" type="submit" onclick="openTabContent('form-review')">Scrivi la tua recensione</button>
+                    <div id="tab-content-form-review"   style="height:0px">
+                        <form action="<%=request.getContextPath()%>/Shop/Prodotto/Review" method="post">
+                            <section class="form-field-review">
+                                <label class="form-field-label-review" for="authoradd"></label>
+                                <input class="form-field-input-review" id="authoradd" name="author" type="text" required>
+                            </section>
+                            <section class="form-field-review">
+                                <label class="form-field-label-review" for="stars"></label>
+                                <input class="form-field-input-review" id="stars" name="author" type="text" required>
+                            </section>
+                            <section class="form-field-review">
+                                <label class="form-field-label-review" for="description"></label>
+                                <input class="form-field-input-review" id="description" name="author" type="text" required>
+                            </section>
+                            <button class="buttonPrimary buttonHover" type="submit">Pubblica Recensione</button>
+
+                        </form>
+                    </div>
+
+                    <%}%>
+
+                </div>
             </div>
 
         </section>

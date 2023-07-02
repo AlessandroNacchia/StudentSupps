@@ -222,3 +222,23 @@ border-bottom: 1px solid #737373;
     color: #f1f1f1;
     overflow: hidden;
 }
+
+.product-tab-content-review{
+    border-bottom: 1px solid #737373;
+    overflow: hidden;
+}
+.product-review-header {
+    font-family: Galano Grotesque,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    margin: 0;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.product-review-content{
+    float: right;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
