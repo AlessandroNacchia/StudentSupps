@@ -48,7 +48,7 @@ public class Indirizzo {
     }
 
     public void setCAP(String CAP) {
-        if(CAP.matches("^[0-9]{5}$"))
+        if(CAP.matches("^[A-Z0-9\\-\\s]{2,10}$"))
             this.CAP= CAP;
     }
 

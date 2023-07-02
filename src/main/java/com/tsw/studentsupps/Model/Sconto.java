@@ -5,6 +5,7 @@ import java.util.UUID;
 public class Sconto {
 
     private String id;
+    private String nome;
     private short percentuale;
     private boolean stato;
     private Timestamp dataInizio;
@@ -17,6 +18,13 @@ public class Sconto {
     public void setId(String id) {
         if(UUID.fromString(id).toString().equals(id))
             this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public int getPercentuale() {

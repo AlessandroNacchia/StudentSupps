@@ -38,11 +38,11 @@ CREATE TABLE MetodoPagamento
 CREATE TABLE Indirizzo
 (
 	id 			 	binary(16)	 	DEFAULT (UUID_TO_BIN(UUID(), 1)) PRIMARY KEY,
-    nazione			varchar(30)		NOT NULL,
-    provincia		varchar(30)		NOT NULL,
-    citta			varchar(30)		NOT NULL,
-    CAP				char(5)			NOT NULL,
-    via				varchar(60)		NOT NULL,
+    nazione			varchar(60)		NOT NULL,
+    provincia		varchar(60)		NOT NULL,
+    citta			varchar(60)		NOT NULL,
+    CAP				char(10)		NOT NULL,
+    via				varchar(100)	NOT NULL,
     numeroTel		varchar(24),
     
     id_utente		binary(16),
@@ -56,7 +56,6 @@ CREATE TABLE Ordine
     dataAcquisto	datetime		NOT NULL,
     dataConsegna	datetime		NOT NULL,
     stato			varchar(20)		NOT NULL,
-    
     id_utente		binary(16),
     id_mp			binary(16),
     id_ind			binary(16),
@@ -68,6 +67,7 @@ CREATE TABLE Ordine
 CREATE TABLE Sconto
 (
 	id				binary(16)	 		DEFAULT (UUID_TO_BIN(UUID(), 1)) PRIMARY KEY,
+	nome            varchar(50)         NOT NULL UNIQUE,
     percentuale		tinyint UNSIGNED 	NOT NULL,
     stato			boolean,
     dataInizio		datetime			NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE Prodotto
 (
 	id				binary(16)	 		DEFAULT (UUID_TO_BIN(UUID(), 1)) PRIMARY KEY,
     nome			varchar(50)			NOT NULL UNIQUE,
-    descrizione		varchar(250),
+    descrizione		varchar(1000),
     prezzo			decimal(10,2)		NOT NULL	CHECK(prezzo>=0),
     IVA				tinyint UNSIGNED 	NOT NULL,	
     quantita		int UNSIGNED 		NOT NULL,

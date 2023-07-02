@@ -46,34 +46,37 @@
                 <c:if test="${requestScope.signupStatus == 'emailTaken'}">
                     <p style="color: red">Email già usata!</p>
                 </c:if>
+                <c:if test="${requestScope.signupStatus == 'passwordsNotEqual'}">
+                    <p style="color: red">Le passwords non corrispondono!</p>
+                </c:if>
                 <form action="Signup" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="nameSignup">Nome</label>
-                        <input class="form-field-input" id="nameSignup" name="name" type="text" required>
+                        <input class="form-field-input" id="nameSignup" name="nameS" type="text" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="lastnameSignup">Cognome</label>
-                        <input class="form-field-input" id="lastnameSignup" name="lastname" type="text" required>
+                        <input class="form-field-input" id="lastnameSignup" name="lastnameS" type="text" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="phoneSignup">Numero di Telefono (Opzionale)</label>
-                        <input class="form-field-input" id="phoneSignup" name="phone" type="text">
+                        <input class="form-field-input" id="phoneSignup" name="phoneS" type="text">
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="usernameSignup">Username</label>
-                        <input class="form-field-input" id="usernameSignup" name="username" type="text" required>
+                        <input class="form-field-input" id="usernameSignup" name="usernameS" type="text" required>
                         <div class="form-field-comment">
                             Minimo 5 caratteri, Massimo 30 caratteri. Accetta lettere, numeri e trattino basso.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="emailSignup">Email</label>
-                        <input class="form-field-input" id="emailSignup" name="email" type="email" required>
+                        <input class="form-field-input" id="emailSignup" name="emailS" type="email" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="passwordSignup1">Password</label>
                         <div class="form-field-icon">
-                            <input class="form-field-input" id="passwordSignup1" name="password" type="password" minlength="8" autocomplete="off" required>
+                            <input class="form-field-input" id="passwordSignup1" name="passwordS" type="password" minlength="8" autocomplete="off" required>
                             <span class="password-eye" onclick="revealPassword('Signup1')"><i class="fa fa-eye" id="passEyeSignup1" title="Mostra Password"></i></span>
                         </div>
                         <div class="form-field-comment">
@@ -83,7 +86,7 @@
                     <div class="form-field">
                         <label class="form-field-label" for="passwordSignup2">Conferma Password</label>
                         <div class="form-field-icon">
-                            <input class="form-field-input" id="passwordSignup2" name="password" type="password" minlength="8" autocomplete="off" required>
+                            <input class="form-field-input" id="passwordSignup2" name="passwordS2" type="password" minlength="8" autocomplete="off" required>
                             <span class="password-eye" onclick="revealPassword('Signup2')"><i class="fa fa-eye" id="passEyeSignup2" title="Mostra Password"></i></span>
                         </div>
                         <div class="form-field-comment">

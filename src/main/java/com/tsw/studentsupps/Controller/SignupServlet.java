@@ -35,14 +35,20 @@ public class SignupServlet extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         }
+        if(!request.getParameter("passwordS").equals(request.getParameter("passwordS2"))) {
+            request.setAttribute("signupStatus", "passwordsNotEqual");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
 
         Utente u= new Utente();
-        u.setNome(request.getParameter("name"));
-        u.setCognome(request.getParameter("lastname"));
-        u.setNumeroTel(request.getParameter("phone"));
-        u.setUsername(request.getParameter("username"));
-        u.setEmail(request.getParameter("email"));
-        u.setPasswordHash(request.getParameter("password"));
+        u.setNome(request.getParameter("nameS"));
+        u.setCognome(request.getParameter("lastnameS"));
+        u.setNumeroTel(request.getParameter("phoneS"));
+        u.setUsername(request.getParameter("usernameS"));
+        u.setEmail(request.getParameter("emailS"));
+        u.setPasswordHash(request.getParameter("passwordS"));
 
         UtenteDAO.doSave(u);
         HttpSession session= request.getSession();
