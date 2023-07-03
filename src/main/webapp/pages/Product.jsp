@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/siteStyle.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/product.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/formContainer.css">
 </head>
 <body>
 <jsp:include page="/ReusedHTML/head.jsp"/>
@@ -83,25 +84,34 @@
                 </div>
                 <div class="product-review-content" style="height:0px" id="tab-content-Review">
                     <%if(session.getAttribute("Utente")!= null){%>
-                    <button class="buttonPrimary buttonHover" type="submit" onclick="openTabContent('form-review')">Scrivi la tua recensione</button>
-                    <div id="tab-content-form-review"   style="height:0px">
-                        <form action="<%=request.getContextPath()%>/Shop/Prodotto/Review" method="post">
-                            <section class="form-field-review">
-                                <label class="form-field-label-review" for="authoradd"></label>
-                                <input class="form-field-input-review" id="authoradd" name="author" type="text" required>
-                            </section>
-                            <section class="form-field-review">
-                                <label class="form-field-label-review" for="stars"></label>
-                                <input class="form-field-input-review" id="stars" name="author" type="text" required>
-                            </section>
-                            <section class="form-field-review">
-                                <label class="form-field-label-review" for="description"></label>
-                                <input class="form-field-input-review" id="description" name="author" type="text" required>
-                            </section>
-                            <button class="buttonPrimary buttonHover" type="submit">Pubblica Recensione</button>
+                    <header class="button-add-review" >
+                        <button class="buttonPrimary buttonHover" type="submit" onclick="openTabContentB('form-review')">Scrivi la tua recensione</button>
+                    </header>
+                    <div class="formContainer " id="tab-content-form-review"   style="height:0px; border: 0px solid #737373;">
+                        <h1 class="formContainer-title " style="text-align: center;">Scrivi qui i dettagli della tua recensione</h1>
+                        <div class="formContainer-wrapper" id="formContainer-wrapper-review" >
+                            <form action="<%=request.getContextPath()%>/Shop/Prodotto/Review" method="post">
+                                <section class="form-field">
+                                    <label class="form-field-label" for="authoradd">Autore</label>
+                                    <input class="form-field-input" id="authoradd" name="author" type="text" required>
+                                </section>
+                                <section class="form-field">
+                                    <label class="form-field-label" for="stars">Voto</label>
+                                    <input class="form-field-input" id="stars" name="stars" type="text" required>
+                                </section>
+                                <section class="form-field">
+                                    <label class="form-field-label" for="description">Descrizione</label>
+                                    <textarea class="form-field-input" style="height: auto; resize: none;" id="description" name="description" rows="5" maxlength="1000"  required></textarea>
+                                    <div class="form-field-comment">
+                                        Minimo 2 caratteri. Massimo 1000 caratteri.
+                                    </div>
+                                </section>
+                                <button class="buttonPrimary buttonHover" type="submit">Pubblica Recensione</button>
 
-                        </form>
+                            </form>
+                        </div>
                     </div>
+
 
                     <%}%>
 
@@ -162,6 +172,23 @@
         else
             navlink.style.height="0px";
     }
+
+    function openTabContentB(x){
+        let navlink=document.getElementById("tab-content-"+x);
+        if (navlink.style.height==="0px"){
+            navlink.style.height="auto";
+            navlink.style.border="1px solid #737373";
+        }
+
+        else{navlink.style.height="0px";
+            navlink.style.border="0px solid #737373";
+
+        }
+
+    }
+
+
+
 </script>
 </body>
 </html>

@@ -238,7 +238,18 @@ border-bottom: 1px solid #737373;
 }
 
 .product-review-content{
-    float: right;
     margin-bottom: 5px;
     overflow: hidden;
+}
+.button-add-review{
+    display: grid;
+    justify-content: end;
+}
+
+#tab-content-form-review{
+    overflow: hidden;
+}
+
+#formContainer-wrapper-review{
+    justify-content: space-around;
 }
