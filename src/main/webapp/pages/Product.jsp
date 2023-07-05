@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
@@ -12,7 +13,7 @@
 <body>
 <jsp:include page="/ReusedHTML/head.jsp"/>
 <%Prodotto p= (Prodotto) request.getAttribute("prodotto");
-  Utente   u= (Utente)   request.getAttribute("Utente");%>
+  Utente   u= (Utente)   session.getAttribute("Utente");%>
 <main class="product-page">
     <figure class="product-page-image">
         <div class="product-image-wrapper">
@@ -30,7 +31,7 @@
        <section class="product-cart-controls">
            <div class="product-price">
                <div class="product-price-primary">
-                   <span class="product-price-value"><%=p.getPrezzo()%></span>
+                   <span class="product-price-value"><%=p.getPrezzo()%>&nbsp;€</span>
                </div>
            </div>
            <form action="<%=request.getContextPath()%>/Cart" method="post"  style="margin-bottom: 0;">
@@ -83,30 +84,48 @@
                     <i class="fa fa-caret-down" ></i>
                 </div>
                 <div class="product-review-content" style="height:0px" id="tab-content-Review">
-                    <%if(session.getAttribute("Utente")!= null){%>
+                    <%if(u!= null){%>
                     <header class="button-add-review" >
-                        <button class="buttonPrimary buttonHover" type="submit" onclick="openTabContentB('form-review')">Scrivi la tua recensione</button>
+                        <button class="buttonPrimary buttonHover" id="button-review" type="submit" onclick="openTabContentB('form-review')">Scrivi la tua recensione</button>
                     </header>
-                    <div class="formContainer " id="tab-content-form-review"   style="height:0px; border: 0px solid #737373;">
+                    <div class="formContainer " id="tab-content-form-review"   style="height:0px; border: 0px solid #737373; margin:0px; padding:0px;">
                         <h1 class="formContainer-title " style="text-align: center;">Scrivi qui i dettagli della tua recensione</h1>
                         <div class="formContainer-wrapper" id="formContainer-wrapper-review" >
                             <form action="<%=request.getContextPath()%>/Shop/Prodotto/Review" method="post">
+                                <c:if test="${requestScope.reviewStatus=='autoreWrongPattern'}">
+                                    <p style="color:red">Pattern Autore Errato</p>
+                                </c:if>
+                                <c:if test="${requestScope.reviewStatus=='descrizioneWrongPattern'}">
+                                    <p style="color:red">Pattern Descrizione Errato</p>
+                                </c:if>
+                                <c:if test="${requestScope.reviewStatus=='votoWrongPattern'}">
+                                    <p style="color:red">Pattern Voto Errato</p>
+                                </c:if>
+
                                 <section class="form-field">
-                                    <label class="form-field-label" for="authoradd">Autore</label>
-                                    <input class="form-field-input" id="authoradd" name="author" type="text" required>
+                                    <label class="form-field-label" for="authoradd" style="justify-content: center" >Autore</label>
+                                    <input class="form-field-input" id="authoradd" name="author" readonly value="<%=u.getUsername()%>" autocomplete="off" type="text" >
                                 </section>
                                 <section class="form-field">
-                                    <label class="form-field-label" for="stars">Voto</label>
-                                    <input class="form-field-input" id="stars" name="stars" type="text" required>
+                                    <label class="form-field-label" style="justify-content: center" >Voto</label>
+                                    <div class="rating" >
+
+                                        <input id="rating-5" type="radio" name="rating" value="5"/><label for="rating-5"><i class=" fa fa-star"></i></label>
+                                        <input id="rating-4" type="radio" name="rating" value="4"/><label for="rating-4"><i class=" fa fa-star"></i></label>
+                                        <input id="rating-3" type="radio" name="rating" value="3"/><label for="rating-3"><i class=" fa fa-star"></i></label>
+                                        <input id="rating-2" type="radio" name="rating" value="2"/><label for="rating-2"><i class=" fa fa-star"></i></label>
+                                        <input id="rating-1" type="radio" name="rating" value="1" checked/><label for="rating-1"><i class="fa fa-star"></i></label>
+                                    </div>
                                 </section>
                                 <section class="form-field">
-                                    <label class="form-field-label" for="description">Descrizione</label>
-                                    <textarea class="form-field-input" style="height: auto; resize: none;" id="description" name="description" rows="5" maxlength="1000"  required></textarea>
+                                    <label class="form-field-label" style="justify-content: center"  for="description">Descrizione</label>
+                                    <textarea class="form-field-input" style="height: auto; resize: none;" id="description" name="description" rows="5" maxlength="1000" autocomplete="off" required></textarea>
                                     <div class="form-field-comment">
                                         Minimo 2 caratteri. Massimo 1000 caratteri.
                                     </div>
                                 </section>
-                                <button class="buttonPrimary buttonHover" type="submit">Pubblica Recensione</button>
+                                <input type="hidden" name="prodId" value="<%=p.getId()%>">
+                                <button class="buttonPrimary buttonHover" onclick="return (confermaParametri())"  type="submit">Pubblica Recensione</button>
 
                             </form>
                         </div>
@@ -122,7 +141,7 @@
     </section>
 </main>
 
-<jsp:include page="/ReusedHTML/tail.jsp"/>
+
 
 <script>
 
@@ -175,20 +194,60 @@
 
     function openTabContentB(x){
         let navlink=document.getElementById("tab-content-"+x);
+        let button=document.getElementById("button-review")
         if (navlink.style.height==="0px"){
             navlink.style.height="auto";
             navlink.style.border="1px solid #737373";
+            navlink.style.removeProperty("padding");
+            navlink.style.removeProperty("margin");
+            button.innerText="Annulla";
         }
 
         else{navlink.style.height="0px";
             navlink.style.border="0px solid #737373";
-
+            navlink.style.margin="0px";
+            navlink.style.padding="0px";
+            button.innerText="Scrivi la tua recensione";
         }
-
     }
 
+    function confermaParametri() {
+        let autore=document.getElementById("authoradd").value;
+        let voto=document.getElementsByName("rating");
+        let descr= document.getElementById('description').value;
 
+        const descrRGX= /^.{2,1000}$/;
+        const votoRGX= /^\d$/;
+
+        if (autore!=='<%=u.getUsername()%>'){
+            alert("Autore non valido!");
+            return false;
+        }
+
+        if(!descrRGX.test(descr)){
+            alert("Descrizione non valida!");
+            return false;
+        }
+
+        voto.forEach(v=>{
+            if(!votoRGX.test(v.value)){
+                alert("Voto non valido!");
+                return false;
+            }
+
+            if(v.value>5){
+                v.value=5;
+            }
+            if(v.value<1){
+                v.value=1;
+            }
+        })
+
+        return true;
+    }
 
 </script>
+
+<jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>
 </html>

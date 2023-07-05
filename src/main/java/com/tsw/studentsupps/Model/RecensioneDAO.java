@@ -49,17 +49,18 @@ public class RecensioneDAO {
         }
 
     }
-    public static void doSave(Recensione rec) {
+    public static void doSave(Recensione rec, String prodId) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO recensione (id, descrizione, voto, autore)" +
-                            "VALUES(UUID_TO_BIN(?, 1),?,?,?)");
+                    "INSERT INTO recensione (id, descrizione, voto, autore, id_prodotto)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,UUID_TO_BIN(?, 1))");
 
             UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
             ps.setString(1, randUUID.toString());
             ps.setString(2, rec.getDescrizione());
             ps.setShort(3, rec.getVoto());
             ps.setString(4, rec.getAutore());
+            ps.setString(5, prodId);
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }

@@ -33,7 +33,7 @@ public class Recensione {
     }
 
     public void setVoto(short voto) {
-        if(voto>0 && voto<=5)
+        if(voto>1 && voto<=5)
             this.voto = voto;
     }
 
@@ -42,7 +42,7 @@ public class Recensione {
     }
 
     public void setAutore(String autore) {
-        if(autore.matches("^[a-zA-Z\\s]*$"))
+        if(autore.matches("^[A-Za-z][A-Za-z0-9_]{5,29}$"))
             this.autore = autore;
     }
 }

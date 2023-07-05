@@ -33,7 +33,7 @@ public class ProdottoServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(req.getContextPath()+'/');
+        doGet(req,resp);
     }
 
 }

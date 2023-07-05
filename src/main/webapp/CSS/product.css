@@ -24,7 +24,7 @@
 }
 @media   screen and (min-width: 1024px){
     .product-page-section{
-        top: 15%;
+        top: 130px;
         clear: right;
         float: right;
         position: relative;
@@ -252,4 +252,20 @@ border-bottom: 1px solid #737373;
 
 #formContainer-wrapper-review{
     justify-content: space-around;
+}
+
+.rating {
+    direction: rtl;
+    text-align: center;
+    color: #737373;
+}
+.rating input {
+    display: none;
+
+}
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked + label,
+.rating input:checked + label ~ label {
+    color: #620000 ;
 }
