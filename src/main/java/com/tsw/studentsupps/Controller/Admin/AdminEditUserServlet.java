@@ -33,6 +33,13 @@ public class AdminEditUserServlet extends HttpServlet {
             return;
         }
 
+        if(((Utente) request.getSession().getAttribute("Utente")).getId().equals(u.getId())) {
+            request.setAttribute("errorMessage", "Non puoi modificare i parametri del tuo profilo");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
+        }
+
         request.setAttribute("userToEdit", u);
         RequestDispatcher dispatcher=request.getRequestDispatcher("/pages/Admin/EditUser.jsp");
         dispatcher.forward(request,response);

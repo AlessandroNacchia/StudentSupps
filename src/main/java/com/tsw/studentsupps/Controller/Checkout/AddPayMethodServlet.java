@@ -29,11 +29,34 @@ public class AddPayMethodServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (Checks.userCheck(request, response)) return;
 
-        Metodopagamento mp= new Metodopagamento();
-        mp.setProvider(request.getParameter("provider"));
-        mp.setNumeroHash(request.getParameter("cardNumber"));
-
+        String provider= request.getParameter("provider");
+        String cardNumber= request.getParameter("cardNumber");
         String expiryDate= request.getParameter("expiryDate");
+
+        String providerRGX= "^[a-zA-Z.\\s]{2,30}$";
+        String cardNumberRGX= "^\\b(\\d{4}\\s?\\d{4}\\s?\\d{4}\\s?\\d{4}$)\\b$";
+        String expiryDateRGX= "^(0[1-9]|1[0-2])/([0-9]{2})$";
+
+        if(!provider.matches(providerRGX)) {
+            request.setAttribute("addPayMethodStatus", "providerWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!cardNumber.matches(cardNumberRGX)) {
+            request.setAttribute("addPayMethodStatus", "cardNumberWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!expiryDate.matches(expiryDateRGX)) {
+            request.setAttribute("addPayMethodStatus", "expiryDateWrongPattern");
+            doGet(request, response);
+            return;
+        }
+
+        Metodopagamento mp= new Metodopagamento();
+        mp.setProvider(provider);
+        mp.setNumeroHash(cardNumber);
+
         int month= Integer.parseInt(expiryDate.substring(0,2));
         int year= Integer.parseInt(expiryDate.substring(3,5));
 

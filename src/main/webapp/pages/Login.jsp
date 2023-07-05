@@ -20,13 +20,19 @@
         <div class="login-wrapper">
             <section class="login-section login-section--active" id="section-Login">
                 <h2 class="login-subtitle">Accedi</h2>
+                <c:if test="${requestScope.loginStatus == 'usernameWrongPattern'}">
+                    <p style="color: red">Pattern Username/Email errato!</p>
+                </c:if>
+                <c:if test="${requestScope.loginStatus == 'passwordWrongPattern'}">
+                    <p style="color: red">Pattern password errato!</p>
+                </c:if>
                 <c:if test="${requestScope.loginStatus == 'failedLogin'}">
                     <p style="color: red">Username/Email o Password errati!</p>
                 </c:if>
                 <form action="Login" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="usernameLogin">Username o Email</label>
-                        <input class="form-field-input" id="usernameLogin" name="username" type="text" required>
+                        <input class="form-field-input" id="usernameLogin" name="username" type="text" minlength="5" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="passwordLogin">Password</label>
@@ -40,6 +46,22 @@
             </section>
             <section class="login-section" id="section-Signup">
                 <h2 class="login-subtitle">Registrati</h2>
+                <c:if test="${requestScope.signupStatus == 'nameWrongPattern'}">
+                    <p style="color: red">Pattern Nome/Cognome errato!</p>
+                </c:if>
+                <c:if test="${requestScope.signupStatus == 'phoneWrongPattern'}">
+                    <p style="color: red">Pattern Numero di telefono errato!</p>
+                </c:if>
+                <c:if test="${requestScope.signupStatus == 'usernameWrongPattern'}">
+                    <p style="color: red">Pattern Username errato!</p>
+                </c:if>
+                <c:if test="${requestScope.signupStatus == 'emailWrongPattern'}">
+                    <p style="color: red">Pattern Email errato!</p>
+                </c:if>
+                <c:if test="${requestScope.signupStatus == 'passwordWrongPattern'}">
+                    <p style="color: red">Pattern Password errato!</p>
+                </c:if>
+
                 <c:if test="${requestScope.signupStatus == 'usernameTaken'}">
                     <p style="color: red">Username già usato!</p>
                 </c:if>
@@ -64,7 +86,7 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="usernameSignup">Username</label>
-                        <input class="form-field-input" id="usernameSignup" name="usernameS" type="text" required>
+                        <input class="form-field-input" id="usernameSignup" name="usernameS" type="text" minlength="5" required>
                         <div class="form-field-comment">
                             Minimo 5 caratteri, Massimo 30 caratteri. Accetta lettere, numeri e trattino basso.
                         </div>
@@ -120,7 +142,7 @@
                 let username= document.getElementById('usernameLogin').value;
                 let password= document.getElementById('passwordLogin').value;
 
-                const usernameRGX= /^[A-Za-z][A-Za-z0-9_]{5,29}$/;
+                const usernameRGX= /^[A-Za-z][A-Za-z0-9_]{4,29}$/;
                 const emailRGX= /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
                 const passwordRGX=/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\[{}\]:;',?*~$^\-+=<>]).{8,30}$/;
 

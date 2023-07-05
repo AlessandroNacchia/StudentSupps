@@ -457,6 +457,12 @@ input[type=number] {
     transform: translateY(-50%);
 }
 
+.form-buttons {
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+}
+
 .form-submitButton {
     background: #620000;
     border: none;
@@ -465,6 +471,7 @@ input[type=number] {
     padding: 11px 28px;
     text-transform: uppercase;
     width: 100%;
+    transition: all .3s ease-in;
 }
 
 .form-field-multipleCheckbox, .form-field-multipleRadio {

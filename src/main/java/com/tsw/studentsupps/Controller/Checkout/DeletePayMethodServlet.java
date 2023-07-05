@@ -19,7 +19,7 @@ public class DeletePayMethodServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.userCheck(request, response)) return;
-        if(Checks.UUIDCheck(request, response)) return;
+        if(Checks.UUIDCheck(request, response, request.getParameter("id"))) return;
 
         Metodopagamento mpToDelete= MetodopagamentoDAO.doRetrieveById(request.getParameter("id"));
         if(mpToDelete == null) {

@@ -21,7 +21,22 @@
         <h1 class="formContainer-title">Aggiungi i parametri del prodotto</h1>
         <div class="formContainer-wrapper">
             <section class="formContainer-section">
-                <c:if test="${requestScope.addProductStatus == 'nameTaken'}">
+                <c:if test="${requestScope.editProdStatus == 'nameWrongPattern'}">
+                    <p style="color: red">Pattern Nome errato!</p>
+                </c:if>
+                <c:if test="${requestScope.editProdStatus == 'descriptionWrongPattern'}">
+                    <p style="color: red">Pattern Descrizione errato!</p>
+                </c:if>
+                <c:if test="${requestScope.editProdStatus == 'priceWrongPattern'}">
+                    <p style="color: red">Pattern Prezzo errato!</p>
+                </c:if>
+                <c:if test="${requestScope.editProdStatus == 'ivaWrongPattern'}">
+                    <p style="color: red">Pattern IVA errato!</p>
+                </c:if>
+                <c:if test="${requestScope.editProdStatus == 'quantityWrongPattern'}">
+                    <p style="color: red">Pattern Quantità errato!</p>
+                </c:if>
+                <c:if test="${requestScope.editProdStatus == 'nameTaken'}">
                     <p style="color: red">Nome Prodotto già usato!</p>
                 </c:if>
                 <form action="<%=request.getContextPath()%>/Admin/EditProduct" method="post" enctype="multipart/form-data">
@@ -45,16 +60,16 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="descrAdd">Descrizione</label>
-                        <input class="form-field-input" id="descrAdd" name="description" type="text" maxlength="250" value="<%=p.getDescrizione()%>" autocomplete="off" required>
+                        <input class="form-field-input" id="descrAdd" name="description" type="text" maxlength="1000" value="<%=p.getDescrizione()%>" autocomplete="off" required>
                         <div class="form-field-comment">
-                            Minimo 2 caratteri. Massimo 250 caratteri.
+                            Minimo 2 caratteri. Massimo 1000 caratteri.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="priceAdd">Prezzo</label>
-                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" max="10000000" step="0.01" value="<%=p.getPrezzo()%>" autocomplete="off" required>
+                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" max="9999999" step="0.01" value="<%=p.getPrezzo()%>" autocomplete="off" required>
                         <div class="form-field-comment">
-                            Minimo 0. Massimo 10000000.
+                            Minimo 0. Massimo 9999999.
                         </div>
                     </div>
                     <div class="form-field">
@@ -66,9 +81,9 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="quantityAdd">Quantità</label>
-                        <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" max="10000000" value="<%=p.getQuantita()%>" autocomplete="off" required>
+                        <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" max="9999999" value="<%=p.getQuantita()%>" autocomplete="off" required>
                         <div class="form-field-comment">
-                            Minimo 0. Massimo 10000000.
+                            Minimo 0. Massimo 9999999.
                         </div>
                     </div>
                     <div class="form-field">
@@ -99,9 +114,15 @@
         function confermaParametri() {
             let name= document.getElementById('nameAdd').value;
             let descr= document.getElementById('descrAdd').value;
+            let price= document.getElementById('priceAdd').value;
+            let iva= document.getElementById('ivaAdd').value;
+            let quantity= document.getElementById('quantityAdd').value;
 
             const nameRGX= /^[\w\-. ]{2,50}$/;
-            const descrRGX= /^.{2,250}$/;
+            const descrRGX= /^.{2,1000}$/;
+            const priceRGX= /^[+]?([0-9]{0,7}[.])?[0-9]{0,7}$/;
+            const ivaRGX= /^[+]?[0-9]{1,2}$|^[+]?100$/;
+            const quantityRGX= /^[+]?[0-9]{0,7}$/;
 
             if(!nameRGX.test(name)){
                 alert("Nome non valido!");
@@ -109,6 +130,18 @@
             }
             if(!descrRGX.test(descr)){
                 alert("Descrizione non valida!");
+                return false;
+            }
+            if(!priceRGX.test(price)) {
+                alert("Prezzo non valido!");
+                return false;
+            }
+            if(!ivaRGX.test(iva)) {
+                alert("IVA non valida!");
+                return false;
+            }
+            if(!quantityRGX.test(quantity)) {
+                alert("Quantità non valida!");
                 return false;
             }
 

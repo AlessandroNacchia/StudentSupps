@@ -17,7 +17,7 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.userCheck(request, response)) return;
-        if(Checks.UUIDCheck(request, response)) return;
+        if(Checks.UUIDCheck(request, response, request.getParameter("id"))) return;
 
         Utente userToUpdate= UtenteDAO.doRetrieveById(request.getParameter("id"));
         if(userToUpdate == null) {
@@ -33,17 +33,80 @@ public class UpdateUserServlet extends HttpServlet {
             return;
         }
 
-        userToUpdate.setNome(request.getParameter("name"));
-        userToUpdate.setCognome(request.getParameter("lastname"));
-        userToUpdate.setNumeroTel(request.getParameter("phone"));
-        userToUpdate.setUsername(request.getParameter("username"));
-        userToUpdate.setEmail(request.getParameter("email"));
+        String name= request.getParameter("name");
+        String lastname= request.getParameter("lastname");
+        String phone= request.getParameter("phone");
+        String username= request.getParameter("username");
+        String email= request.getParameter("email");
+        String password= request.getParameter("password");
+
+        String nameRGX="^[a-zA-Z.\\s]{2,30}$";
+        String phoneRGX="^([+]?[(]?[0-9]{1,3}[)]?[-\\s])?([(]?[0-9]{3}[)]?[-\\s]?)?([0-9][-\\s]?){3,10}[0-9]$";
+        String usernameRGX= "^[A-Za-z][A-Za-z0-9_]{4,29}$";
+        String emailRGX= "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$";
+        String passwordRGX= "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\[{}\\]:;',?*~$^\\-+=<>]).{8,30}$";
+
+        if(!name.matches(nameRGX) || !lastname.matches(nameRGX)) {
+            request.setAttribute("updateStatus", "nameWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!phone.equals("") && !phone.matches(phoneRGX)) {
+            request.setAttribute("updateStatus", "phoneWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!username.matches(usernameRGX)) {
+            request.setAttribute("updateStatus", "usernameWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!email.matches(emailRGX)) {
+            request.setAttribute("updateStatus", "emailWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!password.matches(passwordRGX)) {
+            request.setAttribute("updateStatus", "passwordWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        if(UtenteDAO.doExistsByUsername(username)) {
+            request.setAttribute("updateStatus", "usernameTaken");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(UtenteDAO.doExistsByUsername(email)) {
+            request.setAttribute("updateStatus", "emailTaken");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!password.equals(request.getParameter("password2"))) {
+            request.setAttribute("updateStatus", "passwordsNotEqual");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        userToUpdate.setNome(name);
+        userToUpdate.setCognome(lastname);
+        userToUpdate.setNumeroTel(phone);
+        userToUpdate.setUsername(username);
+        userToUpdate.setEmail(email);
         if(request.getParameter("isAdmin")==null)
             userToUpdate.setAdmin(false);
         else if(request.getParameter("isAdmin").equals("true"))
             userToUpdate.setAdmin(true);
         if(userToUpdate.getId().equals(callingUser.getId()))
-            userToUpdate.setPasswordHash(request.getParameter("password"));
+            userToUpdate.setPasswordHash(password);
 
         UtenteDAO.doUpdate(userToUpdate);
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");

@@ -22,8 +22,27 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        Utente u= UtenteDAO.doRetrieveByUsernamePassword(
-                request.getParameter("username"), request.getParameter("password"));
+        String username= request.getParameter("username");
+        String password= request.getParameter("password");
+
+        String usernameRGX= "^[A-Za-z][A-Za-z0-9_]{4,29}$";
+        String emailRGX= "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$";
+        String passwordRGX= "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\[{}\\]:;',?*~$^\\-+=<>]).{8,30}$";
+
+        if(!username.matches(usernameRGX) && !username.matches(emailRGX)) {
+            request.setAttribute("loginStatus", "usernameWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!password.matches(passwordRGX)) {
+            request.setAttribute("loginStatus", "passwordWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        Utente u= UtenteDAO.doRetrieveByUsernamePassword(username, password);
 
         if(u!= null) {
             HttpSession session= request.getSession();
@@ -89,7 +108,7 @@ public class LoginServlet extends HttpServlet {
         }
         else {
             request.setAttribute("loginStatus", "failedLogin");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
             dispatcher.forward(request, response);
         }
     }

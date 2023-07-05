@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -14,6 +15,24 @@
         <h1 class="formContainer-title">Aggiungi i parametri del prodotto</h1>
         <div class="formContainer-wrapper">
             <section class="formContainer-section">
+                <c:if test="${requestScope.addAddressStatus == 'countryWrongPattern'}">
+                    <p style="color: red">Pattern Nazione errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addAddressStatus == 'provinceWrongPattern'}">
+                    <p style="color: red">Pattern Provincia errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addAddressStatus == 'cityWrongPattern'}">
+                    <p style="color: red">Pattern Città errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addAddressStatus == 'capWrongPattern'}">
+                    <p style="color: red">Pattern CAP errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addAddressStatus == 'streetWrongPattern'}">
+                    <p style="color: red">Pattern Via/Piazza errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addAddressStatus == 'phoneWrongPattern'}">
+                    <p style="color: red">Pattern Numero di telefono errato!</p>
+                </c:if>
                 <form action="<%=request.getContextPath()%>/Cart/Checkout/AddAddress" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="countryAdd">Nazione</label>
@@ -291,7 +310,7 @@
                         <label class="form-field-label" for="capAdd">CAP</label>
                         <input class="form-field-input" id="capAdd" name="cap" type="text" maxlength="12" required>
                         <div class="form-field-comment">
-                            Minimo 2 caratteri. Massimo 10 caratteri. Inserire 00000 in caso di CAP mancante.
+                            Minimo 2 caratteri. Massimo 10 caratteri. Accetta solo numeri e lettere maiuscole. Inserire 00000 in caso di CAP mancante.
                         </div>
                     </div>
                     <div class="form-field">
@@ -306,7 +325,10 @@
                         <input class="form-field-input" id="phoneAdd" name="phone" type="text" required>
                     </div>
 
-                    <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
+                    <div class="form-buttons">
+                        <a href="<%=request.getContextPath()%>/Cart/Checkout" class="buttonPrimary buttonSecondary buttonHover" type="submit">Annulla</a>
+                        <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
+                    </div>
                 </form>
             </section>
         </div>

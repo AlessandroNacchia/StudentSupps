@@ -71,20 +71,55 @@ public class AdminEditProductServlet extends HttpServlet {
 
         String oldName= prodToUpdate.getNome();
         String name= request.getParameter("name");
+        String description= request.getParameter("description");
+        String price= request.getParameter("price");
+        String iva= request.getParameter("iva");
+        String quantity= request.getParameter("quantity");
+
+        String nameRGX= "^[\\w\\-. ]{2,50}$";
+        String descrRGX= "^.{2,1000}$";
+        String priceRGX= "^[+]?([0-9]{0,7}[.])?[0-9]{0,7}$";
+        String ivaRGX= "^[+]?[0-9]{1,2}$|^[+]?100$";
+        String quantityRGX= "^[+]?[0-9]{0,7}$";
+
+        if(!name.matches(nameRGX)) {
+            request.setAttribute("editProdStatus", "nameWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!description.matches(descrRGX)) {
+            request.setAttribute("editProdStatus", "descriptionWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!price.matches(priceRGX)) {
+            request.setAttribute("editProdStatus", "priceWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!iva.matches(ivaRGX)) {
+            request.setAttribute("editProdStatus", "ivaWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!quantity.matches(quantityRGX)) {
+            request.setAttribute("editProdStatus", "quantityWrongPattern");
+            doGet(request, response);
+            return;
+        }
 
         if(!oldName.equals(name) && ProdottoDAO.doExistsByName(name)) {
             request.setAttribute("prodToEdit", prodToUpdate);
-            request.setAttribute("addProductStatus", "nameTaken");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Admin/EditProduct.jsp");
-            dispatcher.forward(request, response);
+            request.setAttribute("editProdStatus", "nameTaken");
+            doGet(request, response);
             return;
         }
 
         prodToUpdate.setNome(name);
-        prodToUpdate.setDescrizione(request.getParameter("description"));
-        prodToUpdate.setPrezzo((double) Math.round(Double.parseDouble(request.getParameter("price")) * 100) / 100);
-        prodToUpdate.setIVA(Short.parseShort(request.getParameter("iva")));
-        prodToUpdate.setQuantita(Integer.parseInt(request.getParameter("quantity")));
+        prodToUpdate.setDescrizione(description);
+        prodToUpdate.setPrezzo((double) Math.round(Double.parseDouble(price) * 100) / 100);
+        prodToUpdate.setIVA(Short.parseShort(iva));
+        prodToUpdate.setQuantita(Integer.parseInt(quantity));
 
         Part imagePart= request.getPart("image");
         if(imagePart.getSubmittedFileName().equals("") && imagePart.getSize() == 0) {
@@ -132,7 +167,9 @@ public class AdminEditProductServlet extends HttpServlet {
         List<String> catList= Arrays.asList(categorie);
         for(Categoria cat: CategoriaDAO.doRetrieveAll()) {
             if(catList.contains(cat.getId()) && !ProdottocategoriaDAO.doExists(prodToUpdate.getId(), cat.getId())) {
-                ProdottocategoriaDAO.doSave(prodToUpdate.getId(), cat.getId());
+                if(Checks.UUIDCheck(request, response, cat.getId())) return;
+                if(CategoriaDAO.doRetrieveById(cat.getId()) != null)
+                    ProdottocategoriaDAO.doSave(prodToUpdate.getId(), cat.getId());
             }
             else if(!catList.contains(cat.getId()) && ProdottocategoriaDAO.doExists(prodToUpdate.getId(), cat.getId())) {
                 ProdottocategoriaDAO.doDelete(prodToUpdate.getId(), cat.getId());

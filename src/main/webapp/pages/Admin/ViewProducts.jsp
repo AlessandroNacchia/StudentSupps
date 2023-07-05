@@ -32,7 +32,7 @@
             <% for(Prodotto p: prodList){ %>
             <tr>
                 <td>
-                    <div style="position: relative;padding-top: 100%;">
+                    <div style="position: relative;padding-top: 100%;overflow: hidden;">
                         <figure style="position: absolute;top: 0;">
                             <picture>
                                 <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">

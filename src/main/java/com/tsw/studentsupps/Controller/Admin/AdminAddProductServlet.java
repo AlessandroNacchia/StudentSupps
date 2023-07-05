@@ -35,24 +35,65 @@ public class AdminAddProductServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.adminCheck(request, response)) return;
 
+        String name= request.getParameter("name");
+        String description= request.getParameter("description");
+        String price= request.getParameter("price");
+        String iva= request.getParameter("iva");
+        String quantity= request.getParameter("quantity");
+
+        String nameRGX= "^[\\w\\-. ]{2,50}$";
+        String descrRGX= "^.{2,1000}$";
+        String priceRGX= "^[+]?([0-9]{0,7}[.])?[0-9]{0,7}$";
+        String ivaRGX= "^[+]?[0-9]{1,2}$|^[+]?100$";
+        String quantityRGX= "^[+]?[0-9]{0,7}$";
+
+        if(!name.matches(nameRGX)) {
+            request.setAttribute("addProdStatus", "nameWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!description.matches(descrRGX)) {
+            request.setAttribute("addProdStatus", "descriptionWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!price.matches(priceRGX)) {
+            request.setAttribute("addProdStatus", "priceWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!iva.matches(ivaRGX)) {
+            request.setAttribute("addProdStatus", "ivaWrongPattern");
+            doGet(request, response);
+            return;
+        }
+        if(!quantity.matches(quantityRGX)) {
+            request.setAttribute("addProdStatus", "quantityWrongPattern");
+            doGet(request, response);
+            return;
+        }
+
         if(ProdottoDAO.doExistsByName(request.getParameter("name"))) {
-            request.setAttribute("addProductStatus", "nameTaken");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Admin/AddProduct.jsp");
-            dispatcher.forward(request, response);
+            request.setAttribute("addProdStatus", "nameTaken");
+            doGet(request, response);
             return;
         }
 
         Prodotto p= new Prodotto();
-        String name= request.getParameter("name");
         p.setNome(name);
-        p.setDescrizione(request.getParameter("description"));
-        p.setPrezzo((double) Math.round(Double.parseDouble(request.getParameter("price")) * 100) / 100);
-        p.setIVA(Short.parseShort(request.getParameter("iva")));
-        p.setQuantita(Integer.parseInt(request.getParameter("quantity")));
+        p.setDescrizione(description);
+        p.setPrezzo((double) Math.round(Double.parseDouble(price) * 100) / 100);
+        p.setIVA(Short.parseShort(iva));
+        p.setQuantita(Integer.parseInt(quantity));
 
         Part imagePart= request.getPart("image");
         File uploads= new File((String) getServletContext().getAttribute("prodImageFolder"));
         String imageName= imagePart.getSubmittedFileName();
+        if(imageName.equals("") && imagePart.getSize() == 0) {
+            request.setAttribute("addProdStatus", "imageMissing");
+            doGet(request, response);
+            return;
+        }
         File imageFile= new File(uploads, name + imageName.substring(imageName.lastIndexOf(".")));
 
         try (InputStream input= imagePart.getInputStream()) {
@@ -65,7 +106,9 @@ public class AdminAddProductServlet extends HttpServlet {
         String[] categorie= request.getParameterValues("categories");
         if(categorie != null){
             for(String catId: categorie) {
-                ProdottocategoriaDAO.doSave(p.getId(), catId);
+                if(Checks.UUIDCheck(request, response, catId)) return;
+                if(CategoriaDAO.doRetrieveById(catId) != null)
+                    ProdottocategoriaDAO.doSave(p.getId(), catId);
             }
         }
 

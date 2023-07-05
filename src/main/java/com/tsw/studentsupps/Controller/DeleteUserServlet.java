@@ -17,7 +17,7 @@ public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.userCheck(request, response)) return;
-        if(Checks.UUIDCheck(request, response)) return;
+        if(Checks.UUIDCheck(request, response, request.getParameter("id"))) return;
 
         Utente userToDelete= UtenteDAO.doRetrieveById(request.getParameter("id"));
         if(userToDelete == null) {

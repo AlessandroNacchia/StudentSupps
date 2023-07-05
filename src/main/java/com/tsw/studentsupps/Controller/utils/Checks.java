@@ -41,14 +41,22 @@ public class Checks {
         return false;
     }
 
-    public static boolean UUIDCheck(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String id= request.getParameter("id");
-        if(!UUID.fromString(id).toString().equals(id)) {
+    public static boolean UUIDCheck(HttpServletRequest request, HttpServletResponse response, String id)
+            throws IOException, ServletException {
+        try {
+            if(id == null || !UUID.fromString(id).toString().equals(id)) {
+                request.setAttribute("errorMessage", "UUID non valido");
+                RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+                dispatcher.forward(request,response);
+                return true;
+            }
+        } catch (NumberFormatException ex) {
             request.setAttribute("errorMessage", "UUID non valido");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return true;
         }
+
         return false;
     }
 }

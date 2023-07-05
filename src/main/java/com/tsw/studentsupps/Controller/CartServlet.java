@@ -1,5 +1,6 @@
 package com.tsw.studentsupps.Controller;
 
+import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -16,7 +17,7 @@ import java.util.List;
 @WebServlet("/Cart")
 public class CartServlet extends HttpServlet {
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String prodToAdd= request.getParameter("prodToAdd");
         String prodToRemove= request.getParameter("prodToRemove");
         String prodToUpdate= request.getParameter("prodToUpdate");
@@ -31,6 +32,7 @@ public class CartServlet extends HttpServlet {
             cart= (Carrello) session.getAttribute("Cart");
 
         if(prodToAdd != null) {
+            if(Checks.UUIDCheck(request, response, prodToAdd)) return;
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToAdd);
             Prodotto prod= ProdottoDAO.doRetrieveById(prodToAdd);
             if(prod != null) {
@@ -53,12 +55,14 @@ public class CartServlet extends HttpServlet {
             //Ricalcolo da zero il totale all'inserimento di un prodotto
             calcoloTotale(session, cart, prodList);
         } else if(prodToRemove != null) {
+            if(Checks.UUIDCheck(request, response, prodToRemove)) return;
             ProdottocarrelloDAO.doDelete(cart.getId(), prodToRemove);
 
             List<String> prodList= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
             //Ricalcolo da zero il totale alla rimozione di un prodotto
             calcoloTotale(session, cart, prodList);
         } else if(prodToUpdate != null) {
+            if(Checks.UUIDCheck(request, response, prodToUpdate)) return;
             int quantitaAttuale= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodToUpdate);
             if(quantitaAttuale == -1) {
                 ProdottocarrelloDAO.doDelete(cart.getId(), prodToUpdate);

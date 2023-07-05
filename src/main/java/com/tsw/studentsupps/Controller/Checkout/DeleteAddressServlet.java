@@ -19,7 +19,7 @@ public class DeleteAddressServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.userCheck(request, response)) return;
-        if(Checks.UUIDCheck(request, response)) return;
+        if(Checks.UUIDCheck(request, response, request.getParameter("id"))) return;
 
         Indirizzo indToDelete= IndirizzoDAO.doRetrieveById(request.getParameter("id"));
         if(indToDelete == null) {

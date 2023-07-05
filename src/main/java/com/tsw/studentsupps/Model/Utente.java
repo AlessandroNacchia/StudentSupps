@@ -30,7 +30,7 @@ public class Utente {
         return username;
     }
     public void setUsername(String username) {
-        if(username.matches("^[A-Za-z][A-Za-z0-9_]{5,29}$"))
+        if(username.matches("^[A-Za-z][A-Za-z0-9_]{4,29}$"))
             this.username= username;
     }
 

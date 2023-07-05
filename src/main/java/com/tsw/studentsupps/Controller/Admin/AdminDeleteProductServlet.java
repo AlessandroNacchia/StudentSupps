@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.UUID;
 
 @WebServlet("/Admin/DeleteProduct")
 public class AdminDeleteProductServlet extends HttpServlet {
@@ -22,12 +21,7 @@ public class AdminDeleteProductServlet extends HttpServlet {
         if(Checks.adminCheck(request, response)) return;
 
         String prodToDeleteId= request.getParameter("id");
-        if(!UUID.fromString(prodToDeleteId).toString().equals(prodToDeleteId)) {
-            request.setAttribute("errorMessage", "UUID non valido");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
+        if(Checks.UUIDCheck(request, response, prodToDeleteId)) return;
 
         Prodotto prodToDelete= ProdottoDAO.doRetrieveById(prodToDeleteId);
         if(prodToDelete == null) {

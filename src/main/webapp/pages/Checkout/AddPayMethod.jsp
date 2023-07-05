@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -13,6 +14,15 @@
         <h1 class="formContainer-title">Aggiungi i parametri del prodotto</h1>
         <div class="formContainer-wrapper">
             <section class="formContainer-section">
+                <c:if test="${requestScope.addPayMethodStatus == 'providerWrongPattern'}">
+                    <p style="color: red">Pattern Provider errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addPayMethodStatus == 'cardNumberWrongPattern'}">
+                    <p style="color: red">Pattern Numero Carta errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addPayMethodStatus == 'expiryDateWrongPattern'}">
+                    <p style="color: red">Pattern Data di scadenza errato!</p>
+                </c:if>
                 <form action="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="providerAdd">Provider</label>
@@ -31,7 +41,10 @@
                                onkeyup="expiryDateSlash(this)" maxlength="5" placeholder="MM/YY" required>
                     </div>
 
-                    <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
+                    <div class="form-buttons">
+                        <a href="<%=request.getContextPath()%>/Cart/Checkout" class="buttonPrimary buttonSecondary buttonHover" type="submit">Annulla</a>
+                        <button class="form-submitButton buttonHover" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
+                    </div>
                 </form>
             </section>
         </div>

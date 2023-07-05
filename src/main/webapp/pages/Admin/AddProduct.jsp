@@ -18,7 +18,25 @@
         <h1 class="formContainer-title">Aggiungi i parametri del prodotto</h1>
         <div class="formContainer-wrapper">
             <section class="formContainer-section">
-                <c:if test="${requestScope.addProductStatus == 'nameTaken'}">
+                <c:if test="${requestScope.addProdStatus == 'nameWrongPattern'}">
+                    <p style="color: red">Pattern Nome errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addProdStatus == 'descriptionWrongPattern'}">
+                    <p style="color: red">Pattern Descrizione errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addProdStatus == 'priceWrongPattern'}">
+                    <p style="color: red">Pattern Prezzo errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addProdStatus == 'ivaWrongPattern'}">
+                    <p style="color: red">Pattern IVA errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addProdStatus == 'quantityWrongPattern'}">
+                    <p style="color: red">Pattern Quantità errato!</p>
+                </c:if>
+                <c:if test="${requestScope.addProdStatus == 'imageMissing'}">
+                    <p style="color: red">Immagine mancante!</p>
+                </c:if>
+                <c:if test="${requestScope.addProdStatus == 'nameTaken'}">
                     <p style="color: red">Nome Prodotto già usato!</p>
                 </c:if>
                 <form action="<%=request.getContextPath()%>/Admin/AddProduct" method="post" enctype="multipart/form-data">
@@ -45,9 +63,9 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="priceAdd">Prezzo</label>
-                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" max="10000000" step="0.01" autocomplete="off" required>
+                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" max="9999999" step="0.01" autocomplete="off" required>
                         <div class="form-field-comment">
-                            Minimo 0. Massimo 10000000.
+                            Minimo 0. Massimo 9999999.
                         </div>
                     </div>
                     <div class="form-field">
@@ -59,9 +77,9 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="quantityAdd">Quantità</label>
-                        <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" max="10000000" autocomplete="off" required>
+                        <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" max="9999999" autocomplete="off" required>
                         <div class="form-field-comment">
-                            Minimo 0. Massimo 10000000.
+                            Minimo 0. Massimo 9999999.
                         </div>
                     </div>
                     <div class="form-field">
@@ -91,9 +109,15 @@
         function confermaParametri() {
             let name= document.getElementById('nameAdd').value;
             let descr= document.getElementById('descrAdd').value;
+            let price= document.getElementById('priceAdd').value;
+            let iva= document.getElementById('ivaAdd').value;
+            let quantity= document.getElementById('quantityAdd').value;
 
             const nameRGX= /^[\w\-. ]{2,50}$/;
             const descrRGX= /^.{2,1000}$/;
+            const priceRGX= /^[+]?([0-9]{0,7}[.])?[0-9]{0,7}$/;
+            const ivaRGX= /^[+]?[0-9]{1,2}$|^[+]?100$/;
+            const quantityRGX= /^[+]?[0-9]{0,7}$/;
 
             if(!nameRGX.test(name)){
                 alert("Nome non valido!");
@@ -101,6 +125,18 @@
             }
             if(!descrRGX.test(descr)){
                 alert("Descrizione non valida!");
+                return false;
+            }
+            if(!priceRGX.test(price)) {
+                alert("Prezzo non valido!");
+                return false;
+            }
+            if(!ivaRGX.test(iva)) {
+                alert("IVA non valida!");
+                return false;
+            }
+            if(!quantityRGX.test(quantity)) {
+                alert("Quantità non valida!");
                 return false;
             }
 

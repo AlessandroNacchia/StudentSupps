@@ -1,4 +1,5 @@
 <%@ page import="com.tsw.studentsupps.Model.Utente" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -12,10 +13,35 @@
     <jsp:include page="/ReusedHTML/head.jsp"/>
 
     <%Utente u= (Utente) request.getAttribute("userToEdit");%>
-    <main class="editUser">
-        <h1 class="editUser-title">Modifica i parametri dell'utente</h1>
-        <div class="editUser-wrapper">
-            <section class="editUser-section">
+    <main class="formContainer">
+        <h1 class="formContainer-title">Modifica i parametri dell'utente</h1>
+        <div class="formContainer-wrapper">
+            <section class="formContainer-section">
+                <c:if test="${requestScope.updateStatus == 'nameWrongPattern'}">
+                    <p style="color: red">Pattern Nome/Cognome errato!</p>
+                </c:if>
+                <c:if test="${requestScope.updateStatus == 'phoneWrongPattern'}">
+                    <p style="color: red">Pattern Numero di telefono errato!</p>
+                </c:if>
+                <c:if test="${requestScope.updateStatus == 'usernameWrongPattern'}">
+                    <p style="color: red">Pattern Username errato!</p>
+                </c:if>
+                <c:if test="${requestScope.updateStatus == 'emailWrongPattern'}">
+                    <p style="color: red">Pattern Email errato!</p>
+                </c:if>
+                <c:if test="${requestScope.updateStatus == 'passwordWrongPattern'}">
+                    <p style="color: red">Pattern Password errato!</p>
+                </c:if>
+
+                <c:if test="${requestScope.updateStatus == 'usernameTaken'}">
+                    <p style="color: red">Username già usato!</p>
+                </c:if>
+                <c:if test="${requestScope.updateStatus == 'emailTaken'}">
+                    <p style="color: red">Email già usata!</p>
+                </c:if>
+                <c:if test="${requestScope.updateStatus == 'passwordsNotEqual'}">
+                    <p style="color: red">Le passwords non corrispondono!</p>
+                </c:if>
                 <form action="<%=request.getContextPath()%>/UpdateUser" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="userToEditId">Id</label>

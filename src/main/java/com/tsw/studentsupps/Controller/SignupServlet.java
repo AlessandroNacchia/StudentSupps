@@ -23,21 +23,65 @@ public class SignupServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if(UtenteDAO.doExistsByUsername(request.getParameter("username"))) {
+        String name= request.getParameter("nameS");
+        String lastname= request.getParameter("lastnameS");
+        String phone= request.getParameter("phoneS");
+        String username= request.getParameter("usernameS");
+        String email= request.getParameter("emailS");
+        String password= request.getParameter("passwordS");
+
+        String nameRGX="^[a-zA-Z.\\s]{2,30}$";
+        String phoneRGX="^([+]?[(]?[0-9]{1,3}[)]?[-\\s])?([(]?[0-9]{3}[)]?[-\\s]?)?([0-9][-\\s]?){3,10}[0-9]$";
+        String usernameRGX= "^[A-Za-z][A-Za-z0-9_]{4,29}$";
+        String emailRGX= "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$";
+        String passwordRGX= "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()\\[{}\\]:;',?*~$^\\-+=<>]).{8,30}$";
+
+        if(!name.matches(nameRGX) || !lastname.matches(nameRGX)) {
+            request.setAttribute("signupStatus", "nameWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!phone.equals("") && !phone.matches(phoneRGX)) {
+            request.setAttribute("signupStatus", "phoneWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!username.matches(usernameRGX)) {
+            request.setAttribute("signupStatus", "usernameWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!email.matches(emailRGX)) {
+            request.setAttribute("signupStatus", "emailWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!password.matches(passwordRGX)) {
+            request.setAttribute("signupStatus", "passwordWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        if(UtenteDAO.doExistsByUsername(username)) {
             request.setAttribute("signupStatus", "usernameTaken");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
             dispatcher.forward(request, response);
             return;
         }
-        if(UtenteDAO.doExistsByUsername(request.getParameter("email"))) {
+        if(UtenteDAO.doExistsByUsername(email)) {
             request.setAttribute("signupStatus", "emailTaken");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
             dispatcher.forward(request, response);
             return;
         }
-        if(!request.getParameter("passwordS").equals(request.getParameter("passwordS2"))) {
+        if(!password.equals(request.getParameter("passwordS2"))) {
             request.setAttribute("signupStatus", "passwordsNotEqual");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("pages/Login.jsp");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/Account");
             dispatcher.forward(request, response);
             return;
         }
