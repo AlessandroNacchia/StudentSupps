@@ -224,7 +224,6 @@ border-bottom: 1px solid #737373;
 }
 
 .product-tab-content-review{
-    border-bottom: 1px solid #737373;
     overflow: hidden;
 }
 .product-review-header {
@@ -238,10 +237,11 @@ border-bottom: 1px solid #737373;
 }
 
 .product-review-content{
-    margin-bottom: 5px;
+    border-bottom: 1px solid #737373;
     overflow: hidden;
 }
 .button-add-review{
+    margin-bottom: 5px;
     display: grid;
     justify-content: end;
 }
@@ -263,9 +263,49 @@ border-bottom: 1px solid #737373;
     display: none;
 
 }
+.stella-vuota{
+    color: #737373;
+}
 .rating label:hover,
+.stella-piena,
 .rating label:hover ~ label,
 .rating input:checked + label,
 .rating input:checked + label ~ label {
+    color: #620000 ;
+}
+.review{
+    grid-template-areas:
+        "author stars"
+        "desc delete";
+    display: grid;
+    margin-top: 10px;
+    border-bottom: 1px solid #737373;
+}
+.review-author{
+    margin: 10px 0;
+    grid-area: author;
+}
+.review-rating{
+    margin-top: auto;
+    margin-bottom: auto;
+    grid-area: stars;
+    text-align: center;
+}
+.review-text{
+    grid-area: desc;
+    margin-right: 5px;
+}
+.button-delete-review{
+    margin-top: auto;
+    margin-bottom: auto;
+    grid-area: delete;
+}
+.button-delete-review{
+    text-align: center;
+}
+.trashButtonReview{
+    display: contents;
+}
+.trashButtonReview:hover{
     color: #620000 ;
 }

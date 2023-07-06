@@ -130,7 +130,7 @@ CREATE TABLE ProdottoOrdine
 (
     id_ordine 			binary(16),
     id_prodotto 		binary(16),
-    nome_prodotto		varchar(30)			NOT NULL,
+    nome_prodotto		varchar(50)			NOT NULL,
     quantita			smallint UNSIGNED 	NOT NULL,
     prezzo_acquisto		decimal(10,2)		NOT NULL	CHECK(prezzo_acquisto>=0),
     IVA_acquisto		tinyint UNSIGNED 	NOT NULL,	

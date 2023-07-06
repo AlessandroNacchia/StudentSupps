@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>Prodotto | StudentSupps</title>
@@ -13,7 +14,8 @@
 <body>
 <jsp:include page="/ReusedHTML/head.jsp"/>
 <%Prodotto p= (Prodotto) request.getAttribute("prodotto");
-  Utente   u= (Utente)   session.getAttribute("Utente");%>
+  Utente   u= (Utente)   session.getAttribute("Utente");
+  List<Recensione> ReviewList= (List<Recensione>) request.getAttribute("recensioni");%>
 <main class="product-page">
     <figure class="product-page-image">
         <div class="product-image-wrapper">
@@ -79,11 +81,11 @@
                 </div>
             </div>
             <div class="product-tab-content-review">
-                <div class="product-review-header" onclick="openTabContent('Review')">
+                <div class="product-review-header" onclick="openTabContent('add-Review'); openTabContent('Reviews') ;" >
                     Recensioni
                     <i class="fa fa-caret-down" ></i>
                 </div>
-                <div class="product-review-content" style="height:0px" id="tab-content-Review">
+                <div class="product-review-content" style="height:0px" id="tab-content-add-Review">
                     <%if(u!= null){%>
                     <header class="button-add-review" >
                         <button class="buttonPrimary buttonHover" id="button-review" type="submit" onclick="openTabContentB('form-review')">Scrivi la tua recensione</button>
@@ -134,6 +136,47 @@
 
                     <%}%>
 
+                </div>
+                <div class="product-reviews" style="height:0px" id="tab-content-Reviews">
+                    <%if(!ReviewList.isEmpty()) {
+                        for (Recensione r: ReviewList){%>
+
+                            <article class="review" id="reviewId<%=r.getId()%>">
+                                <header class="review-author">
+                                     <h2 class="review-author-text">Recensione di  <%=r.getAutore()%></h2>
+                                </header>
+                                <div class="review-rating">
+                                    <%int i=0;
+                                    for (;i<r.getVoto();i++){%>
+                                        <span class="stella-piena">
+                                            <i class="fa fa-star"></i>
+                                        </span>
+                                    <%}
+                                    for (;i<5;i++){%>
+                                        <span class="stella-vuota">
+                                            <i class="fa fa-star-o"></i>
+                                        </span>
+                                    <%}%>
+                                </div>
+                                <div class="review-text">
+                                    <p>
+                                        <%=r.getDescrizione()%>
+                                    </p>
+
+                                </div>
+                                <%if(u!=null && (u.getUsername().equals(r.getAutore()) || u.isAdmin())) {%>
+                                <div class="button-delete-review">
+                                    <button class="buttonPrimary buttonHover trashButtonReview"  type="button" onclick="return deleteReview('<%=r.getId()%>')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                                <%}%>
+                            </article>
+                        <%}%>
+
+                    <%}else{%>
+                        <p>Non sono presenti delle recensioni per questo prodotto</p>
+                    <%}%>
                 </div>
             </div>
 
@@ -210,7 +253,7 @@
             button.innerText="Scrivi la tua recensione";
         }
     }
-
+    <%if(u!=null){%>
     function confermaParametri() {
         let autore=document.getElementById("authoradd").value;
         let voto=document.getElementsByName("rating");
@@ -245,7 +288,24 @@
 
         return true;
     }
+    <%}%>
 
+    function deleteReview(id) {
+        if(!confirm('Sei sicuro di voler eliminare questa recensione?'))
+            return false;
+
+        let xhttp= new XMLHttpRequest();
+        xhttp.onreadystatechange= function() {
+            if (this.readyState === 4 && this.status === 200) {
+                document.getElementById('reviewId'+id).remove();
+            }
+        };
+
+        xhttp.open("POST", "<%=request.getContextPath()%>/Shop/Prodotto/DeleteReview", true);
+        xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+        xhttp.setRequestHeader("connection", "close")
+        xhttp.send("id="+id);
+    }
 </script>
 
 <jsp:include page="/ReusedHTML/tail.jsp"/>

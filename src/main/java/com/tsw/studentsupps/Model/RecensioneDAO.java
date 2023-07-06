@@ -28,6 +28,28 @@ public class RecensioneDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Recensione> doRetrieveByIdProdotto(String pid) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), descrizione, voto, autore FROM recensione WHERE id_prodotto= UUID_TO_BIN(?, 1)");
+            ps.setString(1, pid);
+            ResultSet rs= ps.executeQuery();
+            List<Recensione> recList= new ArrayList<>();
+            while(rs.next()) {
+                Recensione r= new Recensione();
+                r.setId(rs.getString(1));
+                r.setDescrizione(rs.getString(2));
+                r.setVoto(rs.getShort(3));
+                r.setAutore(rs.getString(4));
+
+                recList.add(r);
+            }
+            return recList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     public static List<Recensione> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), descrizione, voto, autore FROM recensione");
@@ -84,6 +106,32 @@ public class RecensioneDAO {
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void doDelete(Recensione rec) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM recensione WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, rec.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean doExistsByUsername(String username) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM recensione WHERE  autore=?");
+            ps.setString(1, username);
+            ResultSet rs= ps.executeQuery();
+            return rs.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

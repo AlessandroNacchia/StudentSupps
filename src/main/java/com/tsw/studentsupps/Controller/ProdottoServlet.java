@@ -2,6 +2,7 @@ package com.tsw.studentsupps.Controller;
 
 import com.tsw.studentsupps.Model.Prodotto;
 import com.tsw.studentsupps.Model.ProdottoDAO;
+import com.tsw.studentsupps.Model.RecensioneDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,6 +28,7 @@ public class ProdottoServlet extends HttpServlet {
             return;
         }
         request.setAttribute("prodotto",p);
+        request.setAttribute("recensioni", RecensioneDAO.doRetrieveByIdProdotto(p.getId()));
         RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Product.jsp");
         dispatcher.forward(request,response);
     }
