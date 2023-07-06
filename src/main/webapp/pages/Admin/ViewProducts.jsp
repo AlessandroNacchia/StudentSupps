@@ -30,7 +30,7 @@
                 <th>Azione</th>
             </tr>
             <% for(Prodotto p: prodList){ %>
-            <tr>
+            <tr id="prodId<%=p.getId()%>">
                 <td>
                     <div style="position: relative;padding-top: 100%;overflow: hidden;">
                         <figure style="position: absolute;top: 0;">
@@ -54,13 +54,7 @@
                 </td>
                 <td>
                     <button class="buttonPrimary buttonHover" onclick=location.href="EditProduct?id=<%=p.getId()%>">Modifica</button>
-                    <form action="<%=request.getContextPath()%>/Admin/DeleteProduct" method="post" style="margin:0">
-                        <input type="hidden" name="id" value="<%=p.getId()%>">
-                        <button class="buttonPrimary buttonHover" onclick="return confirm(
-                                'Vuoi eliminare il prodotto con dati:\n id=\x27<%=p.getId()%>\x27\n name=\x27<%=p.getNome()%>\x27?\n' +
-                                'Quest\x27azione non è reversibile!'
-                                )" type="submit">Cancella</button>
-                    </form>
+                    <button class="buttonPrimary buttonHover" onclick="return deleteProduct('<%=p.getId()%>', '<%=p.getNome()%>')">Cancella</button>
                 </td>
             </tr>
             <%}%>
@@ -68,6 +62,26 @@
     </div>
 
     <button class="buttonPrimary buttonHover" style="width: auto; margin: 20px auto 0;" onclick=location.href="AddProduct">Aggiungi Prodotto</button>
+
+    <script>
+        function deleteProduct(id, name) {
+            if(!confirm('Vuoi eliminare il prodotto con dati:\n id=\x27'+id+'\x27\n name=\x27'+name+'\x27?\n' +
+                'Quest\x27azione non è reversibile!'))
+                return false;
+
+            let xhttp= new XMLHttpRequest();
+            xhttp.onreadystatechange= function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById('prodId'+id).remove();
+                }
+            };
+
+            xhttp.open("POST", "<%=request.getContextPath()%>/Admin/DeleteProduct", true);
+            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+            xhttp.setRequestHeader("connection", "close")
+            xhttp.send("id="+id);
+        }
+    </script>
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>

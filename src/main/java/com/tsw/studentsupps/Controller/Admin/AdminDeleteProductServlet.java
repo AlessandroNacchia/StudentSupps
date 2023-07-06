@@ -3,7 +3,6 @@ package com.tsw.studentsupps.Controller.Admin;
 import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.Prodotto;
 import com.tsw.studentsupps.Model.ProdottoDAO;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,9 +24,6 @@ public class AdminDeleteProductServlet extends HttpServlet {
 
         Prodotto prodToDelete= ProdottoDAO.doRetrieveById(prodToDeleteId);
         if(prodToDelete == null) {
-            request.setAttribute("errorMessage", "Prodotto da cancellare non esistente");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
             return;
         }
 
@@ -48,9 +44,6 @@ public class AdminDeleteProductServlet extends HttpServlet {
         }
 
         ProdottoDAO.doDelete(prodToDelete);
-
-        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
-        dispatcher.forward(request,response);
     }
 
     @Override

@@ -54,9 +54,7 @@
                                             Numero di telefono: <%=ind.getNumeroTel()%>
                                         </label>
                                     </li>
-                                    <a href="<%=request.getContextPath()%>/Cart/Checkout/DeleteAddress?id=<%=ind.getId()%>"
-                                       class="buttonPrimary buttonSecondary buttonHover trashButton"
-                                       onclick="return confirm('Vuoi davvero eliminare questo indirizzo?')">
+                                    <a class="buttonPrimary buttonSecondary buttonHover trashButton" onclick="return deleteCheckOutInfo('address', '<%=ind.getId()%>')">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 <%}
@@ -89,9 +87,7 @@
                                             Data di scadenza: <%=date.getMonthValue()%>/<%=date.getYear()%>
                                         </label>
                                     </li>
-                                    <a href="<%=request.getContextPath()%>/Cart/Checkout/DeletePayMethod?id=<%=mp.getId()%>"
-                                       class="buttonPrimary buttonSecondary buttonHover trashButton"
-                                       onclick="return confirm('Vuoi davvero eliminare questo metodo di pagamento?')">
+                                    <a class="buttonPrimary buttonSecondary buttonHover trashButton" onclick="return deleteCheckOutInfo('payMethod', '<%=mp.getId()%>');">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 <%}
@@ -160,6 +156,30 @@
                 navlink.style.height="auto";
             else
                 navlink.style.height="0px";
+        }
+
+        function deleteCheckOutInfo(infoName, id) {
+            let confimText;
+            if(infoName === 'address') confimText= 'Vuoi davvero eliminare questo indirizzo?';
+            else if(infoName === 'payMethod') confimText= 'Vuoi davvero eliminare questo metodo di pagamento?';
+            if(!confirm(confimText))
+                return false;
+
+            let xhttp= new XMLHttpRequest();
+            xhttp.onreadystatechange= function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById(infoName+id).parentElement.nextElementSibling.remove();
+                    document.getElementById(infoName+id).parentElement.remove();
+                }
+            };
+            if(infoName === 'address')
+                xhttp.open("POST", "<%=request.getContextPath()%>/Cart/Checkout/DeleteAddress", true);
+            else if(infoName === 'payMethod')
+                xhttp.open("POST", "<%=request.getContextPath()%>/Cart/Checkout/DeletePayMethod", true);
+
+            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+            xhttp.setRequestHeader("connection", "close")
+            xhttp.send("id="+id);
         }
     </script>
 

@@ -26,18 +26,18 @@
                 <form action="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="providerAdd">Provider</label>
-                        <input class="form-field-input" id="providerAdd" name="provider" type="text" maxlength="30" required>
+                        <input class="form-field-input" id="providerAdd" name="provider" type="text" maxlength="30" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 30 caratteri.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="cardNumberAdd">Numero Carta</label>
-                        <input class="form-field-input" id="cardNumberAdd" name="cardNumber" type="text" maxlength="20" required>
+                        <input class="form-field-input" id="cardNumberAdd" name="cardNumber" type="text" maxlength="20" autocomplete="off" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="expiryDateAdd">Data di scadenza</label>
-                        <input class="form-field-input" id="expiryDateAdd" name="expiryDate" type="text" style="width: 100px"
+                        <input class="form-field-input" id="expiryDateAdd" name="expiryDate" type="text" style="width: 100px" autocomplete="off"
                                onkeyup="expiryDateSlash(this)" maxlength="5" placeholder="MM/YY" required>
                     </div>
 

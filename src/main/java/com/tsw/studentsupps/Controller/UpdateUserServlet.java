@@ -28,11 +28,23 @@ public class UpdateUserServlet extends HttpServlet {
         }
 
         Utente callingUser= (Utente) request.getSession().getAttribute("Utente");
-        if(!callingUser.isAdmin() && !userToUpdate.getId().equals(callingUser.getId()) ) {
+
+        String updateStatus_returnPage;
+        boolean isUsersEqual= false;
+        if(userToUpdate.getId().equals(callingUser.getId())) {
+            isUsersEqual= true;
+            updateStatus_returnPage= "/Account/Profile";
+        }
+        else
+            updateStatus_returnPage= "/Admin/EditUser";
+
+        if(!callingUser.isAdmin() && !isUsersEqual) {
             response.sendRedirect(request.getContextPath()+'/');
             return;
         }
 
+        String oldName= userToUpdate.getNome();
+        String oldEmail= userToUpdate.getEmail();
         String name= request.getParameter("name");
         String lastname= request.getParameter("lastname");
         String phone= request.getParameter("phone");
@@ -48,50 +60,50 @@ public class UpdateUserServlet extends HttpServlet {
 
         if(!name.matches(nameRGX) || !lastname.matches(nameRGX)) {
             request.setAttribute("updateStatus", "nameWrongPattern");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
         if(!phone.equals("") && !phone.matches(phoneRGX)) {
             request.setAttribute("updateStatus", "phoneWrongPattern");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
         if(!username.matches(usernameRGX)) {
             request.setAttribute("updateStatus", "usernameWrongPattern");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
         if(!email.matches(emailRGX)) {
             request.setAttribute("updateStatus", "emailWrongPattern");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
-        if(!password.matches(passwordRGX)) {
+        if(isUsersEqual && !password.matches(passwordRGX)) {
             request.setAttribute("updateStatus", "passwordWrongPattern");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(isUsersEqual && !password.equals(request.getParameter("password2"))) {
+            request.setAttribute("updateStatus", "passwordsNotEqual");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
 
-        if(UtenteDAO.doExistsByUsername(username)) {
+        if(!oldName.equals(name) && UtenteDAO.doExistsByUsername(username)) {
             request.setAttribute("updateStatus", "usernameTaken");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
-        if(UtenteDAO.doExistsByUsername(email)) {
+        if(!oldEmail.equals(email) && UtenteDAO.doExistsByUsername(email)) {
             request.setAttribute("updateStatus", "emailTaken");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
-            dispatcher.forward(request, response);
-            return;
-        }
-        if(!password.equals(request.getParameter("password2"))) {
-            request.setAttribute("updateStatus", "passwordsNotEqual");
-            RequestDispatcher dispatcher= request.getRequestDispatcher("/Admin/EditUser");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
@@ -105,10 +117,13 @@ public class UpdateUserServlet extends HttpServlet {
             userToUpdate.setAdmin(false);
         else if(request.getParameter("isAdmin").equals("true"))
             userToUpdate.setAdmin(true);
-        if(userToUpdate.getId().equals(callingUser.getId()))
+        if(isUsersEqual)
             userToUpdate.setPasswordHash(password);
 
         UtenteDAO.doUpdate(userToUpdate);
+
+        if(!isUsersEqual)
+            request.setAttribute("returnPage", "/Admin/Users");
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);
     }

@@ -106,6 +106,12 @@ public class UtenteDAO {
         }
     }
     //Using Username or Email (Both are unique)
+
+    /**
+     * Cerca nome o email di un utente del DB
+     * @param username username o email
+     * @return {boolean} - indica se esiste nel DB
+     */
     public static boolean doExistsByUsername(String username) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps=

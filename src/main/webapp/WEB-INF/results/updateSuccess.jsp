@@ -14,6 +14,9 @@
         <div class="success-wrapper">
             <section class="success-section">
                 <button class="buttonPrimary buttonHover" style="margin-top: 40px;" onclick="location.href='<%=request.getContextPath()%>/'">Torna alla Home</button>
+                <%if(request.getAttribute("returnPage") != null) {%>
+                    <button class="buttonPrimary buttonSecondary buttonHover" style="margin-top: 40px;" onclick="location.href='<%=request.getContextPath()%><%=request.getAttribute("returnPage")%>'">Torna indietro</button>
+                <%}%>
             </section>
         </div>
     </main>

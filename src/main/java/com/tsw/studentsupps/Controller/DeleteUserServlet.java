@@ -3,7 +3,6 @@ package com.tsw.studentsupps.Controller;
 import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.Utente;
 import com.tsw.studentsupps.Model.UtenteDAO;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,9 +20,6 @@ public class DeleteUserServlet extends HttpServlet {
 
         Utente userToDelete= UtenteDAO.doRetrieveById(request.getParameter("id"));
         if(userToDelete == null) {
-            request.setAttribute("errorMessage", "Utente da cancellare non esistente");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
             return;
         }
 
@@ -34,8 +30,6 @@ public class DeleteUserServlet extends HttpServlet {
         }
 
         UtenteDAO.doDelete(userToDelete);
-        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
-        dispatcher.forward(request,response);
     }
 
     @Override

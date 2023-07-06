@@ -112,6 +112,7 @@ public class AdminAddProductServlet extends HttpServlet {
             }
         }
 
+        request.setAttribute("returnPage", "/Admin/Products");
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);
     }

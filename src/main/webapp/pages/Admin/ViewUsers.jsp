@@ -28,7 +28,7 @@
                 <th>Azione</th>
             </tr>
             <% for(Utente u: userList){ %>
-            <tr>
+            <tr id="userId<%=u.getId()%>">
                 <td><%=u.getUsername()%></td>
                 <td><%=u.getEmail()%></td>
                 <td><%=u.getNumeroTel()%></td>
@@ -40,19 +40,33 @@
                         Non puoi interagire con il tuo account.
                     <%} else {%>
                         <button class="buttonPrimary buttonHover" onclick=location.href="EditUser?id=<%=u.getId()%>">Modifica</button>
-                        <form action="<%=request.getContextPath()%>/DeleteUser" method="post" style="margin:0">
-                            <input type="hidden" name="id" value="<%=u.getId()%>">
-                            <button class="buttonPrimary buttonHover" onclick="return confirm(
-                                    'Vuoi eliminare l\x27utente con dati:\n id=\x27<%=u.getId()%>\x27\n username=\x27<%=u.getNome()%>\x27?\n' +
-                                    'Quest\x27azione non è reversibile!'
-                                    )" type="submit">Cancella</button>
-                        </form>
+                        <button class="buttonPrimary buttonHover" onclick="return deleteUser('<%=u.getId()%>', '<%=u.getUsername()%>')">Cancella</button>
                     <%}%>
                 </td>
             </tr>
             <%}%>
         </table>
     </div>
+
+    <script>
+        function deleteUser(id, username) {
+            if(!confirm('Vuoi eliminare l\x27utente con dati:\n id=\x27'+id+'\x27\n username=\x27'+username+'\x27?\n' +
+                'Quest\x27azione non è reversibile!'))
+                return false;
+
+            let xhttp= new XMLHttpRequest();
+            xhttp.onreadystatechange= function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById('userId'+id).remove();
+                }
+            };
+
+            xhttp.open("POST", "<%=request.getContextPath()%>/Admin/DeleteUser", true);
+            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+            xhttp.setRequestHeader("connection", "close")
+            xhttp.send("id="+id);
+        }
+    </script>
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>
