@@ -102,7 +102,8 @@ CREATE TABLE Recensione
     autore			varchar(30)			NOT NULL,
     
     id_prodotto		binary(16),
-    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE
+    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE,
+    FOREIGN KEY (autore) REFERENCES Utente(username) ON UPDATE CASCADE
 );
 
 CREATE TABLE ProdottoCategoria

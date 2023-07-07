@@ -2,14 +2,17 @@ package com.tsw.studentsupps.Controller;
 
 import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.*;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 @WebServlet("/Shop/Prodotto/Review")
 public class ReviewServlet extends HttpServlet {
@@ -21,34 +24,58 @@ public class ReviewServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setStatus(102);
+        if(Checks.userCheck(req, resp)) {
+            resp.setStatus(403);
+            return;
+        }
 
+        JSONObject recensione;
+        try {
+            JSONParser parser= new JSONParser();
+            recensione= (JSONObject) parser.parse(URLDecoder.decode(req.getParameter("recensione"), "UTF-8"));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
-        if (Checks.userCheck(req, resp)) return;
+        resp.setContentType("text/plain");
+        if(Checks.UUIDCheck(req, resp, (String) recensione.get("prodId"))) {
+            resp.getWriter().write("invalidProdUUID");
+            resp.setStatus(400);
+            return;
+        }
+        Prodotto prod= ProdottoDAO.doRetrieveById((String) recensione.get("prodId"));
+        if(prod == null) {
+            resp.getWriter().write("nullProd");
+            resp.setStatus(400);
+            return;
+        }
 
-        Prodotto prod= ProdottoDAO.doRetrieveById(req.getParameter("prodId"));
-        String descrizione=req.getParameter("description");
-        String voto=req.getParameter("rating");
-        String autore=req.getParameter("author");
+        String autore= (String) recensione.get("autore");
+        String voto= (String) recensione.get("voto");
+        String descrizione= (String) recensione.get("descrizione");
 
         String descrizioneRGX="^.{2,1000}$";
         String votoRGX="^[1-5]$";
 
         if (!autore.equals(((Utente)req.getSession().getAttribute("Utente")).getUsername())){
-            req.setAttribute("reviewStatus","autoreWrongPattern");
-            RequestDispatcher dispatcher =req.getRequestDispatcher("/Shop/Prodotto?prodName=" + prod.getNome());
-            dispatcher.forward(req,resp);
+            resp.getWriter().write("autoreWrongPattern");
+            resp.setStatus(400);
+            return;
+        }
+        if(RecensioneDAO.doExistsByUsername(autore)) {
+            resp.getWriter().write("recensioneAlreadyExist");
+            resp.setStatus(400);
             return;
         }
         if (!descrizione.matches(descrizioneRGX)){
-            req.setAttribute("reviewStatus","descrizioneWrongPattern");
-            RequestDispatcher dispatcher =req.getRequestDispatcher("/Shop/Prodotto?prodName=" + prod.getNome());
-            dispatcher.forward(req,resp);
+            resp.getWriter().write("descrizioneWrongPattern");
+            resp.setStatus(400);
             return;
         }
         if (!voto.matches(votoRGX)){
-            req.setAttribute("reviewStatus","votoWrongPattern");
-            RequestDispatcher dispatcher =req.getRequestDispatcher("/Shop/Prodotto?prodName=" + prod.getNome());
-            dispatcher.forward(req,resp);
+            resp.getWriter().write("votoWrongPattern");
+            resp.setStatus(400);
             return;
         }
 
@@ -57,9 +84,8 @@ public class ReviewServlet extends HttpServlet {
         rec.setVoto(Short.parseShort(voto));
         rec.setDescrizione(descrizione);
 
-
         RecensioneDAO.doSave(rec,prod.getId());
-
-        resp.sendRedirect(req.getContextPath()+"/Shop/Prodotto?prodName=" + prod.getNome());
+        resp.getWriter().write(rec.getId());
+        resp.setStatus(200);
     }
 }

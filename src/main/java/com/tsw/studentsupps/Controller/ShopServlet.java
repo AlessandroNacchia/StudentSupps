@@ -18,14 +18,15 @@ public class ShopServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String filter= request.getParameter("filter");
         if(filter == null) {
-            List<Prodotto> prodottiCategoria= ProdottoDAO.doRetrieveAll();
-            request.setAttribute("prodotti", prodottiCategoria);
+            List<Prodotto> prodList= ProdottoDAO.doRetrieveAll();
+            request.setAttribute("prodottiJSON", JSONprodList(prodList));
             RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Shop.jsp");
             dispatcher.forward(request, response);
             return;
         }
-        List<Prodotto> prodottiCategoria= ProdottoDAO.doRetrieveByCategoria(filter);
-        request.setAttribute("prodotti", prodottiCategoria);
+
+        List<Prodotto> prodListByCat= ProdottoDAO.doRetrieveByCategoria(filter);
+        request.setAttribute("prodottiJSON", JSONprodList(prodListByCat));
         RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Shop.jsp");
         dispatcher.forward(request, response);
     }
@@ -35,4 +36,20 @@ public class ShopServlet extends HttpServlet {
         doGet(req, resp);
     }
 
+    public String JSONprodList(List<Prodotto> prodList) {
+        StringBuilder JSONprodList= new StringBuilder();
+        JSONprodList.append("[");
+        for(Prodotto p: prodList) {
+            JSONprodList.append("{\"id\": \"").append(p.getId()).append("\", ");
+            JSONprodList.append("\"nome\": \"").append(p.getNome()).append("\", ");
+            JSONprodList.append("\"descrizione\": \"").append(p.getDescrizione()).append("\", ");
+            JSONprodList.append("\"prezzo\": \"").append(p.getPrezzo()).append("\", ");
+            JSONprodList.append("\"IVA\": \"").append(p.getIVA()).append("\", ");
+            JSONprodList.append("\"quantita\": \"").append(p.getQuantita()).append("\"},");
+        }
+        JSONprodList.deleteCharAt(JSONprodList.length()-1);
+        JSONprodList.append("]");
+
+        return JSONprodList.toString();
+    }
 }

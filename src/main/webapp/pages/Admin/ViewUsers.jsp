@@ -62,8 +62,7 @@
             };
 
             xhttp.open("POST", "<%=request.getContextPath()%>/Admin/DeleteUser", true);
-            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
-            xhttp.setRequestHeader("connection", "close")
+            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
             xhttp.send("id="+id);
         }
     </script>

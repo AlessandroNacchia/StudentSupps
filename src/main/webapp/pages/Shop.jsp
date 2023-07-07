@@ -1,5 +1,7 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsw.studentsupps.Model.Prodotto" %>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.parser.JSONParser" %>
+<%@ page import="org.json.simple.parser.ParseException" %>
+<%@ page import="org.json.simple.JSONObject" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -12,7 +14,16 @@
 <body>
     <jsp:include page="/ReusedHTML/head.jsp"/>
 
-    <%List<Prodotto> productsList= (List<Prodotto>) request.getAttribute("prodotti");%>
+    <%
+        JSONParser parser= new JSONParser();
+        JSONArray productsList;
+        try {
+            String prodottiJSON= (String) request.getAttribute("prodottiJSON");
+            productsList= (JSONArray) parser.parse(prodottiJSON);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    %>
     <main class="products">
         <header class="productsHeader">
             <h1 class="productsHeader-title">Prodotti</h1>
@@ -26,29 +37,31 @@
             </div>
         </header>
         <section class="productsSlots">
-            <%for (Prodotto p: productsList)
-                if(p.getQuantita()>0) {%>
+            <%for (Object o: productsList) {
+                JSONObject p= (JSONObject) o;
+                if(Integer.parseInt(p.get("quantita").toString())>0) {%>
                     <article class="productBox">
-                        <a class="productBox-image" href="Shop/Prodotto?prodName=<%=p.getNome()%>">
+                        <a class="productBox-image" href="Shop/Prodotto?prodName=<%=p.get("nome")%>">
                             <figure class="imageWrapper">
                                 <picture>
-                                    <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                    <img src="<%=request.getContextPath() + "/ProductImages/" + p.get("nome") + ".png"%>" alt="<%=p.get("nome")%>" title="<%=p.get("nome")%>">
                                 </picture>
                             </figure>
                         </a>
                         <div class="productBox-wrapper">
-                            <h3><a class="productBox-title" href="Shop/Prodotto?prodName=<%=p.getNome()%>"><%=p.getNome()%></a></h3>
+                            <h3><a class="productBox-title" href="Shop/Prodotto?prodName=<%=p.get("nome")%>"><%=p.get("nome")%></a></h3>
                             <div class="productBox-price">
-                                <span><%=p.getPrezzo()%>&nbsp;€</span>
+                                <span><%=p.get("prezzo")%>&nbsp;€</span>
                             </div>
                             <form action="Cart" method="post">
-                                <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
+                                <input type="hidden" name="prodToAdd" value="<%=p.get("id")%>">
                                 <input type="hidden" name="callerPage" value="Shop">
                                 <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
                             </form>
                         </div>
                     </article>
-                <%}%>
+                <%}
+            }%>
         </section>
     </main>
 

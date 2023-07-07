@@ -18,7 +18,7 @@
                         Informazioni su StudentSupps
                         <i class="fa fa-caret-down" ></i>
                     </div>
-                    <ul class="main-footer-nav-link" style="height:0px" id="navLinkInfo">
+                    <ul class="main-footer-nav-link" style="height:0" id="navLinkInfo">
                         <li class="main-footer-link">
                             <a href="" title="chi siamo">Chi siamo</a>
                         </li>
@@ -35,7 +35,7 @@
                         Servizio Clienti
                         <i class="fa fa-caret-down" ></i>
                     </div>
-                    <ul class="main-footer-nav-link" style="height:0px" id="navLinkHelp">
+                    <ul class="main-footer-nav-link" style="height:0" id="navLinkHelp">
                         <li class="main-footer-link">
                             <a href="" title="Assistenza">Assistenza</a>
                         </li>

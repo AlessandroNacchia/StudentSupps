@@ -91,7 +91,7 @@
                             Categorie
                             <i class="fa fa-caret-down" ></i>
                         </div>
-                        <ul class="form-field-nav-checkbox" style="height:0px" id="navCheckboxCategorie">
+                        <ul class="form-field-nav-checkbox" style="height:0" id="navCheckboxCategorie">
                             <%List<Categoria> catList= CategoriaDAO.doRetrieveAll();
                             for(Categoria cat: catList) {%>
                                 <li class="form-field-checkbox">

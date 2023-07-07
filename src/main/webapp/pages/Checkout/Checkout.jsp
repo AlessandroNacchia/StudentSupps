@@ -35,7 +35,7 @@
                             <h3 style="display: inline;">Indirizzi</h3>
                             <i class="fa fa-caret-down" style="float: right;"></i>
                         </div>
-                        <ul class="form-field-nav-radio gridWithTrash" style="height:0px; " id="navRadioIndirizzi">
+                        <ul class="form-field-nav-radio gridWithTrash" style="height:0; " id="navRadioIndirizzi">
                             <%List<Indirizzo> indList= IndirizzoDAO.doRetrieveByUserId(user.getId());
                             if(indList.isEmpty()) {%>
                                 <div class="form-field-navEmpty">
@@ -67,7 +67,7 @@
                             <h3 style="display: inline;">Metodi di pagamento</h3>
                             <i class="fa fa-caret-down" style="float: right;"></i>
                         </div>
-                        <ul class="form-field-nav-radio gridWithTrash" style="height:0px" id="navRadioMetodiPagamento">
+                        <ul class="form-field-nav-radio gridWithTrash" style="height:0" id="navRadioMetodiPagamento">
                             <%List<Metodopagamento> mpList= MetodopagamentoDAO.doRetrieveByUserId(user.getId());
                             if(mpList.isEmpty()) {%>
                                 <div class="form-field-navEmpty">
@@ -177,8 +177,7 @@
             else if(infoName === 'payMethod')
                 xhttp.open("POST", "<%=request.getContextPath()%>/Cart/Checkout/DeletePayMethod", true);
 
-            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
-            xhttp.setRequestHeader("connection", "close")
+            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
             xhttp.send("id="+id);
         }
     </script>

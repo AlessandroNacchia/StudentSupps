@@ -77,7 +77,7 @@
                     StudentSupps <%=p.getNome()%>
                     <i class="fa fa-caret-down" ></i>
                 </div>
-                <div class="product-info-description" style="height:0px" id="tab-content-Info">
+                <div class="product-info-description" style="height:0" id="tab-content-Info">
                     <p><%=p.getDescrizione()%></p>
                 </div>
             </div>
@@ -103,43 +103,35 @@
                         <%}
                             for (;i<5;i++){%>
                         <span class="stella-vuota">
-                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star"></i>
                         </span>
                         <%}%>
                     </div>
                     <%}%>
                 </div>
-                <div class="product-review-content" style="height:0px" id="tab-content-add-Review">
+                <div class="product-review-content" style="height:0" id="tab-content-add-Review">
                     <%if(u!= null){%>
                     <header class="button-add-review" >
                         <button class="buttonPrimary buttonHover" id="button-review" type="submit" onclick="openTabContentB('form-review')">Scrivi la tua recensione</button>
                     </header>
-                    <div class="formContainer " id="tab-content-form-review"   style="height:0px; border: 0px solid #737373; margin:0px; padding:0px;">
+                    <div class="formContainer " id="tab-content-form-review"   style="height:0; border: 0 solid #737373; margin:0; padding:0;">
                         <h1 class="formContainer-title " style="text-align: center;">Scrivi qui i dettagli della tua recensione</h1>
                         <div class="formContainer-wrapper" id="formContainer-wrapper-review" >
-                            <form action="<%=request.getContextPath()%>/Shop/Prodotto/Review" method="post">
-                                <c:if test="${requestScope.reviewStatus=='autoreWrongPattern'}">
-                                    <p style="color:red">Pattern Autore Errato</p>
-                                </c:if>
-                                <c:if test="${requestScope.reviewStatus=='descrizioneWrongPattern'}">
-                                    <p style="color:red">Pattern Descrizione Errato</p>
-                                </c:if>
-                                <c:if test="${requestScope.reviewStatus=='votoWrongPattern'}">
-                                    <p style="color:red">Pattern Voto Errato</p>
-                                </c:if>
+                            <div class="review-form">
+                                <section id="errorPatterns">
+                                </section>
                                 <section class="form-field">
                                     <label class="form-field-label" for="authoradd" style="justify-content: center" >Autore</label>
-                                    <input class="form-field-input" id="authoradd" name="author" readonly value="<%=u.getUsername()%>" autocomplete="off" type="text" >
+                                    <input class="form-field-input" id="authoradd" name="author" readonly value="<%=u.getUsername()%>" autocomplete="off" type="text" required>
                                 </section>
                                 <section class="form-field">
                                     <label class="form-field-label" style="justify-content: center" >Voto</label>
                                     <div class="rating" >
-
                                         <input id="rating-5" type="radio" name="rating" value="5"/><label for="rating-5"><i class=" fa fa-star"></i></label>
                                         <input id="rating-4" type="radio" name="rating" value="4"/><label for="rating-4"><i class=" fa fa-star"></i></label>
                                         <input id="rating-3" type="radio" name="rating" value="3"/><label for="rating-3"><i class=" fa fa-star"></i></label>
                                         <input id="rating-2" type="radio" name="rating" value="2"/><label for="rating-2"><i class=" fa fa-star"></i></label>
-                                        <input id="rating-1" type="radio" name="rating" value="1" checked/><label for="rating-1"><i class="fa fa-star"></i></label>
+                                        <input id="rating-1" type="radio" name="rating" value="1" checked required/><label for="rating-1"><i class="fa fa-star"></i></label>
                                     </div>
                                 </section>
                                 <section class="form-field">
@@ -149,21 +141,15 @@
                                         Minimo 2 caratteri. Massimo 1000 caratteri.
                                     </div>
                                 </section>
-                                <input type="hidden" name="prodId" value="<%=p.getId()%>">
-                                <button class="buttonPrimary buttonHover" onclick="return (confermaParametri())"  type="submit">Pubblica Recensione</button>
-
-                            </form>
+                                <button class="buttonPrimary buttonHover" onclick="return addReview()">Pubblica Recensione</button>
+                            </div>
                         </div>
                     </div>
-
-
                     <%}%>
-
                 </div>
-                <div class="product-reviews" style="height:0px" id="tab-content-Reviews">
+                <div class="product-reviews" style="height:0" id="tab-content-Reviews">
                     <%if(!ReviewList.isEmpty()) {
                         for (Recensione r: ReviewList){%>
-
                             <article class="review" id="reviewId<%=r.getId()%>">
                                 <header class="review-author">
                                      <h2 class="review-author-text">Recensione di  <%=r.getAutore()%></h2>
@@ -177,7 +163,7 @@
                                     <%}
                                     for (;i<5;i++){%>
                                         <span class="stella-vuota">
-                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star"></i>
                                         </span>
                                     <%}%>
                                 </div>
@@ -196,9 +182,8 @@
                                 <%}%>
                             </article>
                         <%}%>
-
                     <%}else{%>
-                        <p>Non sono presenti delle recensioni per questo prodotto</p>
+                        <p>Non sono presenti delle recensioni per questo prodotto!</p>
                     <%}%>
                 </div>
             </div>
@@ -210,7 +195,6 @@
 
 
 <script>
-
     let plus_b=document.querySelectorAll('.quantity-selector-button-increase');
     let minus_b=document.querySelectorAll('.quantity-selector-button-decrease');
     let quantity=document.querySelectorAll('.quantity-selector-input');
@@ -268,49 +252,140 @@
             navlink.style.removeProperty("margin");
             button.innerText="Annulla";
         }
-
-        else{navlink.style.height="0px";
+        else{
+            navlink.style.height="0px";
             navlink.style.border="0px solid #737373";
             navlink.style.margin="0px";
             navlink.style.padding="0px";
             button.innerText="Scrivi la tua recensione";
         }
     }
+
     <%if(u!=null){%>
-    function confermaParametri() {
-        let autore=document.getElementById("authoradd").value;
-        let voto=document.getElementsByName("rating");
-        let descr= document.getElementById('description').value;
+        function confermaParametri() {
+            let autore=document.getElementById("authoradd").value;
+            let voto=document.getElementsByName("rating");
+            let descr= document.getElementById('description').value;
 
-        const descrRGX= /^.{2,1000}$/;
-        const votoRGX= /^\d$/;
+            const descrRGX= /^.{2,1000}$/;
+            const votoRGX= /^\d$/;
 
-        if (autore!=='<%=u.getUsername()%>'){
-            alert("Autore non valido!");
-            return false;
-        }
-
-        if(!descrRGX.test(descr)){
-            alert("Descrizione non valida!");
-            return false;
-        }
-
-        voto.forEach(v=>{
-            if(!votoRGX.test(v.value)){
-                alert("Voto non valido!");
+            if (autore!=='<%=u.getUsername()%>'){
+                alert("Autore non valido!");
                 return false;
             }
 
-            if(v.value>5){
-                v.value=5;
+            if(!descrRGX.test(descr)){
+                alert("Descrizione non valida!");
+                return false;
             }
-            if(v.value<1){
-                v.value=1;
-            }
-        })
 
-        return true;
-    }
+            voto.forEach(v=>{
+                if(!votoRGX.test(v.value)){
+                    alert("Voto non valido!");
+                    return false;
+                }
+
+                if(v.value>5){
+                    v.value=5;
+                }
+                if(v.value<1){
+                    v.value=1;
+                }
+            })
+
+            return true;
+        }
+
+        function addReview() {
+            if(!confermaParametri())
+                return false;
+
+            let recensione = {
+                prodId: '<%=p.getId()%>',
+                autore: document.getElementById("authoradd").value,
+                voto: document.querySelector('input[name="rating"]:checked').value,
+                descrizione :  document.getElementById('description').value
+            };
+
+            let xhttp= new XMLHttpRequest();
+            xhttp.onreadystatechange= function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    //window.location.reload();
+                    let newArticle= document.createElement("article");
+                    newArticle.className= "review";
+                    newArticle.id="reviewId"+this.responseText;
+
+                    newArticle.innerHTML=`
+                    <header class="review-author">
+                        <h2 class="review-author-text">Recensione di `+recensione.autore+`</h2>
+                    </header>`
+
+                    let rating= document.createElement("div");
+                    rating.className= "review-rating";
+                    let i= 0;
+                    for(; i<recensione.voto; i++) {
+                        rating.innerHTML+=
+                        `<span class="stella-piena">
+                             <i class="fa fa-star"></i>
+                        </span>`;
+                    }
+                    for (; i<5; i++) {
+                        rating.innerHTML+=`
+                        <span class="stella-vuota">
+                             <i class="fa fa-star-o"></i>
+                        </span>`;
+                    }
+                    newArticle.appendChild(rating);
+                    newArticle.innerHTML+=`
+                    <div class="review-text">
+                        <p>`+recensione.descrizione+`</p>
+                    </div>
+                    <div class="button-delete-review">
+                        <button class="buttonPrimary buttonHover trashButtonReview"  type="button" onclick="return deleteReview('`+this.responseText+`')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>`
+
+                    let reviews= document.getElementById("tab-content-Reviews");
+                    if(reviews.firstElementChild.tagName === "P")
+                        reviews.firstElementChild.remove();
+                    reviews.insertBefore(newArticle, reviews.children[0]);
+
+                    let navlink= document.getElementById("tab-content-form-review");
+                    navlink.style.height="0px";
+                    navlink.style.border="0px solid #737373";
+                    navlink.style.margin="0px";
+                    navlink.style.padding="0px";
+                    document.getElementById("button-review").innerText="Scrivi la tua recensione";
+                }
+                else if (this.readyState === 4 && this.status === 403) {
+                    document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Dati Utente Session/DB non coincidenti</p>'
+                }
+                else if (this.readyState === 4 && this.status === 400) {
+                    if(this.responseText === "autoreWrongPattern") {
+                        document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Pattern Autore Errato</p>'
+                    } else if(this.responseText === "votoWrongPattern") {
+                        document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Pattern Voto Errato</p>'
+                    } else if(this.responseText === "descrizioneWrongPattern") {
+                        document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Pattern Descrizione Errato</p>'
+                    } else if(this.responseText === "invalidProdUUID") {
+                        document.getElementById("errorPatterns").innerHTML= '<p style="color:red">UUID Prodotto non valido</p>'
+                    } else if(this.responseText === "nullProd") {
+                        document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Prodotto inesistente</p>'
+                    } else if(this.responseText === "recensioneAlreadyExist") {
+                        document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Hai già creato una recensione!</p>'
+                    }
+                }
+                else if (this.readyState === 4 && this.status === 500) {
+                    document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Server Error</p>'
+                }
+            };
+
+            xhttp.open("POST", "<%=request.getContextPath()%>/Shop/Prodotto/Review", true);
+            xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+            xhttp.send("recensione="+ encodeURIComponent(JSON.stringify(recensione)));
+        }
     <%}%>
 
     function deleteReview(id) {
@@ -321,12 +396,15 @@
         xhttp.onreadystatechange= function() {
             if (this.readyState === 4 && this.status === 200) {
                 document.getElementById('reviewId'+id).remove();
+
+                let reviews= document.getElementById("tab-content-Reviews");
+                if(reviews.childElementCount === 0)
+                    reviews.innerHTML= "<p>Non sono presenti delle recensioni per questo prodotto!</p>";
             }
         };
 
         xhttp.open("POST", "<%=request.getContextPath()%>/Shop/Prodotto/DeleteReview", true);
         xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
-        xhttp.setRequestHeader("connection", "close")
         xhttp.send("id="+id);
     }
 </script>
