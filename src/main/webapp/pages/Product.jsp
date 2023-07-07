@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List"%>
+
 <html>
 <head>
     <title>Prodotto | StudentSupps</title>
@@ -82,8 +83,31 @@
             </div>
             <div class="product-tab-content-review">
                 <div class="product-review-header" onclick="openTabContent('add-Review'); openTabContent('Reviews') ;" >
-                    Recensioni
-                    <i class="fa fa-caret-down" ></i>
+                    <div>
+                        Recensioni
+                        <i class="fa fa-caret-down" ></i>
+                    </div>
+                    <%if(!ReviewList.isEmpty()) {
+                        int count=0;
+                        double media=0;
+                        for (Recensione r: ReviewList){
+                            media+=r.getVoto();
+                            count++;
+                        }media=media/count;%>
+                    <div class="media-review-rating">
+                        <%int i=0;
+                            for (;i<Math.round(media);i++){%>
+                        <span class="stella-piena">
+                            <i class="fa fa-star"></i>
+                        </span>
+                        <%}
+                            for (;i<5;i++){%>
+                        <span class="stella-vuota">
+                            <i class="fa fa-star-o"></i>
+                        </span>
+                        <%}%>
+                    </div>
+                    <%}%>
                 </div>
                 <div class="product-review-content" style="height:0px" id="tab-content-add-Review">
                     <%if(u!= null){%>
@@ -103,7 +127,6 @@
                                 <c:if test="${requestScope.reviewStatus=='votoWrongPattern'}">
                                     <p style="color:red">Pattern Voto Errato</p>
                                 </c:if>
-
                                 <section class="form-field">
                                     <label class="form-field-label" for="authoradd" style="justify-content: center" >Autore</label>
                                     <input class="form-field-input" id="authoradd" name="author" readonly value="<%=u.getUsername()%>" autocomplete="off" type="text" >

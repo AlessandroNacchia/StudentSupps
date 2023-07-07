@@ -234,6 +234,8 @@ border-bottom: 1px solid #737373;
     margin: 0;
     padding: 10px 0;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .product-review-content{
@@ -274,6 +276,7 @@ border-bottom: 1px solid #737373;
     color: #620000 ;
 }
 .review{
+    grid-template-columns: auto 20%;
     grid-template-areas:
         "author stars"
         "desc delete";

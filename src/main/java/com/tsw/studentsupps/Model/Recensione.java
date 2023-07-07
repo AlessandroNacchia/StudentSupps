@@ -33,7 +33,7 @@ public class Recensione {
     }
 
     public void setVoto(short voto) {
-        if(voto>1 && voto<=5)
+        if(voto>=1 && voto<=5)
             this.voto = voto;
     }
 
