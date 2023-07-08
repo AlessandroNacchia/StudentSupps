@@ -108,9 +108,9 @@
                             <i class="fa fa-times"></i>
                         </span>
                         <h2>Account</h2>
-                        <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Account/Profile'">
-                            <a href="<%=sitePath%>/Account/Profile">
-                                Profilo
+                        <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Account/EditProfile'">
+                            <a href="<%=sitePath%>/Account/EditProfile">
+                                Modifica Profilo
                                 <i class="fa fa-user" style="margin-left: 5px"></i>
                             </a>
                         </div>
@@ -127,10 +127,23 @@
                                     <i class="fa fa-cart-plus" style="margin-left: 5px"></i>
                                 </a>
                             </div>
+                            <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Admin/Discount'">
+                                <a href="<%=sitePath%>/Admin/Discount">
+                                    Gestisci gli sconti
+                                    <i class="fa fa-percent" style="margin-left: 5px"></i>
+                                </a>
+                            </div>
                             <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Admin/Users'">
                                 <a href="<%=sitePath%>/Admin/Users">
                                     Gestisci gli utenti
                                     <i class="fa fa-users" style="margin-left: 5px"></i>
+                                </a>
+                            </div>
+                            <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Admin/Orders'">
+                                <a href="<%=sitePath%>/Admin/Orders">
+                                    Gestisci gli ordini
+                                    <i class="fa fa-users" style="margin-left: 5px"></i>
+                                    <i class="fa fa-truck"></i>
                                 </a>
                             </div>
                         <%}%>

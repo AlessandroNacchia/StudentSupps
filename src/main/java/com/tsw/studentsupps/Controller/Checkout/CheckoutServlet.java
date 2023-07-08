@@ -44,7 +44,19 @@ public class CheckoutServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("Utente") == null) {
+            response.sendRedirect(request.getContextPath()+"/Login");
+            return;
+        }
+        if(Checks.userCheck(request, response)) return;
 
+        String address= request.getParameter("address");
+        String payMethod= request.getParameter("payMethod");
+
+        if(Checks.UUIDCheck(request, response, address)) return;
+        if(Checks.UUIDCheck(request, response,payMethod)) return;
+
+        response.sendRedirect(request.getContextPath()+"/Orders");
     }
 
 

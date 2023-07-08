@@ -95,7 +95,7 @@
                             <a href="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" class="buttonPrimary buttonSecondary buttonHover gridWithTrash-submit">Aggiungi metodo di pagamento</a>
                         </ul>
                     </div>
-                    <button class="buttonPrimary buttonHover" type="submit">Completa l'acquisto</button>
+                    <button class="buttonPrimary buttonHover" onclick="return confermaParametri()" type="submit">Completa l'acquisto</button>
                 </form>
             </section>
             <section class="checkout-section">
@@ -150,6 +150,22 @@
     <%}%>
 
     <script>
+        function confermaParametri() {
+            let address= document.querySelector('input[name="address"]:checked');
+            let payMethod= document.querySelector('input[name="payMethod"]:checked');
+
+            if(address == null){
+                alert("Devi selezionare un indirizzo!");
+                return false;
+            }
+            if(payMethod == null){
+                alert("Devi selezionare un metodo di pagamento!");
+                return false;
+            }
+
+            return true;
+        }
+
         function openRadios(x){
             let navlink=document.getElementById("navRadio"+x);
             if (navlink.style.height==="0px")
