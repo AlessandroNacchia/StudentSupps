@@ -4,6 +4,10 @@ import com.tsw.studentsupps.Model.CarrelloDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 @WebServlet(name="MyInit", urlPatterns="/MyInit", loadOnStartup=0)
 public class InitServlet extends HttpServlet {
@@ -21,5 +25,14 @@ public class InitServlet extends HttpServlet {
         getServletContext().setAttribute("delProdImageFolder", delProdImageFolder);
 
         super.init();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath()+'/');
+    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath()+'/');
     }
 }

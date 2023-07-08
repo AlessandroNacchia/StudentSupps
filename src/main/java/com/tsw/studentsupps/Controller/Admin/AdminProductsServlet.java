@@ -19,7 +19,7 @@ public class AdminProductsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Checks.adminCheck(request, response)) return;
 
-        List<Prodotto> prodList= ProdottoDAO.doRetrieveAll();
+        List<Prodotto> prodList= ProdottoDAO.doRetrieveAll(false);
         request.setAttribute("prodList", prodList);
         RequestDispatcher dispatcher=request.getRequestDispatcher("/pages/Admin/ViewProducts.jsp");
         dispatcher.forward(request,response);

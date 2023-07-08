@@ -1,7 +1,3 @@
-<%@ page import="org.json.simple.JSONArray" %>
-<%@ page import="org.json.simple.parser.JSONParser" %>
-<%@ page import="org.json.simple.parser.ParseException" %>
-<%@ page import="org.json.simple.JSONObject" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -10,60 +6,71 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="CSS/siteStyle.css">
     <link rel="stylesheet" href="CSS/shop.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
     <jsp:include page="/ReusedHTML/head.jsp"/>
 
-    <%
-        JSONParser parser= new JSONParser();
-        JSONArray productsList;
-        try {
-            String prodottiJSON= (String) request.getAttribute("prodottiJSON");
-            productsList= (JSONArray) parser.parse(prodottiJSON);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    %>
     <main class="products">
         <header class="productsHeader">
             <h1 class="productsHeader-title">Prodotti</h1>
             <div class="productsHeader-descr">
-                <div class="productsHeader-left">
-                    <%=productsList.size()%> Prodotti
-                </div>
-                <div class="productsHeader-right">
-
-                </div>
+                <div class="productsHeader-left" id="prodNumber"></div>
+                <div class="productsHeader-right"></div>
             </div>
         </header>
-        <section class="productsSlots">
-            <%for (Object o: productsList) {
-                JSONObject p= (JSONObject) o;
-                if(Integer.parseInt(p.get("quantita").toString())>0) {%>
-                    <article class="productBox">
-                        <a class="productBox-image" href="Shop/Prodotto?prodName=<%=p.get("nome")%>">
+        <section class="productsSlots" id="prodSlots"></section>
+    </main>
+
+    <script>
+        $(document).ready(function() {
+            const urlParams= new URLSearchParams(window.location.search);
+            const contextPath= "<%=request.getContextPath()%>";
+            $.ajax({
+                type: 'POST',
+                url: contextPath + '/LoadShopProducts',
+                dataType: "json",
+                async: true,
+                data: {
+                    filter: urlParams.get("filter")
+                },
+                success: function(data) {
+                    console.log(data);
+                    let prodSlots = ('#prodSlots');
+                    let prodNumber = ('#prodNumber');
+                    $(prodNumber).append(data.length+' Prodotti')
+
+                    for (let i= 0; i<data.length; i++) {
+                        let newArticle= document.createElement("article");
+                        newArticle.className= "productBox";
+
+                        newArticle.innerHTML=`
+                        <a class="productBox-image" href="Shop/Prodotto?prodName=`+data[i].nome+`">
                             <figure class="imageWrapper">
                                 <picture>
-                                    <img src="<%=request.getContextPath() + "/ProductImages/" + p.get("nome") + ".png"%>" alt="<%=p.get("nome")%>" title="<%=p.get("nome")%>">
+                                    <img src="`+contextPath+`/ProductImages/`+data[i].nome+`.png" alt="`+data[i].nome+`" title="`+data[i].nome+`">
                                 </picture>
                             </figure>
                         </a>
                         <div class="productBox-wrapper">
-                            <h3><a class="productBox-title" href="Shop/Prodotto?prodName=<%=p.get("nome")%>"><%=p.get("nome")%></a></h3>
+                            <h3><a class="productBox-title" href="Shop/Prodotto?prodName=`+data[i].nome+`">`+data[i].nome+`</a></h3>
                             <div class="productBox-price">
-                                <span><%=p.get("prezzo")%>&nbsp;€</span>
+                                <span>`+data[i].prezzo+`&nbsp;€</span>
                             </div>
                             <form action="Cart" method="post">
-                                <input type="hidden" name="prodToAdd" value="<%=p.get("id")%>">
+                                <input type="hidden" name="prodToAdd" value="`+data[i].id+`">
                                 <input type="hidden" name="callerPage" value="Shop">
                                 <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
                             </form>
-                        </div>
-                    </article>
-                <%}
-            }%>
-        </section>
-    </main>
+                        </div>`
+
+                        $(prodSlots).append(newArticle);
+                    }
+                }
+
+            });
+        });
+    </script>
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>

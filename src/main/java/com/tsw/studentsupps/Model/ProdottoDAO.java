@@ -52,9 +52,13 @@ public class ProdottoDAO {
         }
     }
 
-    public static List<Prodotto> doRetrieveAll() {
+    public static List<Prodotto> doRetrieveAll(boolean available) {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita FROM prodotto");
+            String stmt= "SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita FROM prodotto";
+            if(available)
+                stmt+= " WHERE quantita>0";
+
+            PreparedStatement ps= con.prepareStatement(stmt);
             ResultSet rs= ps.executeQuery();
 
             List<Prodotto> prodList= new ArrayList<>();
@@ -75,13 +79,17 @@ public class ProdottoDAO {
         }
     }
 
-    public static List<Prodotto> doRetrieveByCategoria(String nomeCat) {
+    public static List<Prodotto> doRetrieveByCategoria(String nomeCat, boolean available) {
         try (Connection con= ConPool.getConnection()) {
-            PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(P.id, 1), P.nome, P.descrizione, P.prezzo, P.IVA, P.quantita " +
+            String stmt= "SELECT BIN_TO_UUID(P.id, 1), P.nome, P.descrizione, P.prezzo, P.IVA, P.quantita " +
                     "FROM Prodotto AS P, ProdottoCategoria, Categoria AS C " +
                     "WHERE P.id = prodottocategoria.id_prodotto AND " +
                     "prodottocategoria.id_categoria = C.id AND " +
-                    "C.nome = ?");
+                    "C.nome = ?";
+            if(available)
+                stmt+= " AND P.quantita>0";
+
+            PreparedStatement ps= con.prepareStatement(stmt);
             ps.setString(1, nomeCat);
             ResultSet rs= ps.executeQuery();
 
