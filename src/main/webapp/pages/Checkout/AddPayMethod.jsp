@@ -26,14 +26,16 @@
                 <form action="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="providerAdd">Provider</label>
-                        <input class="form-field-input" id="providerAdd" name="provider" type="text" maxlength="30" autocomplete="off" required>
+                        <input class="form-field-input" id="providerAdd" name="provider" type="text" maxlength="30" autocomplete="off"
+                               placeholder="Mastercard" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 30 caratteri.
                         </div>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="cardNumberAdd">Numero Carta</label>
-                        <input class="form-field-input" id="cardNumberAdd" name="cardNumber" type="text" maxlength="20" autocomplete="off" required>
+                        <input class="form-field-input" id="cardNumberAdd" name="cardNumber" type="number" autocomplete="off"
+                               placeholder="1234123412341234" max="9999999999999999" oninput="maxLengthCheck(this)" required>
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="expiryDateAdd">Data di scadenza</label>
@@ -51,6 +53,11 @@
     </main>
 
     <script>
+        function maxLengthCheck(el) {
+            if(el.value.length > el.max.length)
+                el.value = el.value.slice(0, el.max.length)
+        }
+
         function confermaParametri() {
             let provider= document.getElementById('providerAdd').value;
             let cardNumber= document.getElementById('cardNumberAdd').value;

@@ -44,10 +44,10 @@ public class CartServlet extends HttpServlet {
                         quantityToAdd= 0;
                     }
                 }
-                if(quantitaAttuale == -1 && prod.getQuantita() >= quantityToAdd) {
-                    ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, Math.min(quantityToAdd, 99));
-                } else if(prod.getQuantita() >= (quantitaAttuale + quantityToAdd)) {
-                    ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToAdd, Math.min(quantitaAttuale+quantityToAdd, 99));
+                if(quantitaAttuale == -1 && prod.getQuantita() >= 1) {
+                    ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, Math.min(prod.getQuantita(), Math.min(quantityToAdd, 99)));
+                } else if(prod.getQuantita() >= (quantitaAttuale + 1)) {
+                    ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToAdd, Math.min(prod.getQuantita(), Math.min(quantitaAttuale+quantityToAdd, 99)));
                 }
             }
 
