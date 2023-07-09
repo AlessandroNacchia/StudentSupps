@@ -77,11 +77,11 @@ public class OrdineDAO {
         }
     }
 
-    public static void doSave(Ordine ord) {
+    public static void doSave(Ordine ord, String userId, String address, String payMethod) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO ordine (id, totale, dataAcquisto, dataConsegna,stato)" +
-                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?)");
+                    "INSERT INTO ordine (id, totale, dataAcquisto, dataConsegna, stato, id_utente, id_ind, id_mp)" +
+                            "VALUES(UUID_TO_BIN(?, 1),?,?,?,?,UUID_TO_BIN(?, 1),UUID_TO_BIN(?, 1),UUID_TO_BIN(?, 1))");
 
             UUID randUUID= Generators.defaultTimeBasedGenerator().generate();
             ps.setString(1, randUUID.toString());
@@ -89,6 +89,9 @@ public class OrdineDAO {
             ps.setTimestamp(3, ord.getDataAcquisto());
             ps.setTimestamp(4, ord.getDataConsegna());
             ps.setString(5, ord.getStato());
+            ps.setString(6, userId);
+            ps.setString(7, address);
+            ps.setString(8, payMethod);
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }

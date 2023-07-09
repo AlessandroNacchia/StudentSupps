@@ -153,6 +153,22 @@ public class ProdottoDAO {
         }
     }
 
+    public static void doUpdateQuantita(String prodId, int quantita) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE Prodotto SET quantita= ? " +
+                            "WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(2, prodId);
+
+            ps.setInt(1, quantita);
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void doDelete(Prodotto p) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement(

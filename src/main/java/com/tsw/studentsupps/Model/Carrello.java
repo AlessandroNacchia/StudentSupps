@@ -21,7 +21,8 @@ public class Carrello {
     }
 
     public void setTotale(double totale) {
-        this.totale = totale;
+        if(totale>=0)
+            this.totale = totale;
     }
 
     public Timestamp getUpdated_at() {

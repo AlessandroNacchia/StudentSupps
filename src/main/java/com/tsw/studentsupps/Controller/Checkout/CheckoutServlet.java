@@ -12,39 +12,48 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/Cart/Checkout")
 public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("Utente") == null) {
+        HttpSession session= request.getSession();
+        if(session.getAttribute("Utente") == null) {
             response.sendRedirect(request.getContextPath()+"/Login");
             return;
         }
         if(Checks.userCheck(request, response)) return;
 
-        HttpSession session= request.getSession();
         Carrello cart;
         if(session.getAttribute("Cart")==null) {
-            cart= new Carrello();
-            CarrelloDAO.doSave(cart);
-            session.setAttribute("Cart", cart);
+            response.sendRedirect(request.getContextPath()+"/Cart");
+            return;
         } else
             cart= (Carrello) session.getAttribute("Cart");
 
+        List<String> prodIdListCart= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
+        if(prodIdListCart.isEmpty() || cart.getTotale() == 0) {
+            response.sendRedirect(request.getContextPath()+"/Cart");
+            return;
+        }
+
         //Ricalcolo da zero il totale per sicurezza
-        calcoloTotale(session, cart, ProdottocarrelloDAO.doRetrieveProdotti(cart.getId()));
+        calcoloTotale(session, cart, prodIdListCart);
 
-        request.setAttribute("prodList", ProdottocarrelloDAO.doRetrieveProdotti(cart.getId()));
-
+        request.setAttribute("prodList", prodIdListCart);
         RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Checkout/Checkout.jsp");
         dispatcher.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("Utente") == null) {
+        HttpSession session= request.getSession();
+
+        Utente u= (Utente) session.getAttribute("Utente");
+        if(u == null) {
             response.sendRedirect(request.getContextPath()+"/Login");
             return;
         }
@@ -54,7 +63,75 @@ public class CheckoutServlet extends HttpServlet {
         String payMethod= request.getParameter("payMethod");
 
         if(Checks.UUIDCheck(request, response, address)) return;
-        if(Checks.UUIDCheck(request, response,payMethod)) return;
+        if(Checks.UUIDCheck(request, response, payMethod)) return;
+
+        Carrello cart;
+        if(session.getAttribute("Cart")==null) {
+            response.sendRedirect(request.getContextPath()+"/Cart");
+            return;
+        } else
+            cart= (Carrello) session.getAttribute("Cart");
+
+        List<String> prodIdListCart= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
+        double totCart= cart.getTotale();
+        if(prodIdListCart.isEmpty() || totCart == 0) {
+            response.sendRedirect(request.getContextPath()+"/Cart");
+            return;
+        }
+
+        if(!IndirizzoDAO.doExistsById_UserId(address, u.getId())) {
+            request.setAttribute("prodList", prodIdListCart);
+            request.setAttribute("checkoutStatus", "addressNotValid");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Checkout/Checkout.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+        if(!MetodopagamentoDAO.doExistsById_UserId(payMethod, u.getId())) {
+            request.setAttribute("prodList", prodIdListCart);
+            request.setAttribute("checkoutStatus", "payMethodNotValid");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Checkout/Checkout.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        //Ricalcolo da zero il totale per sicurezza
+        calcoloTotale(session, cart, prodIdListCart);
+        if(totCart != cart.getTotale()) {
+            request.setAttribute("prodList", prodIdListCart);
+            request.setAttribute("checkoutStatus", "totalPriceChanged");
+            RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Checkout/Checkout.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        Ordine ordine= new Ordine();
+        ordine.setTotale(cart.getTotale());
+        ordine.setDataAcquisto(Timestamp.valueOf(LocalDateTime.now()));
+        ordine.setDataConsegna(Timestamp.valueOf(LocalDateTime.now().plusDays(5)));
+        ordine.setStato("processing");
+
+        OrdineDAO.doSave(ordine, u.getId(), address, payMethod);
+
+        prodIdListCart= ProdottocarrelloDAO.doRetrieveProdotti(cart.getId());
+        for(String prodId: prodIdListCart) {
+            int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodId);
+            Prodotto prod= ProdottoDAO.doRetrieveById(prodId);
+            if(prod==null)
+                throw new RuntimeException();
+
+            ProdottoDAO.doUpdateQuantita(prodId, prod.getQuantita() - quantita);
+
+            Prodottoordine prodOrd= new Prodottoordine();
+            prodOrd.setId(prodId);
+            prodOrd.setNome_prodotto(prod.getNome());
+            prodOrd.setQuantita((short) quantita);
+            prodOrd.setPrezzo_acquisto(prod.getPrezzo());
+            prodOrd.setIVA_acquisto(prod.getIVA());
+
+            ProdottoordineDAO.doSave(ordine.getId(), prodOrd);
+
+            ProdottocarrelloDAO.doDelete(cart.getId(), prodId);
+        }
 
         response.sendRedirect(request.getContextPath()+"/Orders");
     }

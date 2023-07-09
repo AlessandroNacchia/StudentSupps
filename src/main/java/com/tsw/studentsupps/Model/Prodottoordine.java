@@ -1,10 +1,21 @@
 package com.tsw.studentsupps.Model;
 
+import java.util.UUID;
+
 public class Prodottoordine {
+    private String id;
     private String nome_prodotto;
     private short quantita;
     private double prezzo_acquisto;
     private short IVA_acquisto;
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        if(UUID.fromString(id).toString().equals(id))
+            this.id = id;
+    }
 
     public String getNome_prodotto() {
         return nome_prodotto;
@@ -33,7 +44,7 @@ public class Prodottoordine {
             this.prezzo_acquisto = prezzo_acquisto;
     }
 
-    public int getIVA_acquisto() {
+    public short getIVA_acquisto() {
         return IVA_acquisto;
     }
 

@@ -136,7 +136,7 @@ CREATE TABLE ProdottoOrdine
     prezzo_acquisto		decimal(10,2)		NOT NULL	CHECK(prezzo_acquisto>=0),
     IVA_acquisto		tinyint UNSIGNED 	NOT NULL,	
 
-    FOREIGN KEY (id_ordine) REFERENCES Ordine(id) ON UPDATE CASCADE,
+    FOREIGN KEY (id_ordine) REFERENCES Ordine(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE,
     PRIMARY KEY (id_ordine, id_prodotto)
 );

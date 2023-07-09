@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page import="java.time.LocalDate" %>
@@ -29,6 +30,15 @@
             </h1>
             <section class="checkout-section">
                 <h2 class="checkout-subtitle">Dati ordine</h2>
+                <c:if test="${requestScope.checkoutStatus == 'totalPriceChanged'}">
+                    <p style="color: red">Prezzo totale cambiato rispetto al precedente!</p>
+                </c:if>
+                <c:if test="${requestScope.checkoutStatus == 'addressNotValid'}">
+                    <p style="color: red">Indirizzo non valido!</p>
+                </c:if>
+                <c:if test="${requestScope.checkoutStatus == 'payMethodNotValid'}">
+                    <p style="color: red">Metodo di pagamento non valido!</p>
+                </c:if>
                 <form action="<%=request.getContextPath()%>/Cart/Checkout" method="post" style="margin:0">
                     <div class="form-field form-botBorder">
                         <div class="form-field-multipleRadio" onclick="openRadios('Indirizzi')">

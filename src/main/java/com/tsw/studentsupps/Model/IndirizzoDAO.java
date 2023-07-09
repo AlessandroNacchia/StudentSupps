@@ -153,4 +153,18 @@ public class IndirizzoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean doExistsById_UserId(String addressId, String userId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM indirizzo WHERE id=UUID_TO_BIN(?, 1) AND id_utente=UUID_TO_BIN(?, 1)");
+            ps.setString(1, addressId);
+            ps.setString(2, userId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
