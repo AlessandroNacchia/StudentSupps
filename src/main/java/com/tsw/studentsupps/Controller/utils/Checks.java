@@ -44,7 +44,7 @@ public class Checks {
     public static boolean UUIDCheck(HttpServletRequest request, HttpServletResponse response, String id)
             throws IOException, ServletException {
         try {
-            if(id == null || !UUID.fromString(id).toString().equals(id)) {
+            if(id == null || id.equals("") || !UUID.fromString(id).toString().equals(id)) {
                 request.setAttribute("errorMessage", "UUID non valido");
                 RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
                 dispatcher.forward(request,response);

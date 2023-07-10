@@ -33,7 +33,7 @@ public class UpdateUserServlet extends HttpServlet {
         boolean isUsersEqual= false;
         if(userToUpdate.getId().equals(callingUser.getId())) {
             isUsersEqual= true;
-            updateStatus_returnPage= "/Account/Profile";
+            updateStatus_returnPage= "/Account/EditProfile";
         }
         else
             updateStatus_returnPage= "/Admin/EditUser";
@@ -43,7 +43,7 @@ public class UpdateUserServlet extends HttpServlet {
             return;
         }
 
-        String oldName= userToUpdate.getNome();
+        String oldUsername= userToUpdate.getUsername();
         String oldEmail= userToUpdate.getEmail();
         String name= request.getParameter("name");
         String lastname= request.getParameter("lastname");
@@ -82,20 +82,20 @@ public class UpdateUserServlet extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         }
-        if(isUsersEqual && !password.matches(passwordRGX)) {
-            request.setAttribute("updateStatus", "passwordWrongPattern");
-            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
-            dispatcher.forward(request, response);
-            return;
-        }
         if(isUsersEqual && !password.equals(request.getParameter("password2"))) {
             request.setAttribute("updateStatus", "passwordsNotEqual");
             RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
             return;
         }
+        if(isUsersEqual && !password.equals("") && !password.matches(passwordRGX)) {
+            request.setAttribute("updateStatus", "passwordWrongPattern");
+            RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
+            dispatcher.forward(request, response);
+            return;
+        }
 
-        if(!oldName.equals(name) && UtenteDAO.doExistsByUsername(username)) {
+        if(!oldUsername.equals(username) && UtenteDAO.doExistsByUsername(username)) {
             request.setAttribute("updateStatus", "usernameTaken");
             RequestDispatcher dispatcher= request.getRequestDispatcher(updateStatus_returnPage);
             dispatcher.forward(request, response);
@@ -113,9 +113,11 @@ public class UpdateUserServlet extends HttpServlet {
         userToUpdate.setNumeroTel(phone);
         userToUpdate.setUsername(username);
         userToUpdate.setEmail(email);
-        if(request.getParameter("isAdmin")==null)
+
+        String isAdmin= request.getParameter("isAdmin");
+        if(!isUsersEqual && isAdmin==null)
             userToUpdate.setAdmin(false);
-        else if(request.getParameter("isAdmin").equals("true"))
+        else if(isAdmin!=null && isAdmin.equals("true"))
             userToUpdate.setAdmin(true);
         if(isUsersEqual)
             userToUpdate.setPasswordHash(password);
@@ -124,6 +126,10 @@ public class UpdateUserServlet extends HttpServlet {
 
         if(!isUsersEqual)
             request.setAttribute("returnPage", "/Admin/Users");
+        else {
+            userToUpdate.setPasswordAlreadyHashed("");
+            request.getSession().setAttribute("Utente", userToUpdate);
+        }
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);
     }

@@ -133,7 +133,7 @@ public class CheckoutServlet extends HttpServlet {
             ProdottocarrelloDAO.doDelete(cart.getId(), prodId);
         }
 
-        response.sendRedirect(request.getContextPath()+"/Orders");
+        response.sendRedirect(request.getContextPath()+"/Account/Orders");
     }
 
 

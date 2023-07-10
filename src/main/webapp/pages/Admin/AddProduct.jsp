@@ -99,7 +99,10 @@
                         </ul>
                     </div>
 
-                    <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
+                    <div class="form-buttons">
+                        <a href="<%=request.getContextPath()%>/Admin/Products" class="buttonPrimary buttonSecondary buttonHover">Annulla</a>
+                        <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
+                    </div>
                 </form>
             </section>
         </div>

@@ -104,7 +104,10 @@
                         </ul>
                     </div>
 
-                    <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiorna</button>
+                    <div class="form-buttons">
+                        <a href="<%=request.getContextPath()%>/Admin/Users" class="buttonPrimary buttonSecondary buttonHover">Annulla</a>
+                        <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiorna</button>
+                    </div>
                 </form>
             </section>
         </div>

@@ -326,7 +326,7 @@
                     </div>
 
                     <div class="form-buttons">
-                        <a href="<%=request.getContextPath()%>/Cart/Checkout" class="buttonPrimary buttonSecondary buttonHover" type="submit">Annulla</a>
+                        <a href="<%=request.getContextPath()%>/Cart/Checkout" class="buttonPrimary buttonSecondary buttonHover">Annulla</a>
                         <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiungi</button>
                     </div>
                 </form>
