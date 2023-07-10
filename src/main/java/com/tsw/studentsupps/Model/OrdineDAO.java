@@ -9,26 +9,58 @@ import java.util.UUID;
 
 public class OrdineDAO {        
     public static Ordine doRetrieveById(String id) {
-    try (Connection con= ConPool.getConnection()) {
-        PreparedStatement ps =
-                con.prepareStatement("SELECT BIN_TO_UUID(id, 1), totale, dataAcquisto, dataConsegna,stato FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
-        ps.setString(1, id);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            Ordine o= new Ordine();
-            o.setId(rs.getString(1));
-            o.setTotale(rs.getDouble(2));
-            o.setDataAcquisto(rs.getTimestamp(3));
-            o.setDataConsegna(rs.getTimestamp(4));
-            o.setStato(rs.getString(5));
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), totale, dataAcquisto, dataConsegna,stato FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Ordine o= new Ordine();
+                o.setId(rs.getString(1));
+                o.setTotale(rs.getDouble(2));
+                o.setDataAcquisto(rs.getTimestamp(3));
+                o.setDataConsegna(rs.getTimestamp(4));
+                o.setStato(rs.getString(5));
 
-            return o;
+                return o;
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
     }
-}
+
+    public static String doRetrieveMpById(String id) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT id_mp FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+
+                return rs.getString(1);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static String doRetrieveIndById(String id) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT id_ind FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+
+                return rs.getString(1);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static List<Ordine> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps= con.prepareStatement("SELECT BIN_TO_UUID(id, 1), totale, dataAcquisto, dataConsegna,stato FROM ordine");
@@ -121,4 +153,17 @@ public class OrdineDAO {
         }
     }
 
+    public static boolean doExistsById_UserId(String orderid, String userId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM ordine WHERE id=UUID_TO_BIN(?, 1) AND id_utente=UUID_TO_BIN(?, 1)");
+            ps.setString(1, orderid);
+            ps.setString(2, userId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
