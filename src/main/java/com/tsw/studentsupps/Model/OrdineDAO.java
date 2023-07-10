@@ -33,7 +33,7 @@ public class OrdineDAO {
     public static String doRetrieveMpById(String id) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps =
-                    con.prepareStatement("SELECT id_mp FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
+                    con.prepareStatement("SELECT bin_to_uuid(id_mp,1) FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -48,7 +48,7 @@ public class OrdineDAO {
     public static String doRetrieveIndById(String id) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps =
-                    con.prepareStatement("SELECT id_ind FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
+                    con.prepareStatement("SELECT bin_to_uuid(id_ind,1) FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

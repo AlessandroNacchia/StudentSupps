@@ -10,6 +10,7 @@
 <head>
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/siteStyle.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/orders.css">
 </head>
@@ -24,7 +25,7 @@
     <header class="orders-header">
         <h1 class="orders-header-text">Ordine N <%=o.getId()%></h1>
     </header>
-    <table class="order-details-table">
+    <table class="orders-table">
         <thead>
         <tr>
             <th>Indirizzo</th>
@@ -38,26 +39,42 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td><%=ind.getVia()%>, <%=ind.getCitta()%>, <%=ind.getProvincia()%>, <%=ind.getCAP()%>, <%=ind.getNazione()%></td>
-            <td><%=mp.getProvider()%>, termina con <%=mp.getLastDigits()%></td>
+        <tr class="order-item">
+            <td class="border-order">
+                <div class="orders-label">Indirizzo</div>
+                <div class="orders-Value"><%=ind.getVia()%>, <%=ind.getCitta()%>, <%=ind.getProvincia()%>, <%=ind.getCAP()%>, <%=ind.getNazione()%></div>
+            </td>
+            <td class="border-order">
+                <div class="orders-label">Metodo di Pagamento</div>
+                <div class="orders-Value"><%=mp.getProvider()%>, termina con <%=mp.getLastDigits()%></div>
+            </td>
             <%if (o.getStato().equals("processing") || o.getStato().equals("shipped")){%>
             <%if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) <= 0){%>
-            <td><%=o.getDataConsegna()%></td>
+            <td>
+                <div class="orders-label">Data Di Consegna Prevista</div>
+                <div class="orders-Value"><%=o.getDataConsegna()%></div>
+            </td>
             <%} else if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) > 0) {%>
-            <td>IN RITARDO</td>
+            <td>
+                <div class="orders-label">Data Di Consegna Prevista</div>
+                <div class="orders-Value">IN RITARDO</div>
+            </td>
             <%}%>
             <%}else if (o.getStato().equals("delivered")){%>
-            <td><%=o.getDataConsegna()%></td>
+            <td>
+                <div class="orders-label">Data Di Consegna</div>
+                <div class="orders-Value"><%=o.getDataConsegna()%></div>
+            </td>
             <%}%>
         </tr>
         </tbody>
     </table>
 
 
-<table class="orders-info-table">
+<table class="orders-table">
     <thead>
     <tr>
+        <th class="img-prod-order">Immagine</th>
         <th>Prodotto</th>
         <th>Quantità</th>
         <th>Prezzo d'Acquisto</th>
@@ -68,6 +85,15 @@
     <tbody>
     <%for (Prodottoordine po: prodList){%>
     <tr class="order-item">
+        <td class="img-prod-order">
+            <div style="position: relative;padding-top: 40%;overflow: hidden;">
+                <figure style="position: absolute;top: 0;">
+                    <picture>
+                        <img style="max-width: 40%" src="<%=request.getContextPath() + "/ProductImages/" + po.getNome_prodotto() + ".png"%>" alt="<%=po.getNome_prodotto()%>" title="<%=po.getNome_prodotto()%>">
+                    </picture>
+                </figure>
+            </div>
+        </td>
         <td>
             <div class="orders-label">Prodotto</div>
             <div class="orders-Value"><%=po.getNome_prodotto()%></div>

@@ -63,7 +63,7 @@
                 <div class="orders-Value"><%=o.getTotale()%></div>
             </td>
             <td>
-                <a href="<%=request.getContextPath()%>/Account/ViewOrderServlet?id=<%=o.getId()%>" class="view-order-button">
+                <a style="width: 100%" href="<%=request.getContextPath()%>/Account/ViewOrder?id=<%=o.getId()%>" class="view-order-button">
                     <div class="buttonHover buttonPrimary">Visualizza Dettagli</div>
                 </a>
             </td>
@@ -77,7 +77,7 @@
         <span class="orders-emptyIcon"><i class="fa fa-truck"></i></span>
         <h2 class="orders-emptyMessage">Non hai ancora effettuato degli ordini</h2>
         <div class="orders-emptyBtn">
-            <a href="<%=request.getContextPath()%>" class="buttonPrimary buttonHover">Continua i tuoi Acquisti</a>
+            <a  href="<%=request.getContextPath()%>" class="buttonPrimary buttonHover">Continua i tuoi Acquisti</a>
         </div>
     </section>
     <%}%>

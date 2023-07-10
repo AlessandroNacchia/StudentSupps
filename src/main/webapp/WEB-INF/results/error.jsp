@@ -9,7 +9,7 @@
 <body>
     <jsp:include page="/ReusedHTML/head.jsp"/>
 
-    <div style="margin: 50px 50px auto; min-height: 140px; text-align: center">
+    <div style="margin: auto; min-height: 140px; text-align: center">
         <h1 style="margin-bottom: 20px">ERROR</h1>
         <h2>"Error message: ${errorMessage}"</h2>
         <button class="buttonPrimary buttonHover" style="margin-top: 20px; " onclick="location.href='<%=request.getContextPath()%>/'">Torna alla Home</button>

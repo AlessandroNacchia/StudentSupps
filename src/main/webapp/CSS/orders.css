@@ -48,6 +48,7 @@
 .orders-table>tbody td {
     display: flex;
     padding: 1.5px 0;
+    gap: 25%;
 }
 @media  screen and (min-width: 1024px){
     .orders-table>tbody td {
@@ -85,4 +86,16 @@
 }
 .orders-emptyBtn {
     margin-top: 25px;
+}
+@media screen and (max-width: 1023px){
+    .img-prod-order{
+    display: none!important;
+    }
+    .orders-Value{
+        text-align: end;
+        align-self: center;
+    }
+    .border-order{
+        border-bottom: 1px solid #73737333;
+    }
 }
