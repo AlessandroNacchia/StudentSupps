@@ -55,7 +55,7 @@ public class ReviewServlet extends HttpServlet {
         String voto= (String) recensione.get("voto");
         String descrizione= (String) recensione.get("descrizione");
 
-        String descrizioneRGX="^.{2,1000}$";
+        String descrizioneRGX="^[\\s\\S]{2,1000}$";
         String votoRGX="^[1-5]$";
 
         if (!autore.equals(((Utente)req.getSession().getAttribute("Utente")).getUsername())){

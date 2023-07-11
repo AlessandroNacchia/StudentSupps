@@ -122,7 +122,7 @@
             let quantity= document.getElementById('quantityUpdate').value;
 
             const nameRGX= /^[\w\-. ]{2,50}$/;
-            const descrRGX= /^.{2,1000}$/;
+            const descrRGX= /^[\s\S]{2,1000}$/;
             const priceRGX= /^[+]?([0-9]{0,7}[.])?[0-9]{0,7}$/;
             const ivaRGX= /^[+]?[0-9]{1,2}$|^[+]?100$/;
             const quantityRGX= /^[+]?[0-9]{0,7}$/;

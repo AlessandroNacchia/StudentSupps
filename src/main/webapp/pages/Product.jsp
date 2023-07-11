@@ -267,7 +267,7 @@
             let voto=document.getElementsByName("rating");
             let descr= document.getElementById('description').value;
 
-            const descrRGX= /^.{2,1000}$/;
+            const descrRGX= /^[\s\S]{2,1000}$/;
             const votoRGX= /^\d$/;
 
             if (autore!=='<%=u.getUsername()%>'){
