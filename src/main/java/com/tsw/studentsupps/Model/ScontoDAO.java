@@ -95,4 +95,31 @@ public class ScontoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void doDelete(Sconto s) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM sconto WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, s.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean doExistsByName(String name) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM Sconto WHERE nome=?");
+            ps.setString(1, name);
+            ResultSet rs= ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

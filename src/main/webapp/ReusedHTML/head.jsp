@@ -128,7 +128,7 @@
                                 </a>
                             </div>
                             <div class="navBarSecondaryCategory" onclick="location.href='<%=sitePath%>/Admin/Discount'">
-                                <a href="<%=sitePath%>/Admin/Discount">
+                                <a href="<%=sitePath%>/Admin/Discounts">
                                     Gestisci gli sconti
                                     <i class="fa fa-percent" style="margin-left: 5px"></i>
                                 </a>

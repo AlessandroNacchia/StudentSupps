@@ -1,11 +1,9 @@
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="java.time.LocalDateTime" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <title>Title</title>
@@ -89,7 +87,8 @@
             <div style="position: relative;padding-top: 40%;overflow: hidden;">
                 <figure style="position: absolute;top: 0;">
                     <picture>
-                        <img style="max-width: 40%" src="<%=request.getContextPath() + "/ProductImages/" + po.getNome_prodotto() + ".png"%>" alt="<%=po.getNome_prodotto()%>" title="<%=po.getNome_prodotto()%>">
+                        <img style="max-width: 40%" src="<%=request.getContextPath() + "/ProductImages/" + po.getNome_prodotto() + ".png"%>"
+                             class="imgProd" alt="<%=po.getNome_prodotto()%>" title="<%=po.getNome_prodotto()%>">
                     </picture>
                 </figure>
             </div>
@@ -115,7 +114,18 @@
     </tbody>
 </table>
 </main>
-<jsp:include page="/ReusedHTML/tail.jsp"/>
 
+<script>
+    let imgProds= document.querySelectorAll('.imgProd');
+    imgProds.forEach(img=>{
+        img.addEventListener('error', ()=>{
+            img.src="<%=request.getContextPath()%>/images/img_notfound.png";
+            img.alt="Immagine non trovata";
+            img.title="Immagine non trovata";
+        })
+    })
+</script>
+
+<jsp:include page="/ReusedHTML/tail.jsp"/>
 </body>
 </html>

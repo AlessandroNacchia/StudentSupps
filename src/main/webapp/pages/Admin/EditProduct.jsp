@@ -18,7 +18,7 @@
 
     <%Prodotto p= (Prodotto) request.getAttribute("prodToEdit");%>
     <main class="formContainer">
-        <h1 class="formContainer-title">Aggiungi i parametri del prodotto</h1>
+        <h1 class="formContainer-title">Modifica i parametri del prodotto</h1>
         <div class="formContainer-wrapper">
             <section class="formContainer-section">
                 <c:if test="${requestScope.editProdStatus == 'nameWrongPattern'}">
@@ -45,43 +45,43 @@
                         <input class="form-field-input" id="prodToEditId" name="id" type="text" value="<%=p.getId()%>" readonly>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="imageAdd">Immagine</label>
-                        <input class="form-field-inputFile" id="imageAdd" name="image" type="file" accept=".png">
+                        <label class="form-field-label" for="imageUpdate">Immagine</label>
+                        <input class="form-field-inputFile" id="imageUpdate" name="image" type="file" accept=".png">
                         <div class="form-field-comment">
                             Accetta .png. Non selezionandola verrà solo rinominata l'immagine già presente.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="nameAdd">Nome</label>
-                        <input class="form-field-input" id="nameAdd" name="name" type="text" maxlength="50" autocomplete="off" value="<%=p.getNome()%>" required>
+                        <label class="form-field-label" for="nameUpdate">Nome</label>
+                        <input class="form-field-input" id="nameUpdate" name="name" type="text" maxlength="50" autocomplete="off" value="<%=p.getNome()%>" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 50 caratteri. Accetta lettere, numeri, spazi, punti e trattini medi.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="descrAdd">Descrizione</label>
-                        <input class="form-field-input" id="descrAdd" name="description" type="text" maxlength="1000" value="<%=p.getDescrizione()%>" autocomplete="off" required>
+                        <label class="form-field-label" for="descrUpdate">Descrizione</label>
+                        <input class="form-field-input" id="descrUpdate" name="description" type="text" maxlength="1000" value="<%=p.getDescrizione()%>" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 1000 caratteri.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="priceAdd">Prezzo</label>
-                        <input class="form-field-input" id="priceAdd" name="price" type="number" min="0" max="9999999" step="0.01" value="<%=p.getPrezzo()%>" autocomplete="off" required>
+                        <label class="form-field-label" for="priceUpdate">Prezzo</label>
+                        <input class="form-field-input" id="priceUpdate" name="price" type="number" min="0" max="9999999" step="0.01" value="<%=p.getPrezzo()%>" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 0. Massimo 9999999.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="ivaAdd">IVA</label>
-                        <input class="form-field-input" id="ivaAdd" name="iva" type="number" min="0" max="100" value="<%=p.getIVA()%>" autocomplete="off" required>
+                        <label class="form-field-label" for="ivaUpdate">IVA</label>
+                        <input class="form-field-input" id="ivaUpdate" name="iva" type="number" min="0" max="100" value="<%=p.getIVA()%>" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 0. Massimo 100.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="quantityAdd">Quantità</label>
-                        <input class="form-field-input" id="quantityAdd" name="quantity" type="number" min="0" max="9999999" value="<%=p.getQuantita()%>" autocomplete="off" required>
+                        <label class="form-field-label" for="quantityUpdate">Quantità</label>
+                        <input class="form-field-input" id="quantityUpdate" name="quantity" type="number" min="0" max="9999999" value="<%=p.getQuantita()%>" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 0. Massimo 9999999.
                         </div>
@@ -115,11 +115,11 @@
 
     <script>
         function confermaParametri() {
-            let name= document.getElementById('nameAdd').value;
-            let descr= document.getElementById('descrAdd').value;
-            let price= document.getElementById('priceAdd').value;
-            let iva= document.getElementById('ivaAdd').value;
-            let quantity= document.getElementById('quantityAdd').value;
+            let name= document.getElementById('nameUpdate').value;
+            let descr= document.getElementById('descrUpdate').value;
+            let price= document.getElementById('priceUpdate').value;
+            let iva= document.getElementById('ivaUpdate').value;
+            let quantity= document.getElementById('quantityUpdate').value;
 
             const nameRGX= /^[\w\-. ]{2,50}$/;
             const descrRGX= /^.{2,1000}$/;

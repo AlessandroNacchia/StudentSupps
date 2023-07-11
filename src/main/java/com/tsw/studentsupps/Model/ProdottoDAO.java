@@ -195,6 +195,34 @@ public class ProdottoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void doRemoveDiscountByDiscountId(String discountId) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE prodotto SET id_sconto= null " +
+                            "WHERE id_sconto= UUID_TO_BIN(?, 1)");
+            ps.setString(1, discountId);
+
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean doExistsByDiscount(String discountId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM Prodotto WHERE id_sconto= UUID_TO_BIN(?, 1)");
+            ps.setString(1, discountId);
+            ResultSet rs= ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
