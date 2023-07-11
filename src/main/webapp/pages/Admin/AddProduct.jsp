@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsw.studentsupps.Model.Categoria" %>
 <%@ page import="com.tsw.studentsupps.Model.CategoriaDAO" %>
+<%@ page import="com.tsw.studentsupps.Model.Sconto" %>
+<%@ page import="com.tsw.studentsupps.Model.ScontoDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
@@ -97,6 +99,16 @@
                                 </li>
                             <%}%>
                         </ul>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-field-label" for="discountAdd">Sconto</label>
+                        <select class="form-field-input" id="discountAdd" name="discount" required>
+                            <option value="Nessuno" selected>Nessuno</option>
+                            <%List<Sconto> discountList= ScontoDAO.doRetrieveAll();
+                            for(Sconto s: discountList) {%>
+                                <option value="<%=s.getId()%>"><%=s.getNome()%></option>
+                            <%}%>
+                        </select>
                     </div>
 
                     <div class="form-buttons">

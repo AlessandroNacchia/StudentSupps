@@ -1,7 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsw.studentsupps.Model.Prodotto" %>
-<%@ page import="com.tsw.studentsupps.Model.ProdottocategoriaDAO" %>
-<%@ page import="com.tsw.studentsupps.Model.CategoriaDAO" %>
+<%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -27,6 +25,7 @@
                 <th>IVA</th>
                 <th>Quantità</th>
                 <th>Categorie</th>
+                <th>Sconto</th>
                 <th>Azione</th>
             </tr>
             <% for(Prodotto p: prodList){ %>
@@ -48,9 +47,23 @@
                 <td><%=p.getIVA()%>%</td>
                 <td><%=p.getQuantita()%></td>
                 <td style="max-width: 0; word-break: break-word">
-                    <%for(String catId: ProdottocategoriaDAO.doRetrieveCategorie(p.getId())) {%>
-                        <%=CategoriaDAO.doRetrieveById(catId).getNome()%><br>
-                    <%}%>
+                    <%for(String catId: ProdottocategoriaDAO.doRetrieveCategorie(p.getId())) {
+                        Categoria cat= CategoriaDAO.doRetrieveById(catId);
+                        if(cat!=null) {%>
+                            <%=cat.getNome()%><br>
+                        <%}
+                    }%>
+                </td>
+                <td>
+                    <%String discountId= ProdottoDAO.doRetrieveDiscountId(p.getId());
+                    if(discountId==null) {%>
+                        Non applicato
+                    <%} else {
+                        Sconto s= ScontoDAO.doRetrieveById(discountId);
+                        if(s!=null) {%>
+                            <%=s.getNome()%>
+                        <%}
+                    }%>
                 </td>
                 <td>
                     <button class="buttonPrimary buttonHover" onclick=location.href="EditProduct?id=<%=p.getId()%>">Modifica</button>

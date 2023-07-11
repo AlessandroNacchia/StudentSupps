@@ -112,6 +112,11 @@ public class AdminAddProductServlet extends HttpServlet {
             }
         }
 
+        String discountId= request.getParameter("discount");
+        if(Checks.UUIDCheck(request, response, discountId)) return;
+        if(ScontoDAO.doRetrieveById(discountId) != null)
+            ProdottoDAO.doUpdateDiscount(p.getId(), discountId);
+
         request.setAttribute("returnPage", "/Admin/Products");
         RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/updateSuccess.jsp");
         dispatcher.forward(request,response);

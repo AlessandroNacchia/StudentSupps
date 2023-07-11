@@ -223,6 +223,37 @@ public class ProdottoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void doUpdateDiscount(String prodId, String discountId) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE Prodotto SET id_sconto= UUID_TO_BIN(?, 1) " +
+                            "WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(2, prodId);
+
+            ps.setString(1, discountId);
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String doRetrieveDiscountId(String prodId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT BIN_TO_UUID(id_sconto, 1) FROM Prodotto WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, prodId);
+            ResultSet rs= ps.executeQuery();
+            if(rs.next()) {
+                return rs.getString(1);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
