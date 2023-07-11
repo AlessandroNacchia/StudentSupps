@@ -86,7 +86,7 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="usernameSignup">Username</label>
-                        <input class="form-field-input" id="usernameSignup" name="usernameS" type="text" minlength="5" required>
+                        <input class="form-field-input" id="usernameSignup" name="usernameS" type="text" minlength="5" autocomplete="new-username" required>
                         <div class="form-field-comment">
                             Minimo 5 caratteri, Massimo 30 caratteri. Accetta lettere, numeri e trattino basso.
                         </div>
@@ -98,7 +98,7 @@
                     <div class="form-field">
                         <label class="form-field-label" for="passwordSignup1">Password</label>
                         <div class="form-field-icon">
-                            <input class="form-field-input" id="passwordSignup1" name="passwordS" type="password" minlength="8" autocomplete="off" required>
+                            <input class="form-field-input" id="passwordSignup1" name="passwordS" type="password" minlength="8" autocomplete="new-password" required>
                             <span class="password-eye" onclick="revealPassword('Signup1')"><i class="fa fa-eye" id="passEyeSignup1" title="Mostra Password"></i></span>
                         </div>
                         <div class="form-field-comment">
@@ -108,7 +108,7 @@
                     <div class="form-field">
                         <label class="form-field-label" for="passwordSignup2">Conferma Password</label>
                         <div class="form-field-icon">
-                            <input class="form-field-input" id="passwordSignup2" name="passwordS2" type="password" minlength="8" autocomplete="off" required>
+                            <input class="form-field-input" id="passwordSignup2" name="passwordS2" type="password" minlength="8" autocomplete="new-password" required>
                             <span class="password-eye" onclick="revealPassword('Signup2')"><i class="fa fa-eye" id="passEyeSignup2" title="Mostra Password"></i></span>
                         </div>
                         <div class="form-field-comment">

@@ -4,6 +4,7 @@
 <head>
     <title>Site Head Nav Bar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
 <%String sitePath= request.getContextPath();%>
@@ -271,6 +272,18 @@
             head.style.removeProperty("width");
         }
 
+    });
+
+    $('#drpCntAccount, .account-btn, #myNavBar, .menuIcon').click(function(e) {
+        e.stopPropagation();
+    })
+
+    $(function(){
+        $(document).click(function(){
+            actionClose();
+            subCatClose();
+            closeNav();
+        });
     });
 </script>
 </body>
