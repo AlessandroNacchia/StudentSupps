@@ -65,7 +65,7 @@
 
                         String discountId= ProdottoDAO.doRetrieveDiscountId(prodId);
                         double prezzo= p.getPrezzo();
-                        if(prodId!=null) {
+                        if(discountId!=null) {
                             Sconto sc= ScontoDAO.doRetrieveById(discountId);
                             if(sc!=null && sc.isStato() &&
                                     Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&

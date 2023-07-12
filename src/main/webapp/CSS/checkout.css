@@ -103,6 +103,11 @@
     font-weight: 600;
     flex-basis: 100%;
 }
+.checkout-summary-productInfo-price {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+}
 .checkout-summary-productInfo-quantity {
     margin-top: 15px;
 }

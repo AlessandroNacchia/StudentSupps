@@ -65,6 +65,12 @@
                             </form>
                         </div>`
 
+                        if(data[i].prezzo !== data[i].prezzoScontato) {
+                            newArticle.getElementsByClassName("productBox-price")[0].innerHTML=`
+                            <span><s>`+data[i].prezzo+`&nbsp;€</s></span>
+                            <span style="color: #620000;margin-left: 10px;">`+data[i].prezzoScontato+`&nbsp;€</span>`
+                        }
+
                         $(prodSlots).append(newArticle);
                     }
 

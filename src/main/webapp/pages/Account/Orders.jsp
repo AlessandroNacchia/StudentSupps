@@ -26,7 +26,7 @@
     <table class="orders-table">
         <thead>
         <tr>
-            <th>Numero Ordine</th>
+            <th>Id Ordine</th>
             <th>Stato</th>
             <th>Data di Acquisto</th>
             <th>Totale</th>

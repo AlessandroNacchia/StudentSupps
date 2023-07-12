@@ -141,9 +141,9 @@
                                 <div class="checkout-summary-productInfo-price">
                                     <span><%=(BigDecimal.valueOf(prezzo).multiply(BigDecimal.valueOf(quantita))).doubleValue()%>&nbsp;€</span>
                                     <%if(prezzo!=p.getPrezzo()) {%>
-                                        <span class="discountPrice" style="float: right;">(Prezzo singolo: <%=prezzo%>&nbsp;€)</span>
+                                    <span style="float: right;">(1pz: <s><%=p.getPrezzo()%>&nbsp;€</s>&nbsp;<span class="discountPrice"><%=prezzo%>&nbsp;€</span>)</span>
                                     <%} else {%>
-                                        <span style="float: right;">(Prezzo singolo: <%=p.getPrezzo()%>&nbsp;€)</span>
+                                        <span>(1pz: <%=p.getPrezzo()%>&nbsp;€)</span>
                                     <%}%>
                                 </div>
                                 <div class="checkout-summary-productInfo-quantity">

@@ -2,6 +2,8 @@ package com.tsw.studentsupps.Controller;
 
 import com.tsw.studentsupps.Model.Prodotto;
 import com.tsw.studentsupps.Model.ProdottoDAO;
+import com.tsw.studentsupps.Model.Sconto;
+import com.tsw.studentsupps.Model.ScontoDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +14,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/LoadShopProducts")
@@ -50,10 +54,23 @@ public class LoadShopProductsServlet extends HttpServlet {
         StringBuilder JSONprodList= new StringBuilder();
         JSONprodList.append("[");
         for(Prodotto p: prodList) {
+            String discountId= ProdottoDAO.doRetrieveDiscountId(p.getId());
+            double prezzo= p.getPrezzo();
+            if(discountId!=null) {
+                Sconto sc= ScontoDAO.doRetrieveById(discountId);
+                if(sc!=null && sc.isStato() &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0) {
+                    prezzo= prezzo * ((double)(100-sc.getPercentuale()) / 100);
+                    prezzo= (double) Math.round(prezzo * 100) / 100;
+                }
+            }
+
             JSONprodList.append("{\"id\": \"").append(p.getId()).append("\", ");
             JSONprodList.append("\"nome\": \"").append(p.getNome()).append("\", ");
             JSONprodList.append("\"descrizione\": \"").append(p.getDescrizione()).append("\", ");
             JSONprodList.append("\"prezzo\": \"").append(p.getPrezzo()).append("\", ");
+            JSONprodList.append("\"prezzoScontato\": \"").append(prezzo).append("\", ");
             JSONprodList.append("\"IVA\": \"").append(p.getIVA()).append("\", ");
             JSONprodList.append("\"quantita\": \"").append(p.getQuantita()).append("\"},");
         }

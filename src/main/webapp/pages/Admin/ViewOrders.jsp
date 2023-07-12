@@ -26,11 +26,11 @@
             <thead>
             <tr>
                 <th>Utente</th>
-                <th>Numero Ordine</th>
+                <th>Id Ordine</th>
                 <th>Stato</th>
                 <th>Data di Acquisto</th>
                 <th>Totale</th>
-                <th></th>
+                <th style="width: 25%;">Azioni</th>
             </tr>
             </thead>
             <tbody>
