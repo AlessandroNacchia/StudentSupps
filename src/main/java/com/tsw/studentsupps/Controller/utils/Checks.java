@@ -50,7 +50,7 @@ public class Checks {
                 dispatcher.forward(request,response);
                 return true;
             }
-        } catch (NumberFormatException ex) {
+        } catch (IllegalArgumentException ex) {
             request.setAttribute("errorMessage", "UUID non valido");
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);

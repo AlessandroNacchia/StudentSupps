@@ -33,7 +33,10 @@ public class ReviewServlet extends HttpServlet {
         JSONObject recensione;
         try {
             JSONParser parser= new JSONParser();
-            recensione= (JSONObject) parser.parse(URLDecoder.decode(req.getParameter("recensione"), "UTF-8"));
+            String recens= req.getParameter("recensione");
+            recens= recens.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+            recens= recens.replaceAll("\\+", "%2B");
+            recensione= (JSONObject) parser.parse(URLDecoder.decode(recens, "UTF-8"));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +66,7 @@ public class ReviewServlet extends HttpServlet {
             resp.setStatus(400);
             return;
         }
-        if(RecensioneDAO.doExistsByUsername(autore)) {
+        if(RecensioneDAO.doExistsByUsername_Prod(autore, prod.getId())) {
             resp.getWriter().write("recensioneAlreadyExist");
             resp.setStatus(400);
             return;

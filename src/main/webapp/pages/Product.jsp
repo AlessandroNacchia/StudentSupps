@@ -24,7 +24,8 @@
     <figure class="product-page-image">
         <div class="product-image-wrapper">
             <picture>
-                <img src="<%=request.getContextPath() + "/images/products/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                <img src="<%=request.getContextPath() + "/images/products/" + p.getNome() + ".png"%>"
+                     class="imgProdErr" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
             </picture>
         </div>
 
@@ -114,7 +115,7 @@
                     <i class="fa fa-caret-down" ></i>
                 </div>
                 <div class="product-info-description" style="height:0" id="tab-content-Info">
-                    <p><%=p.getDescrizione()%></p>
+                    <p style="white-space: pre-line"><%=p.getDescrizione()%></p>
                 </div>
             </div>
             <div class="product-tab-content-review">
@@ -204,7 +205,7 @@
                                     <%}%>
                                 </div>
                                 <div class="review-text">
-                                    <p style="white-space: pre-line" >
+                                    <p style="white-space: pre-line">
                                         <%=r.getDescrizione()%>
                                     </p>
 
@@ -375,7 +376,7 @@
                     newArticle.appendChild(rating);
                     newArticle.innerHTML+=`
                     <div class="review-text">
-                        <p>`+recensione.descrizione+`</p>
+                        <p style="white-space: pre-line">`+recensione.descrizione+`</p>
                     </div>
                     <div class="button-delete-review">
                         <button class="buttonPrimary buttonHover trashButtonReview"  type="button" onclick="return deleteReview('`+this.responseText+`')">
@@ -394,6 +395,8 @@
                     navlink.style.margin="0px";
                     navlink.style.padding="0px";
                     document.getElementById("button-review").innerText="Scrivi la tua recensione";
+
+                    document.getElementById("description").innerText="";
                 }
                 else if (this.readyState === 4 && this.status === 403) {
                     document.getElementById("errorPatterns").innerHTML= '<p style="color:red">Dati Utente Session/DB non coincidenti</p>'
@@ -420,7 +423,9 @@
 
             xhttp.open("POST", "<%=request.getContextPath()%>/Shop/Prodotto/Review", true);
             xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-            xhttp.send("recensione="+ encodeURIComponent(JSON.stringify(recensione)));
+            let jsonStringify= JSON.stringify(recensione);
+            let encodeUri= encodeURIComponent(jsonStringify);
+            xhttp.send("recensione="+ encodeUri);
         }
     <%}%>
 
@@ -443,6 +448,15 @@
         xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
         xhttp.send("id="+id);
     }
+
+    let imgProds= document.querySelectorAll('.imgProdErr');
+    imgProds.forEach(img=>{
+        img.addEventListener('error', ()=>{
+            img.src="<%=request.getContextPath()%>/images/img_notfound.png";
+            img.alt="Immagine non trovata";
+            img.title="Immagine non trovata";
+        })
+    })
 </script>
 
 <jsp:include page="/ReusedHTML/tail.jsp"/>

@@ -240,6 +240,21 @@ public class ProdottoDAO {
         }
     }
 
+    public static void doRemoveDiscount(String prodId) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE Prodotto SET id_sconto= null " +
+                            "WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, prodId);
+
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("UPDATE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String doRetrieveDiscountId(String prodId) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps=

@@ -139,13 +139,15 @@ public class AdminEditProductServlet extends HttpServlet {
 
             String delProdImageFolder= (String) getServletContext().getAttribute("delProdImageFolder");
             File movedImage= new File(delProdImageFolder, imageToDelete);
-            for(int i= 0; i<1000; i++) {
-                if(!Files.exists(movedImage.toPath())) {
-                    Files.move(imageToMove.toPath(), movedImage.toPath());
-                    break;
-                }
-                else {
-                    movedImage= new File(delProdImageFolder, oldName + i + imageToDelete.substring(imageToDelete.lastIndexOf(".")));
+            if(Files.exists(imageToMove.toPath())) {
+                for(int i= 0; i<1000; i++) {
+                    if(!Files.exists(movedImage.toPath())) {
+                        Files.move(imageToMove.toPath(), movedImage.toPath());
+                        break;
+                    }
+                    else {
+                        movedImage= new File(delProdImageFolder, oldName + i + imageToDelete.substring(imageToDelete.lastIndexOf(".")));
+                    }
                 }
             }
 
@@ -174,6 +176,15 @@ public class AdminEditProductServlet extends HttpServlet {
             else if(!catList.contains(cat.getId()) && ProdottocategoriaDAO.doExists(prodToUpdate.getId(), cat.getId())) {
                 ProdottocategoriaDAO.doDelete(prodToUpdate.getId(), cat.getId());
             }
+        }
+
+        String discountId= request.getParameter("discount");
+        if(discountId.equals("Nessuno"))
+            ProdottoDAO.doRemoveDiscount(prodToUpdate.getId());
+        else {
+            if(Checks.UUIDCheck(request, response, discountId)) return;
+            if(ScontoDAO.doRetrieveById(discountId) != null)
+                ProdottoDAO.doUpdateDiscount(prodToUpdate.getId(), discountId);
         }
 
         request.setAttribute("returnPage", "/Admin/Products");

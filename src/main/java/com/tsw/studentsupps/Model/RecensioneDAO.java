@@ -124,12 +124,13 @@ public class RecensioneDAO {
         }
     }
 
-    public static boolean doExistsByUsername(String username) {
+    public static boolean doExistsByUsername_Prod(String username, String prodId) {
         try (Connection con= ConPool.getConnection()) {
             PreparedStatement ps=
                     con.prepareStatement("SELECT 1 " +
-                            "FROM recensione WHERE  autore=?");
+                            "FROM recensione WHERE  autore=? and id_prodotto= UUID_TO_BIN(?, 1)");
             ps.setString(1, username);
+            ps.setString(2, prodId);
             ResultSet rs= ps.executeQuery();
             return rs.next();
         } catch (SQLException e) {

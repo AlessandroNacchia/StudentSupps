@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="form-buttons">
-                        <a href="<%=request.getContextPath()%>/Admin/Users" class="buttonPrimary buttonSecondary buttonHover">Annulla</a>
+                        <a href="<%=request.getContextPath()%>/Admin/Discounts" class="buttonPrimary buttonSecondary buttonHover">Annulla</a>
                         <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiorna</button>
                     </div>
                 </form>

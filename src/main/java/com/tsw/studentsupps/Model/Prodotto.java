@@ -30,7 +30,7 @@ public class Prodotto {
         return descrizione;
     }
     public void setDescrizione(String descrizione) {
-        if(descrizione.matches("^.{2,1000}$"))
+        if(descrizione.matches("^[\\s\\S]{2,1000}$"))
             this.descrizione = descrizione;
     }
 

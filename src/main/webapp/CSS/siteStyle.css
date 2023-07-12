@@ -650,13 +650,14 @@ input[type=number] {
     overflow-x: auto;
     border: 1px solid #737373;
     margin: 50px 50px auto;
-    min-height: 75px;
+    min-height: 250px;
 }
 
 .defaultTable {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    min-height: 250px;
 }
 
 .defaultTable td, .defaultTable th {

@@ -48,7 +48,8 @@
                         <a class="productBox-image" href="Shop/Prodotto?prodName=`+data[i].nome+`">
                             <figure class="imageWrapper">
                                 <picture>
-                                    <img src="`+contextPath+`/ProductImages/`+data[i].nome+`.png" alt="`+data[i].nome+`" title="`+data[i].nome+`">
+                                    <img src="`+contextPath+`/ProductImages/`+data[i].nome+`.png"
+                                            class="imgProdErr" alt="`+data[i].nome+`" title="`+data[i].nome+`">
                                 </picture>
                             </figure>
                         </a>
@@ -66,8 +67,16 @@
 
                         $(prodSlots).append(newArticle);
                     }
-                }
 
+                    let imgProds= document.querySelectorAll('.imgProdErr');
+                    imgProds.forEach(img=>{
+                        img.addEventListener('error', ()=>{
+                            img.src="<%=request.getContextPath()%>/images/img_notfound.png";
+                            img.alt="Immagine non trovata";
+                            img.title="Immagine non trovata";
+                        })
+                    })
+                }
             });
         });
     </script>

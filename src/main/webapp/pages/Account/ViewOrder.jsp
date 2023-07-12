@@ -88,7 +88,7 @@
                 <figure style="position: absolute;top: 0;">
                     <picture>
                         <img style="max-width: 40%" src="<%=request.getContextPath() + "/ProductImages/" + po.getNome_prodotto() + ".png"%>"
-                             class="imgProd" alt="<%=po.getNome_prodotto()%>" title="<%=po.getNome_prodotto()%>">
+                             class="imgProdErr" alt="<%=po.getNome_prodotto()%>" title="<%=po.getNome_prodotto()%>">
                     </picture>
                 </figure>
             </div>
@@ -116,7 +116,7 @@
 </main>
 
 <script>
-    let imgProds= document.querySelectorAll('.imgProd');
+    let imgProds= document.querySelectorAll('.imgProdErr');
     imgProds.forEach(img=>{
         img.addEventListener('error', ()=>{
             img.src="<%=request.getContextPath()%>/images/img_notfound.png";

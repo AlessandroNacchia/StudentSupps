@@ -34,14 +34,17 @@
                     <div style="position: relative;padding-top: 100%;overflow: hidden;">
                         <figure style="position: absolute;top: 0;">
                             <picture>
-                                <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
+                                <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>"
+                                     class="imgProdErr" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
                             </picture>
                         </figure>
                     </div>
                 </td>
                 <td><%=p.getNome()%></td>
-                <td style="max-width: 0; word-break: break-word">
-                    <%=p.getDescrizione()%>
+                <td style="word-break: break-word">
+                    <div style="max-height: 200px;min-width: 200px;overflow-y: auto;">
+                        <%=p.getDescrizione()%>
+                    </div>
                 </td>
                 <td><%=p.getPrezzo()%>&nbsp;€</td>
                 <td><%=p.getIVA()%>%</td>
@@ -93,6 +96,15 @@
             xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
             xhttp.send("id="+id);
         }
+
+        let imgProds= document.querySelectorAll('.imgProdErr');
+        imgProds.forEach(img=>{
+            img.addEventListener('error', ()=>{
+                img.src="<%=request.getContextPath()%>/images/img_notfound.png";
+                img.alt="Immagine non trovata";
+                img.title="Immagine non trovata";
+            })
+        })
     </script>
 
     <jsp:include page="/ReusedHTML/tail.jsp"/>

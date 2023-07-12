@@ -33,13 +33,15 @@ public class AdminDeleteProductServlet extends HttpServlet {
 
         String delProdImageFolder= (String) getServletContext().getAttribute("delProdImageFolder");
         File movedImage= new File(delProdImageFolder, imageToDelete);
-        for(int i= 0; i<1000; i++) {
-            if(!Files.exists(movedImage.toPath())) {
-                Files.move(imageToMove.toPath(), movedImage.toPath());
-                break;
-            }
-            else {
-                movedImage= new File(delProdImageFolder, prodName + i + imageToDelete.substring(imageToDelete.lastIndexOf(".")));
+        if(Files.exists(imageToMove.toPath())) {
+            for(int i= 0; i<1000; i++) {
+                if(!Files.exists(movedImage.toPath())) {
+                    Files.move(imageToMove.toPath(), movedImage.toPath());
+                    break;
+                }
+                else {
+                    movedImage= new File(delProdImageFolder, prodName + i + imageToDelete.substring(imageToDelete.lastIndexOf(".")));
+                }
             }
         }
 

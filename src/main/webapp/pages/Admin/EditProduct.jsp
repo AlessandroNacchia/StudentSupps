@@ -1,8 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsw.studentsupps.Model.Categoria" %>
-<%@ page import="com.tsw.studentsupps.Model.CategoriaDAO" %>
-<%@ page import="com.tsw.studentsupps.Model.Prodotto" %>
-<%@ page import="com.tsw.studentsupps.Model.ProdottocategoriaDAO" %>
+<%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
@@ -103,9 +100,22 @@
                             <%}%>
                         </ul>
                     </div>
+                    <div class="form-field">
+                        <label class="form-field-label" for="discountAdd">Sconto</label>
+                        <select class="form-field-input" id="discountAdd" name="discount" required>
+                            <%String discountId= ProdottoDAO.doRetrieveDiscountId(p.getId());%>
+                            <option value="Nessuno" <%if(discountId==null) {%> selected <%}%>>Nessuno</option>
+                            <%List<Sconto> discountList= ScontoDAO.doRetrieveAll();
+                                for(Sconto s: discountList) {%>
+                            <option value="<%=s.getId()%>" <%if(discountId!=null && discountId.equals(s.getId())) {%> selected <%}%>>
+                                <%=s.getNome()%>
+                            </option>
+                            <%}%>
+                        </select>
+                    </div>
 
                     <div class="form-buttons">
-                        <a href="<%=request.getContextPath()%>/Admin/Users" class="buttonPrimary buttonSecondary buttonHover">Annulla</a>
+                        <a href="<%=request.getContextPath()%>/Admin/Products" class="buttonPrimary buttonSecondary buttonHover">Annulla</a>
                         <button class="form-submitButton" onclick="return (confermaParametri())" type="submit">Aggiorna</button>
                     </div>
                 </form>
