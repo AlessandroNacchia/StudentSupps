@@ -14,14 +14,20 @@
 </head>
 <body>
 <jsp:include page="/ReusedHTML/head.jsp"/>
-<%Ordine o= (Ordine)   request.getAttribute("ordine");
-    Indirizzo ind= (Indirizzo)   request.getAttribute("indirizzo");
-    Metodopagamento mp= (Metodopagamento)   request.getAttribute("metodopagamento");
+<%Ordine o= (Ordine) request.getAttribute("ordine");
+    Indirizzo ind= (Indirizzo) request.getAttribute("indirizzo");
+    Metodopagamento mp= (Metodopagamento) request.getAttribute("metodopagamento");
     List<Prodottoordine> prodList= (List<Prodottoordine>) request.getAttribute("listaprodotti");
 %>
 <main class="orders-page">
     <header class="orders-header">
         <h1 class="orders-header-text">Id Ordine: <%=o.getId()%></h1>
+        <%Utente userOrder= UtenteDAO.doRetrieveById(OrdineDAO.doRetrieveUserById(o.getId()));
+        if(userOrder!=null) {%>
+            <h2 class="orders-header-text">Utente: <%=userOrder.getUsername()%></h2>
+        <%} else {%>
+            <h2 class="orders-header-text">Utente: Non trovato.</h2>
+        <%}%>
     </header>
     <table class="orders-table">
         <thead>
@@ -29,11 +35,10 @@
             <th>Indirizzo</th>
             <th>Metodo di Pagamento</th>
             <%if (o.getStato().equals("processing") || o.getStato().equals("shipped")){%>
-            <th>Data Di Consegna Prevista</th>
+                <th>Data Di Consegna Prevista</th>
             <%}else if (o.getStato().equals("delivered")){%>
-            <th>Data Di Consegna</th>
+                <th>Data Di Consegna</th>
             <%}%>
-
         </tr>
         </thead>
         <tbody>
@@ -46,23 +51,23 @@
                 <div class="orders-label">Metodo di Pagamento</div>
                 <div class="orders-Value"><%=mp.getProvider()%>, termina con <%=mp.getLastDigits()%></div>
             </td>
-            <%if (o.getStato().equals("processing") || o.getStato().equals("shipped")){%>
-            <%if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) <= 0){%>
-            <td>
-                <div class="orders-label">Data Di Consegna Prevista</div>
-                <div class="orders-Value"><%=o.getDataConsegna().toLocalDateTime().toLocalDate()%></div>
-            </td>
-            <%} else if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) > 0) {%>
-            <td>
-                <div class="orders-label">Data Di Consegna Prevista</div>
-                <div class="orders-Value">IN RITARDO</div>
-            </td>
-            <%}%>
-            <%}else if (o.getStato().equals("delivered")){%>
-            <td>
-                <div class="orders-label">Data Di Consegna</div>
-                <div class="orders-Value"><%=o.getDataConsegna().toLocalDateTime().toLocalDate()%></div>
-            </td>
+            <%if(o.getStato().equals("processing") || o.getStato().equals("shipped")) {%>
+                <%if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) <= 0){%>
+                    <td>
+                        <div class="orders-label">Data Di Consegna Prevista</div>
+                        <div class="orders-Value"><%=o.getDataConsegna().toLocalDateTime().toLocalDate()%></div>
+                    </td>
+                <%} else if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) > 0) {%>
+                    <td>
+                        <div class="orders-label">Data Di Consegna Prevista</div>
+                        <div class="orders-Value">IN RITARDO</div>
+                    </td>
+                <%}%>
+            <%} else if (o.getStato().equals("delivered")) {%>
+                <td>
+                    <div class="orders-label">Data Di Consegna</div>
+                    <div class="orders-Value"><%=o.getDataConsegna().toLocalDateTime().toLocalDate()%></div>
+                </td>
             <%}%>
         </tr>
         </tbody>

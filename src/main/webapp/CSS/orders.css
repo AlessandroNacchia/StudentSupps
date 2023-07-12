@@ -94,6 +94,7 @@
     .orders-Value{
         text-align: end;
         align-self: center;
+        word-break: break-word;
     }
     .border-order{
         border-bottom: 1px solid #73737333;

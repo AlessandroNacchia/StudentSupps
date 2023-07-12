@@ -60,6 +60,21 @@ public class OrdineDAO {
             throw new RuntimeException(e);
         }
     }
+    public static String doRetrieveUserById(String id) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT BIN_TO_UUID(id_utente, 1) FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static List<Ordine> doRetrieveAll() {
         try (Connection con= ConPool.getConnection()) {
@@ -162,6 +177,33 @@ public class OrdineDAO {
             ps.setString(2, userId);
             ResultSet rs = ps.executeQuery();
             return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean doExistsById(String orderid) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM ordine WHERE id=UUID_TO_BIN(?, 1)");
+            ps.setString(1, orderid);
+            ResultSet rs= ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void doDelete(Ordine o) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM ordine WHERE id= UUID_TO_BIN(?, 1)");
+
+            ps.setString(1, o.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

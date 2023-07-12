@@ -38,7 +38,8 @@ public class Ordine {
     }
 
     public void setStato(String stato) {
-        this.stato = stato;
+        if(stato.equals("processing") || stato.equals("shipped") || stato.equals("delivered"))
+            this.stato = stato;
     }
 
     public double getTotale() {

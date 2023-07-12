@@ -101,8 +101,8 @@
                         </ul>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="discountAdd">Sconto</label>
-                        <select class="form-field-input" id="discountAdd" name="discount" required>
+                        <label class="form-field-label" for="discountUpdate">Sconto</label>
+                        <select class="form-field-input" id="discountUpdate" name="discount" required>
                             <%String discountId= ProdottoDAO.doRetrieveDiscountId(p.getId());%>
                             <option value="Nessuno" <%if(discountId==null) {%> selected <%}%>>Nessuno</option>
                             <%List<Sconto> discountList= ScontoDAO.doRetrieveAll();

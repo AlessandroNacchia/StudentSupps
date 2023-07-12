@@ -23,6 +23,9 @@
                 <c:if test="${requestScope.addPayMethodStatus == 'expiryDateWrongPattern'}">
                     <p style="color: red">Pattern Data di scadenza errato!</p>
                 </c:if>
+                <c:if test="${requestScope.addPayMethodStatus == 'expiryDateNotValid'}">
+                    <p style="color: red">Data di scadenza non valida!</p>
+                </c:if>
                 <form action="<%=request.getContextPath()%>/Cart/Checkout/AddPayMethod" method="post">
                     <div class="form-field">
                         <label class="form-field-label" for="providerAdd">Provider</label>

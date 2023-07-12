@@ -54,12 +54,7 @@ public class AdminEditProductServlet extends HttpServlet {
         if(Checks.adminCheck(request, response)) return;
 
         String prodToUpdateId= request.getParameter("id");
-        if(!UUID.fromString(prodToUpdateId).toString().equals(prodToUpdateId)) {
-            request.setAttribute("errorMessage", "UUID non valido");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
+        if(Checks.UUIDCheck(request, response, prodToUpdateId)) return;
 
         Prodotto prodToUpdate= ProdottoDAO.doRetrieveById(prodToUpdateId);
         if(prodToUpdate == null) {

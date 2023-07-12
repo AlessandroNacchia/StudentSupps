@@ -63,6 +63,12 @@ public class AddPayMethodServlet extends HttpServlet {
         LocalDate date= LocalDate.of(2000+year, month, 1);
         date= date.withDayOfMonth(date.getMonth().length(date.isLeapYear()));
 
+        if(date.isBefore(LocalDate.now()) || date.isAfter(LocalDate.now().plusYears(10))) {
+            request.setAttribute("addPayMethodStatus", "expiryDateNotValid");
+            doGet(request, response);
+            return;
+        }
+
         mp.setDataScadenza(Date.valueOf(date));
 
         MetodopagamentoDAO.doSave(mp, ((Utente) request.getSession().getAttribute("Utente")).getId());

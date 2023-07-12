@@ -43,12 +43,7 @@ public class AdminEditDiscountServlet extends HttpServlet {
         if(Checks.adminCheck(request, response)) return;
 
         String discountToUpdateId= request.getParameter("id");
-        if(!UUID.fromString(discountToUpdateId).toString().equals(discountToUpdateId)) {
-            request.setAttribute("errorMessage", "UUID non valido");
-            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
-            dispatcher.forward(request,response);
-            return;
-        }
+        if(Checks.UUIDCheck(request, response, discountToUpdateId)) return;
 
         Sconto discountToUpdate= ScontoDAO.doRetrieveById(discountToUpdateId);
         if(discountToUpdate == null) {
@@ -75,28 +70,28 @@ public class AdminEditDiscountServlet extends HttpServlet {
         String datetimeRGX= "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})$";
 
         if(!name.matches(nameRGX)) {
-            request.setAttribute("addDiscountStatus", "nameWrongPattern");
+            request.setAttribute("editDiscountStatus", "nameWrongPattern");
             doGet(request, response);
             return;
         }
         if(!percentage.matches(percentageRGX)) {
-            request.setAttribute("addDiscountStatus", "percentageWrongPattern");
+            request.setAttribute("editDiscountStatus", "percentageWrongPattern");
             doGet(request, response);
             return;
         }
         if(!startDateString.matches(datetimeRGX)) {
-            request.setAttribute("addDiscountStatus", "startDateWrongPattern");
+            request.setAttribute("editDiscountStatus", "startDateWrongPattern");
             doGet(request, response);
             return;
         }
         if(!endDateString.matches(datetimeRGX)) {
-            request.setAttribute("addDiscountStatus", "endDateWrongPattern");
+            request.setAttribute("editDiscountStatus", "endDateWrongPattern");
             doGet(request, response);
             return;
         }
 
         if(!oldName.equals(name) && ScontoDAO.doExistsByName(request.getParameter("name"))) {
-            request.setAttribute("addDiscountStatus", "nameTaken");
+            request.setAttribute("editDiscountStatus", "nameTaken");
             doGet(request, response);
             return;
         }

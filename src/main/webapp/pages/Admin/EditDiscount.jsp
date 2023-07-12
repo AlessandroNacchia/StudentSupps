@@ -14,22 +14,22 @@
 
     <%Sconto s= (Sconto) request.getAttribute("discountToEdit");%>
     <main class="formContainer">
-        <h1 class="formContainer-title">Aggiungi i parametri del prodotto</h1>
+        <h1 class="formContainer-title">Modifica i parametri del prodotto</h1>
         <div class="formContainer-wrapper">
             <section class="formContainer-section">
-                <c:if test="${requestScope.addDiscountStatus == 'nameWrongPattern'}">
+                <c:if test="${requestScope.editDiscountStatus == 'nameWrongPattern'}">
                     <p style="color: red">Pattern Nome errato!</p>
                 </c:if>
-                <c:if test="${requestScope.addDiscountStatus == 'percentageWrongPattern'}">
+                <c:if test="${requestScope.editDiscountStatus == 'percentageWrongPattern'}">
                     <p style="color: red">Pattern Percentuale errato!</p>
                 </c:if>
-                <c:if test="${requestScope.addDiscountStatus == 'startDateWrongPattern'}">
+                <c:if test="${requestScope.editDiscountStatus == 'startDateWrongPattern'}">
                     <p style="color: red">Pattern Data d'inizio errato!</p>
                 </c:if>
-                <c:if test="${requestScope.addDiscountStatus == 'endDateWrongPattern'}">
+                <c:if test="${requestScope.editDiscountStatus == 'endDateWrongPattern'}">
                     <p style="color: red">Pattern Data di fine errato!</p>
                 </c:if>
-                <c:if test="${requestScope.addDiscountStatus == 'nameTaken'}">
+                <c:if test="${requestScope.editDiscountStatus == 'nameTaken'}">
                     <p style="color: red">Nome Sconto già usato!</p>
                 </c:if>
                 <form action="<%=request.getContextPath()%>/Admin/EditDiscount" method="post">
@@ -45,28 +45,28 @@
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="percentageAdd">IVA</label>
-                        <input class="form-field-input" id="percentageAdd" name="percentage" type="number" min="0" max="100" value="<%=s.getPercentuale()%>" autocomplete="off" required>
+                        <label class="form-field-label" for="percentageUpdate">IVA</label>
+                        <input class="form-field-input" id="percentageUpdate" name="percentage" type="number" min="0" max="100" value="<%=s.getPercentuale()%>" autocomplete="off" required>
                         <div class="form-field-comment">
                             Minimo 0. Massimo 100.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="statusAdd">Stato</label>
-                        <input class="form-field-input" id="statusAdd" name="status" type="checkbox" value="true"
+                        <label class="form-field-label" for="statusUpdate">Stato</label>
+                        <input class="form-field-input" id="statusUpdate" name="status" type="checkbox" value="true"
                                style="width: 40px; cursor: pointer; margin: 5px 20px;" <%if(s.isStato()) {%> checked <%}%>>
                         <div class="form-field-comment">
                             Spuntare per indicare che lo sconto è attivo tra la data d'inizio e di fine.
                         </div>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="startDateAdd">Data d'inizio</label>
-                        <input class="form-field-input" id="startDateAdd" name="startDate" type="datetime-local" value="<%=s.getDataInizio().toString().replace(" ", "T")%>"
+                        <label class="form-field-label" for="startDateUpdate">Data d'inizio</label>
+                        <input class="form-field-input" id="startDateUpdate" name="startDate" type="datetime-local" value="<%=s.getDataInizio().toString().replace(" ", "T")%>"
                                pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" autocomplete="off" required>
                     </div>
                     <div class="form-field">
-                        <label class="form-field-label" for="endDateAdd">Data di fine</label>
-                        <input class="form-field-input" id="endDateAdd" name="endDate" type="datetime-local" value="<%=s.getDataFine().toString().replace(" ", "T")%>"
+                        <label class="form-field-label" for="endDateUpdate">Data di fine</label>
+                        <input class="form-field-input" id="endDateUpdate" name="endDate" type="datetime-local" value="<%=s.getDataFine().toString().replace(" ", "T")%>"
                                pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" autocomplete="off" required>
                     </div>
 
@@ -81,10 +81,10 @@
 
     <script>
         function confermaParametri() {
-            let name= document.getElementById('nameAdd').value;
-            let percentage= document.getElementById('percentageAdd').value;
-            let startDateString= document.getElementById('startDateAdd').value;
-            let endDateString= document.getElementById('endDateAdd').value;
+            let name= document.getElementById('nameUpdate').value;
+            let percentage= document.getElementById('percentageUpdate').value;
+            let startDateString= document.getElementById('startDateUpdate').value;
+            let endDateString= document.getElementById('endDateUpdate').value;
 
             if((startDateString.match(/:/g) || []).length === 1)
                 startDateString+=":00";
