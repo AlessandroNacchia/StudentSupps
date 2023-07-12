@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-    <title>Title</title>
+    <title>Visualizza Ordine | StudentSupps</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/siteStyle.css">
@@ -75,7 +75,7 @@
         <th class="img-prod-order">Immagine</th>
         <th>Prodotto</th>
         <th>Quantità</th>
-        <th>Prezzo d'Acquisto</th>
+        <th>Prezzo d'Acquisto (1pz)</th>
         <th>Iva d'Acquisto</th>
     </tr>
     </thead>
@@ -102,7 +102,7 @@
             <div class="orders-Value"><%=po.getQuantita()%></div>
         </td>
         <td>
-            <div class="orders-label">Prezzo d'Acquisto</div>
+            <div class="orders-label">Prezzo d'Acquisto (1pz)</div>
             <div class="orders-Value"><%=po.getPrezzo_acquisto()%></div>
         </td>
         <td>

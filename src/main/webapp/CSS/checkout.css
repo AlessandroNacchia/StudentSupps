@@ -106,3 +106,8 @@
 .checkout-summary-productInfo-quantity {
     margin-top: 15px;
 }
+
+.discountPrice {
+    color: #620000;
+    font-weight: 800;
+}

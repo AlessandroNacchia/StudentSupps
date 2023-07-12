@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/Cart")
@@ -151,7 +153,19 @@ public class CartServlet extends HttpServlet {
                 }
             }
 
-            BigDecimal price= BigDecimal.valueOf(prod.getPrezzo());
+            double prezzo=prod.getPrezzo();
+            String discountId= ProdottoDAO.doRetrieveDiscountId(idProd);
+            if(discountId!=null) {
+                Sconto sc= ScontoDAO.doRetrieveById(discountId);
+                if(sc!=null && sc.isStato() &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0) {
+                    prezzo= prezzo * ((double)(100-sc.getPercentuale()) / 100);
+                    prezzo= (double) Math.round(prezzo * 100) / 100;
+                }
+            }
+
+            BigDecimal price= BigDecimal.valueOf(prezzo);
             cart.setTotale(
                     (BigDecimal.valueOf(cart.getTotale()).add(
                             price.multiply(BigDecimal.valueOf(quantita))

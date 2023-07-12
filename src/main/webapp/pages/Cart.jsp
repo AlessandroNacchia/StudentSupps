@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -57,8 +59,21 @@
                     </header>
                     <%for (String prodId: productsList) {
                         Prodotto p= ProdottoDAO.doRetrieveById(prodId);
+                        if(p==null)
+                            continue;
                         int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodId);
-                    %>
+
+                        String discountId= ProdottoDAO.doRetrieveDiscountId(prodId);
+                        double prezzo= p.getPrezzo();
+                        if(prodId!=null) {
+                            Sconto sc= ScontoDAO.doRetrieveById(discountId);
+                            if(sc!=null && sc.isStato() &&
+                                    Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                                    Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0) {
+                                prezzo= prezzo * ((double)(100-sc.getPercentuale()) / 100);
+                                prezzo= (double) Math.round(prezzo * 100) / 100;
+                            }
+                        }%>
                         <div class="cart-products-row">
                             <div class="cart-products-colImage">
                                 <a href="Shop/Prodotto?prodName=<%=p.getNome()%>">
@@ -78,7 +93,12 @@
                                 </div>
                             </div>
                             <div class="cart-products-colPrice">
-                                <span><%=p.getPrezzo()%>&nbsp;€</span>
+                                <%if(prezzo!=p.getPrezzo()) {%>
+                                    <span><s><%=p.getPrezzo()%>&nbsp;€</s></span>
+                                    <span class="discountPrice"><%=prezzo%>&nbsp;€</span>
+                                <%} else {%>
+                                    <span><%=prezzo%>&nbsp;€</span>
+                                <%}%>
                             </div>
                             <div class="cart-products-colQuantity">
                                 <form action="Cart" method="post" id="quantitaForm" style="margin-bottom: 0;">
@@ -97,7 +117,7 @@
                                 </form>
                             </div>
                             <div class="cart-products-colTotal">
-                                <span><%=(BigDecimal.valueOf(p.getPrezzo()).multiply(BigDecimal.valueOf(quantita)))%>&nbsp;€</span>
+                                <span><%=(BigDecimal.valueOf(prezzo).multiply(BigDecimal.valueOf(quantita)))%>&nbsp;€</span>
                             </div>
                         </div>
                     <%}%>

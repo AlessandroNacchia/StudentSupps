@@ -3,6 +3,8 @@
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.sql.Timestamp" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -113,7 +115,20 @@
                 <section>
                     <%for (String prodId: productsList) {
                         Prodotto p= ProdottoDAO.doRetrieveById(prodId);
-                        int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodId);%>
+                        if(p==null)
+                            continue;
+                        int quantita= ProdottocarrelloDAO.doRetrieveQuantita(cart.getId(), prodId);
+                        String discountId= ProdottoDAO.doRetrieveDiscountId(prodId);
+                        double prezzo= p.getPrezzo();
+                        if(prodId!=null) {
+                            Sconto sc= ScontoDAO.doRetrieveById(discountId);
+                            if(sc!=null && sc.isStato() &&
+                                    Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                                    Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0) {
+                                prezzo= prezzo * ((double)(100-sc.getPercentuale()) / 100);
+                                prezzo= (double) Math.round(prezzo * 100) / 100;
+                            }
+                        }%>
 
                         <div class="checkout-summary-product">
                             <div class="checkout-summary-productImage">
@@ -124,8 +139,12 @@
                             <div class="checkout-summary-productInfo">
                                 <div class="checkout-summary-productInfo-name"><%=p.getNome()%></div>
                                 <div class="checkout-summary-productInfo-price">
-                                    <span><%=(BigDecimal.valueOf(p.getPrezzo()).multiply(BigDecimal.valueOf(quantita))).doubleValue()%>&nbsp;€</span>
-                                    <span style="float: right;">(Prezzo singolo: <%=p.getPrezzo()%>&nbsp;€)</span>
+                                    <span><%=(BigDecimal.valueOf(prezzo).multiply(BigDecimal.valueOf(quantita))).doubleValue()%>&nbsp;€</span>
+                                    <%if(prezzo!=p.getPrezzo()) {%>
+                                        <span class="discountPrice" style="float: right;">(Prezzo singolo: <%=prezzo%>&nbsp;€)</span>
+                                    <%} else {%>
+                                        <span style="float: right;">(Prezzo singolo: <%=p.getPrezzo()%>&nbsp;€)</span>
+                                    <%}%>
                                 </div>
                                 <div class="checkout-summary-productInfo-quantity">
                                     <span>Quantità: <%=quantita%></span>

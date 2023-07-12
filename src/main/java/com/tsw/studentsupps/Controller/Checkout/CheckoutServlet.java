@@ -119,13 +119,25 @@ public class CheckoutServlet extends HttpServlet {
             if(prod==null)
                 throw new RuntimeException();
 
+            double prezzo=prod.getPrezzo();
+            String discountId= ProdottoDAO.doRetrieveDiscountId(prodId);
+            if(discountId!=null) {
+                Sconto sc= ScontoDAO.doRetrieveById(discountId);
+                if(sc!=null && sc.isStato() &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0) {
+                    prezzo= prezzo * ((double)(100-sc.getPercentuale()) / 100);
+                    prezzo= (double) Math.round(prezzo * 100) / 100;
+                }
+            }
+
             ProdottoDAO.doUpdateQuantita(prodId, prod.getQuantita() - quantita);
 
             Prodottoordine prodOrd= new Prodottoordine();
             prodOrd.setId(prodId);
             prodOrd.setNome_prodotto(prod.getNome());
             prodOrd.setQuantita((short) quantita);
-            prodOrd.setPrezzo_acquisto(prod.getPrezzo());
+            prodOrd.setPrezzo_acquisto(prezzo);
             prodOrd.setIVA_acquisto(prod.getIVA());
 
             ProdottoordineDAO.doSave(ordine.getId(), prodOrd);
@@ -156,7 +168,19 @@ public class CheckoutServlet extends HttpServlet {
                 }
             }
 
-            BigDecimal price= BigDecimal.valueOf(prod.getPrezzo());
+            double prezzo=prod.getPrezzo();
+            String discountId= ProdottoDAO.doRetrieveDiscountId(idProd);
+            if(discountId!=null) {
+                Sconto sc= ScontoDAO.doRetrieveById(discountId);
+                if(sc!=null && sc.isStato() &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                        Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0) {
+                    prezzo= prezzo * ((double)(100-sc.getPercentuale()) / 100);
+                    prezzo= (double) Math.round(prezzo * 100) / 100;
+                }
+            }
+
+            BigDecimal price= BigDecimal.valueOf(prezzo);
             cart.setTotale(
                     (BigDecimal.valueOf(cart.getTotale()).add(
                             price.multiply(BigDecimal.valueOf(quantita))

@@ -211,6 +211,16 @@
     cursor: pointer;
 }
 
+.cart-products-colPrice {
+    display: grid;
+    justify-items: center;
+}
+.discountPrice {
+    color: #620000;
+    font-weight: 800;
+    font-size: 20px;
+}
+
 /*Carrello vuoto*/
 .cart-main-empty {
     align-items: center;
