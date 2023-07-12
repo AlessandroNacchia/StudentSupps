@@ -50,7 +50,7 @@
             <%if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) <= 0){%>
             <td>
                 <div class="orders-label">Data Di Consegna Prevista</div>
-                <div class="orders-Value"><%=o.getDataConsegna()%></div>
+                <div class="orders-Value"><%=o.getDataConsegna().toLocalDateTime().toLocalDate()%></div>
             </td>
             <%} else if (Timestamp.valueOf(LocalDateTime.now()).compareTo(o.getDataConsegna()) > 0) {%>
             <td>
@@ -61,7 +61,7 @@
             <%}else if (o.getStato().equals("delivered")){%>
             <td>
                 <div class="orders-label">Data Di Consegna</div>
-                <div class="orders-Value"><%=o.getDataConsegna()%></div>
+                <div class="orders-Value"><%=o.getDataConsegna().toLocalDateTime().toLocalDate()%></div>
             </td>
             <%}%>
         </tr>

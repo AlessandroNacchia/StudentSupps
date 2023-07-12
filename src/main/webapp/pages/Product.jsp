@@ -2,6 +2,8 @@
 <%@ page import="com.tsw.studentsupps.Model.*" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.sql.Timestamp" %>
 
 <html>
 <head>
@@ -16,6 +18,7 @@
 <jsp:include page="/ReusedHTML/head.jsp"/>
 <%Prodotto p= (Prodotto) request.getAttribute("prodotto");
   Utente   u= (Utente)   session.getAttribute("Utente");
+  Sconto sc= (Sconto)   request.getAttribute("sconto");
   List<Recensione> ReviewList= (List<Recensione>) request.getAttribute("recensioni");%>
 <main class="product-page">
     <figure class="product-page-image">
@@ -34,8 +37,34 @@
        <section class="product-cart-controls">
            <div class="product-price">
                <div class="product-price-primary">
-                   <span class="product-price-value"><%=p.getPrezzo()%>&nbsp;€</span>
+                   <span class="product-price-value">
+                   <%if (sc!=null && sc.isStato() &&
+                           Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                           Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0){%>
+                       <s><%=p.getPrezzo()%>&nbsp;€</s>
+                       <%}else{ %>
+                       <%=p.getPrezzo()%>&nbsp;€
+                       <%}%>
+                   </span>
                </div>
+               <div class="product-price-secondary">
+                   <div class="product-price-secondary-value">
+
+                       <%if (sc!=null && sc.isStato() &&
+                               Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataInizio()) >= 0 &&
+                               Timestamp.valueOf(LocalDateTime.now()).compareTo(sc.getDataFine()) < 0){
+                           double prezzo=p.getPrezzo(),percentuale=100-sc.getPercentuale();
+                           percentuale=percentuale/100;
+                           prezzo=prezzo*percentuale;
+                           prezzo= (double) Math.round(prezzo * 100) / 100;%>
+                       <%=prezzo%>&nbsp;€<%}%>
+                   </div>
+               </div>
+           </div>
+           <div class="product-soldout">
+               <%if (p.getQuantita()<=0){%>
+               <p>SOLD OUT!</p>
+               <%}%>
            </div>
            <form action="<%=request.getContextPath()%>/Cart" method="post"  style="margin-bottom: 0;">
                <div class="product-addtocart-section">
@@ -43,7 +72,11 @@
                    <div class="product-quantity-selector">
                        <div class="product-selector-quantity">
                            <input type="hidden" name="prodToAdd" value="<%=p.getId()%>">
+                           <%if (p.getQuantita() >0){%>
                            <input type="hidden" name="callerPage" value="Cart">
+                           <%}else {%>
+                           <input type="hidden" name="callerPage" value="/Shop/Prodotto?prodName=<%=p.getNome()%>">
+                           <%}%>
                            <button class="quantity-selector-button-decrease" type="button">
                                <i class="fa fa-minus"></i>
                            </button>
@@ -57,6 +90,9 @@
                    </div>
                    <div class="product-addtocart">
                        <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
+                       <c:if test="${requestScope.prodAddStatus == 'productNotAvailable'}">
+                           <p style="color: red">Questo prodotto non è più disponibile!</p>
+                       </c:if>
                    </div>
                 </div>
            </form>
@@ -168,7 +204,7 @@
                                     <%}%>
                                 </div>
                                 <div class="review-text">
-                                    <p>
+                                    <p style="white-space: pre-line" >
                                         <%=r.getDescrizione()%>
                                     </p>
 

@@ -44,7 +44,13 @@ public class CartServlet extends HttpServlet {
                         quantityToAdd= 0;
                     }
                 }
-                if(quantitaAttuale == -1 && prod.getQuantita() >= 1) {
+                if(prod.getQuantita() <= 0) {
+                    request.setAttribute("prodAddStatus", "productNotAvailable");
+                    String url=request.getParameter("callerPage");
+                    RequestDispatcher dispatcher=request.getRequestDispatcher(url);
+                    dispatcher.forward(request,response);
+                    return;
+                }else if(quantitaAttuale == -1 && prod.getQuantita() >= 1) {
                     ProdottocarrelloDAO.doSave(cart.getId(), prodToAdd, Math.min(prod.getQuantita(), Math.min(quantityToAdd, 99)));
                 } else if(prod.getQuantita() >= (quantitaAttuale + 1)) {
                     ProdottocarrelloDAO.doUpdateQuantita(cart.getId(), prodToAdd, Math.min(prod.getQuantita(), Math.min(quantitaAttuale+quantityToAdd, 99)));

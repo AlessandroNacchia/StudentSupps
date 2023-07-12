@@ -56,7 +56,7 @@
             </td>
             <td>
                 <div class="orders-label">Data di Acquisto</div>
-                <div class="orders-Value"><%=o.getDataAcquisto()%></div>
+                <div class="orders-Value"><%=o.getDataAcquisto().toLocalDateTime().toLocalDate()%></div>
             </td>
             <td>
                 <div class="orders-label">Totale</div>

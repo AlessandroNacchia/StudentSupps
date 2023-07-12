@@ -67,24 +67,31 @@
     grid-template-columns: repeat(2,1fr);
     margin-bottom: 20px;
 }
-@media  screen and (min-width: 1024px){
-    .product-price-details {
-        margin-bottom: 30px;
+@media screen and (max-width: 1023px ){
+    .product-price{
+        max-width: 20%;
     }
+
 }
-.product-price-primary {
-    align-items: baseline;
-    display: flex;
-    flex: 1;
-}
+
 .product-price-value {
     color: #fff;
     font-size: 16px;
     font-weight: 700;
     line-height: 26px;
 }
+.product-price-secondary-value{
+    color: #620000;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 26px;
+}
+.product-soldout{
+    font-weight: bold;
+    text-align: center;
+}
 @media  screen and (min-width: 1024px){
-    .product-price-value {
+    .product-price-value, .product-soldout, .product-price-secondary-value {
         font-size: 34px;
         line-height: 48px;
     }

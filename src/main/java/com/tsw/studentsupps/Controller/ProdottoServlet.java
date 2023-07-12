@@ -1,9 +1,8 @@
 package com.tsw.studentsupps.Controller;
 
-import com.tsw.studentsupps.Model.Prodotto;
-import com.tsw.studentsupps.Model.ProdottoDAO;
-import com.tsw.studentsupps.Model.RecensioneDAO;
+import com.tsw.studentsupps.Model.*;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,8 +26,10 @@ public class ProdottoServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath()+"/Shop");
             return;
         }
+        Sconto sc = ScontoDAO.doRetrieveById(ProdottoDAO.doRetrieveDiscountId(p.getId())) ;
         request.setAttribute("prodotto",p);
         request.setAttribute("recensioni", RecensioneDAO.doRetrieveByIdProdotto(p.getId()));
+        request.setAttribute("sconto", sc);
         RequestDispatcher dispatcher= request.getRequestDispatcher("/pages/Product.jsp");
         dispatcher.forward(request,response);
     }
