@@ -103,6 +103,7 @@ public class CarrelloDAO {
                             "AND updated_at<(current_timestamp-?)");
 
             ps.setLong(1, timeInMillis);
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

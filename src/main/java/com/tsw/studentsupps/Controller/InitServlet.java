@@ -14,14 +14,20 @@ public class InitServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         //Cancella i carrelli non collegati ad account non aggiornati da più di un giorno (86400000)
-        CarrelloDAO.doDeleteUnlinkedCarts(0);
+        CarrelloDAO.doDeleteUnlinkedCarts(86400000);
 
         //PATH immagini prodotti non assoluta ma tramite environment variable in modo da poterlo usare su pc diversi anche avendo path diversi.
         //Andrà modificata e spostata la cartella delle immagini prodotti quando finito il sito.
-        String prodImageFolder= System.getenv("STUDENT_SUPPS") + getServletContext().getInitParameter("uploadImageProduct.location");
-        getServletContext().setAttribute("prodImageFolder", prodImageFolder);
+        String studentSupps_Folder= System.getenv("STUDENT_SUPPS");
 
-        String delProdImageFolder= System.getenv("STUDENT_SUPPS") + getServletContext().getInitParameter("delUploadImageProduct.location");
+        String prodImageFolder= "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\StudentSuppsImages\\ProdImages";
+        String delProdImageFolder= "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\StudentSuppsImages\\DelProdImages";
+        if(studentSupps_Folder!=null) {
+            prodImageFolder= studentSupps_Folder + getServletContext().getInitParameter("uploadImageProduct.location");
+            delProdImageFolder= studentSupps_Folder + getServletContext().getInitParameter("delUploadImageProduct.location");
+        }
+
+        getServletContext().setAttribute("prodImageFolder", prodImageFolder);
         getServletContext().setAttribute("delProdImageFolder", delProdImageFolder);
 
         super.init();
