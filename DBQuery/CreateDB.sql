@@ -28,6 +28,7 @@ CREATE TABLE MetodoPagamento
 (
 	id 			 	binary(16)	 	DEFAULT (UUID_TO_BIN(UUID(), 1)) PRIMARY KEY,
     provider		varchar(30)		NOT NULL,
+    lastDigits      char(4)         NOT NULL,
     numeroHash		varchar(40)		NOT NULL,
     dataScadenza	date			NOT NULL,
     
@@ -84,7 +85,7 @@ CREATE TABLE Prodotto
     quantita		int UNSIGNED 		NOT NULL,
     
     id_sconto		binary(16),
-    FOREIGN KEY (id_sconto) REFERENCES Sconto(id) ON UPDATE CASCADE
+    FOREIGN KEY (id_sconto) REFERENCES Sconto(id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE Categoria
@@ -102,7 +103,7 @@ CREATE TABLE Recensione
     autore			varchar(30)			NOT NULL,
     
     id_prodotto		binary(16),
-    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE,
+    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (autore) REFERENCES Utente(username) ON UPDATE CASCADE
 );
 
@@ -137,6 +138,6 @@ CREATE TABLE ProdottoOrdine
     IVA_acquisto		tinyint UNSIGNED 	NOT NULL,	
 
     FOREIGN KEY (id_ordine) REFERENCES Ordine(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE,
-    PRIMARY KEY (id_ordine, id_prodotto)
+    FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE ON DELETE SET NULL,
+    UNIQUE (id_ordine, id_prodotto)
 );

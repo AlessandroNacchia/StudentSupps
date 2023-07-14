@@ -24,7 +24,7 @@
     <figure class="product-page-image">
         <div class="product-image-wrapper">
             <picture>
-                <img src="<%=request.getContextPath() + "/images/products/" + p.getNome() + ".png"%>"
+                <img src="<%=request.getContextPath() + "/ProductImages/" + p.getNome() + ".png"%>"
                      class="imgProdErr" alt="<%=p.getNome()%>" title="<%=p.getNome()%>">
             </picture>
         </div>

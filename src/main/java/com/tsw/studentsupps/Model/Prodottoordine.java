@@ -13,7 +13,7 @@ public class Prodottoordine {
         return id;
     }
     public void setId(String id) {
-        if(UUID.fromString(id).toString().equals(id))
+        if(id!=null && UUID.fromString(id).toString().equals(id))
             this.id = id;
     }
 
