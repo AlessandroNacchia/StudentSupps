@@ -295,6 +295,32 @@ public class ProdottoDAO {
             throw new RuntimeException(e);
         }
     }
+    public static List<Prodotto> doRetrieveBySearchName(String name, int limit) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita " +
+                            "FROM Prodotto WHERE nome LIKE ? ORDER BY nome LIMIT ?");
+            name= '%'+name+'%';
+            ps.setString(1, name);
+            ps.setInt(2, limit);
+            ResultSet rs = ps.executeQuery();
+
+            List<Prodotto> prodSearchList= new ArrayList<>();
+            while(rs.next()) {
+                Prodotto p= new Prodotto();
+                p.setId(rs.getString(1));
+                p.setNome(rs.getString(2));
+                p.setDescrizione(rs.getString(3));
+                p.setPrezzo(rs.getDouble(4));
+                p.setIVA(rs.getShort(5));
+                p.setQuantita(rs.getInt(6));
+                prodSearchList.add(p);
+            }
+            return prodSearchList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static List<Prodotto> doRetrieveBySearchName_Cat(String name, String nomeCat, boolean available) {
         try (Connection con= ConPool.getConnection()) {

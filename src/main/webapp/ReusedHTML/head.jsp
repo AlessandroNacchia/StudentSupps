@@ -164,21 +164,76 @@
             </li>
             <li>
                 <div class="search-container">
-                    <form action="<%=sitePath%>/Search" style="margin-bottom: 0">
+                    <form action="<%=sitePath%>/Search" id="search-form-all" style="margin-bottom: 0">
                         <label>
-                            <input type="text" placeholder="Cerca..." name="search" class="searchField" autocomplete="off">
+                            <input type="text" id="searchField-all" placeholder="Cerca..." name="search" class="searchField" autocomplete="off">
                         </label>
                         <button type="submit" value="Cerca" class="searchBtn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
+                <ul class="dropdown-content-search" style="display: block;">
+                    <li id="searchResult"></li>
+                </ul>
             </li>
         </ul>
     </div>
 </header>
 
-
-
 <script>
+    const contextPath= "<%=request.getContextPath()%>";
+
+    let searchFieldHead= document.getElementById("searchField-all");
+    let searchResults= document.getElementsByClassName("dropdown-content-search")[0];
+
+    searchFieldHead.addEventListener("input", function() {
+        if(window.matchMedia("(min-width: 1024px)").matches) {
+            $.ajax({
+                type: 'POST',
+                url: contextPath + '/Search',
+                dataType: "json",
+                async: true,
+                data: {
+                    search: searchFieldHead.value
+                },
+                success: function(data) {
+                    searchResults.style.display="block";
+                    let searchResult= ('#searchResult');
+                    $(searchResult).empty();
+
+                    for (let i= 0; i<data.length; i++) {
+                        let newDiv= document.createElement("div");
+                        newDiv.className= "navBarSecondaryCategory";
+                        newDiv.style.cursor= "pointer";
+                        newDiv.style.display= "flex";
+                        newDiv.style.alignItems= "center";
+                        newDiv.style.gap="25px";
+
+                        newDiv.setAttribute("onclick", "location.href='"+contextPath+"/Shop/Prodotto?prodName="+data[i].nome+"'");
+                        newDiv.innerHTML=`
+                            <figure class="imageWrapper">
+                                <picture>
+                                    <img style="max-width: 50px" src="`+contextPath+`/ProductImages/`+data[i].nome+`.png"
+                                            class="imgProdErr" alt="`+data[i].nome+`">
+                                </picture>
+                            </figure>
+                            <a href="`+contextPath+`/Shop/Prodotto?prodName=`+data[i].nome+`">`+data[i].nome+`</a>`
+
+                        $(searchResult).append(newDiv);
+                    }
+
+                    let imgProds= document.querySelectorAll('.imgProdErr');
+                    imgProds.forEach(img=>{
+                        img.addEventListener('error', ()=>{
+                            img.src="<%=request.getContextPath()%>/images/img_notfound.png";
+                            img.alt="Immagine non trovata";
+                            img.title="Immagine non trovata";
+                        })
+                    })
+                }
+            });
+        }
+    })
+
     function openNav() {
         let el= document.getElementById("myNavBar");
         if (el.className === "navBar")
@@ -274,7 +329,7 @@
 
     });
 
-    $('#drpCntAccount, .account-btn, #myNavBar, .menuIcon').click(function(e) {
+    $('#drpCntAccount, .account-btn, #myNavBar, .menuIcon, #searchField-all, .dropdown-content-search').click(function(e) {
         e.stopPropagation();
     })
 
@@ -283,6 +338,8 @@
             actionClose();
             subCatClose();
             closeNav();
+
+            searchResults.style.display="none";
         });
     });
 </script>
