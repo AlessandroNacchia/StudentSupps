@@ -22,7 +22,7 @@ public class Prodottoordine {
     }
 
     public void setNome_prodotto(String nome_prodotto) {
-        if(nome_prodotto.matches("^[\\w\\-. ]{2,50}$"))
+        if(nome_prodotto.matches("^[\\w\\-+.()\\[\\]{} ]{2,50}$"))
             this.nome_prodotto= nome_prodotto;
     }
 

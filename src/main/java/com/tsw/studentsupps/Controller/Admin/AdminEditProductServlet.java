@@ -71,7 +71,7 @@ public class AdminEditProductServlet extends HttpServlet {
         String iva= request.getParameter("iva");
         String quantity= request.getParameter("quantity");
 
-        String nameRGX= "^[\\w\\-. ]{2,50}$";
+        String nameRGX= "^[\\w\\-+.()\\[\\]{} ]{2,50}$";
         String descrRGX= "^[\\s\\S]{2,1000}$";
         String priceRGX= "^[+]?([0-9]{0,7}[.])?[0-9]{0,7}$";
         String ivaRGX= "^[+]?[0-9]{1,2}$|^[+]?100$";
