@@ -53,7 +53,7 @@
                         <label class="form-field-label" for="nameAdd">Nome</label>
                         <input class="form-field-input" id="nameAdd" name="name" type="text" maxlength="50" autocomplete="off" required>
                         <div class="form-field-comment">
-                            Minimo 2 caratteri. Massimo 50 caratteri. Accetta lettere, numeri, spazi, punti, trattini medi, + e parentesi.
+                            Minimo 2 caratteri. Massimo 50 caratteri. Accetta lettere, numeri, spazi, punti, trattini medi, + e parentesi tonde e graffe.
                         </div>
                     </div>
                     <div class="form-field">
