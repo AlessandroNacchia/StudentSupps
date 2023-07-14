@@ -57,7 +57,7 @@
                     </div>
                     <div class="form-field">
                         <label class="form-field-label" for="descrUpdate">Descrizione</label>
-                        <input class="form-field-input" id="descrUpdate" name="description" type="text" maxlength="1000" value="<%=p.getDescrizione()%>" autocomplete="off" required>
+                        <textarea class="form-field-input" style="height: auto; resize: none;" id="descrUpdate" name="description" rows="5" maxlength="1000" autocomplete="off" required><%=p.getDescrizione()%></textarea>
                         <div class="form-field-comment">
                             Minimo 2 caratteri. Massimo 1000 caratteri.
                         </div>
