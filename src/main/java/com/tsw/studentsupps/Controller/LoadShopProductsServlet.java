@@ -23,15 +23,20 @@ public class LoadShopProductsServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String filter= request.getParameter("filter");
+        String search= request.getParameter("search");
         JSONParser parser= new JSONParser();
         JSONArray jsonArray;
 
         response.setContentType("application/json");
         List<Prodotto> prodList;
-        if(filter.equals(""))
+        if(filter.equals("") && search.equals(""))
             prodList= ProdottoDAO.doRetrieveAll(true);
-        else
+        else if(!filter.equals("") && !search.equals(""))
+            prodList= ProdottoDAO.doRetrieveBySearchName_Cat(search, filter, true);
+        else if(!filter.equals(""))
             prodList= ProdottoDAO.doRetrieveByCategoria(filter, true);
+        else
+            prodList= ProdottoDAO.doRetrieveBySearchName(search);
 
         if(prodList.size() == 0) {
             response.getWriter().print("[]");

@@ -16,7 +16,16 @@
             <h1 class="productsHeader-title">Prodotti</h1>
             <div class="productsHeader-descr">
                 <div class="productsHeader-left" id="prodNumber"></div>
-                <div class="productsHeader-right"></div>
+                <div class="productsHeader-right">
+                    <div class="search-container">
+                        <form action="Search" id="search-form-wCat" style="margin-bottom: 0">
+                            <label>
+                                <input type="text" id="searchField-wCat" placeholder="Cerca..." name="search" class="searchField" autocomplete="off">
+                            </label>
+                            <button type="submit" value="Cerca" class="searchBtn"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </header>
         <section class="productsSlots" id="prodSlots"></section>
@@ -26,13 +35,27 @@
         $(document).ready(function() {
             const urlParams= new URLSearchParams(window.location.search);
             const contextPath= "<%=request.getContextPath()%>";
+
+            if(urlParams.get("filter")!== null && urlParams.get("filter") !== "") {
+                let catInput= document.createElement("input");
+                catInput.type="hidden";
+                catInput.name= "filter";
+                catInput.value= urlParams.get("filter");
+
+                let searchForm= document.getElementById("search-form-wCat");
+                searchForm.insertBefore(catInput, searchForm.children[0]);
+
+                document.getElementById("searchField-wCat").placeholder="Cerca in "+urlParams.get("filter")+"...";
+            }
+
             $.ajax({
                 type: 'POST',
                 url: contextPath + '/LoadShopProducts',
                 dataType: "json",
                 async: true,
                 data: {
-                    filter: urlParams.get("filter")
+                    filter: urlParams.get("filter"),
+                    search: urlParams.get("search")
                 },
                 success: function(data) {
                     console.log(data);

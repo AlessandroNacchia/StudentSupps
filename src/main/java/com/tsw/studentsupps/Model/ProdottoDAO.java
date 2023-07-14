@@ -269,6 +269,66 @@ public class ProdottoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Prodotto> doRetrieveBySearchName(String name) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps =
+                    con.prepareStatement("SELECT BIN_TO_UUID(id, 1), nome, descrizione,prezzo,IVA,quantita " +
+                            "FROM Prodotto WHERE nome LIKE ? ORDER BY nome");
+            name= '%'+name+'%';
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+
+            List<Prodotto> prodSearchList= new ArrayList<>();
+            while(rs.next()) {
+                Prodotto p= new Prodotto();
+                p.setId(rs.getString(1));
+                p.setNome(rs.getString(2));
+                p.setDescrizione(rs.getString(3));
+                p.setPrezzo(rs.getDouble(4));
+                p.setIVA(rs.getShort(5));
+                p.setQuantita(rs.getInt(6));
+                prodSearchList.add(p);
+            }
+            return prodSearchList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Prodotto> doRetrieveBySearchName_Cat(String name, String nomeCat, boolean available) {
+        try (Connection con= ConPool.getConnection()) {
+            String stmt= "SELECT BIN_TO_UUID(P.id, 1), P.nome, P.descrizione, P.prezzo, P.IVA, P.quantita " +
+                    "FROM Prodotto AS P, ProdottoCategoria, Categoria AS C " +
+                    "WHERE P.id = prodottocategoria.id_prodotto AND " +
+                    "prodottocategoria.id_categoria = C.id AND " +
+                    "C.nome = ? AND P.nome LIKE ? ORDER BY P.nome";
+            if(available)
+                stmt+= " AND P.quantita>0";
+
+            PreparedStatement ps= con.prepareStatement(stmt);
+            ps.setString(1, nomeCat);
+            name= '%'+name+'%';
+            ps.setString(2, name);
+
+            ResultSet rs= ps.executeQuery();
+
+            List<Prodotto> prodSearchList= new ArrayList<>();
+            while(rs.next()) {
+                Prodotto p= new Prodotto();
+                p.setId(rs.getString(1));
+                p.setNome(rs.getString(2));
+                p.setDescrizione(rs.getString(3));
+                p.setPrezzo(rs.getDouble(4));
+                p.setIVA(rs.getShort(5));
+                p.setQuantita(rs.getInt(6));
+                prodSearchList.add(p);
+            }
+            return prodSearchList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
