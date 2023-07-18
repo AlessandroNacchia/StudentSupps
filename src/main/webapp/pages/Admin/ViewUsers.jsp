@@ -61,7 +61,7 @@
                 }
             };
 
-            xhttp.open("POST", "<%=request.getContextPath()%>/Admin/DeleteUser", true);
+            xhttp.open("POST", "<%=request.getContextPath()%>/DeleteUser", true);
             xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
             xhttp.send("id="+id);
         }
