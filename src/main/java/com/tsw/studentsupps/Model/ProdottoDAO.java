@@ -203,9 +203,7 @@ public class ProdottoDAO {
                             "WHERE id_sconto= UUID_TO_BIN(?, 1)");
             ps.setString(1, discountId);
 
-            if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("UPDATE error.");
-            }
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
