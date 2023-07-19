@@ -137,4 +137,16 @@ public class RecensioneDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void doRemoveAllUsername(String username) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE recensione SET autore= null " +
+                            "WHERE autore= ?");
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

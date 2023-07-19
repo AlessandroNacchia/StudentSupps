@@ -189,7 +189,7 @@
                         for (Recensione r: ReviewList){%>
                             <article class="review" id="reviewId<%=r.getId()%>">
                                 <header class="review-author">
-                                     <h2 class="review-author-text">Recensione di  <%=r.getAutore()%></h2>
+                                     <h2 class="review-author-text">Recensione di  <%=(r.getAutore()!=null) ? r.getAutore() : "*Utente Rimosso*"%></h2>
                                 </header>
                                 <div class="review-rating">
                                     <%int i=0;

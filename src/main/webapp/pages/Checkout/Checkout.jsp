@@ -61,7 +61,7 @@
                                     <li class="form-field-radio">
                                         <input class="form-field-input" style="height: auto; width: auto;" id="address<%=ind.getId()%>"
                                                name="address" type="radio" value="<%=ind.getId()%>" required>
-                                        <label class="form-field-label" style="display: inline; margin-left: 5px;" for="address<%=ind.getId()%>">
+                                        <label class="form-field-label" style="display: inline; margin-left: 5px;cursor: pointer;" for="address<%=ind.getId()%>">
                                             <%=ind.getVia()%>, <%=ind.getCitta()%>, <%=ind.getProvincia()%>, <%=ind.getCAP()%>, <%=ind.getNazione()%>,
                                             Numero di telefono: <%=ind.getNumeroTel()%>
                                         </label>
@@ -93,7 +93,7 @@
                                     <li class="form-field-radio">
                                         <input class="form-field-input" style="height: auto; width: auto;" id="payMethod<%=mp.getId()%>"
                                                name="payMethod" type="radio" value="<%=mp.getId()%>" required>
-                                        <label class="form-field-label" style="display: inline; margin-left: 5px;" for="payMethod<%=mp.getId()%>">
+                                        <label class="form-field-label" style="display: inline; margin-left: 5px;cursor: pointer;" for="payMethod<%=mp.getId()%>">
                                             <%=mp.getProvider()%>, termina con <%=mp.getLastDigits()%>
                                             <%LocalDate date= mp.getDataScadenza().toLocalDate();%><br>
                                             Data di scadenza: <%=date.getMonthValue()%>/<%=date.getYear()%>

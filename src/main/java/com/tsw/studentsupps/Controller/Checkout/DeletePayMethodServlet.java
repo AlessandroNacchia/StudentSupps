@@ -4,7 +4,6 @@ import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.Metodopagamento;
 import com.tsw.studentsupps.Model.MetodopagamentoDAO;
 import com.tsw.studentsupps.Model.OrdineDAO;
-import com.tsw.studentsupps.Model.Utente;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,10 +29,9 @@ public class DeletePayMethodServlet extends HttpServlet {
             return;
         }
 
-        String userId= ((Utente) request.getSession().getAttribute("Utente")).getId();
-        if(OrdineDAO.doRetrieveByUserId(userId).isEmpty())
-            MetodopagamentoDAO.doDelete(mpToDelete);
-        else
+        if(OrdineDAO.doExistsByMp(mpToDelete.getId()))
             MetodopagamentoDAO.doRemoveUserId(mpToDelete);
+        else
+            MetodopagamentoDAO.doDelete(mpToDelete);
     }
 }

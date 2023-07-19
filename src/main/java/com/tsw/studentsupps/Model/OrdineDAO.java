@@ -208,4 +208,42 @@ public class OrdineDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean doExistsByMp(String payMethodId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM ordine WHERE id_mp=UUID_TO_BIN(?, 1)");
+            ps.setString(1, payMethodId);
+            ResultSet rs= ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean doExistsByInd(String addressId) {
+        try (Connection con= ConPool.getConnection()) {
+            PreparedStatement ps=
+                    con.prepareStatement("SELECT 1 " +
+                            "FROM ordine WHERE id_ind=UUID_TO_BIN(?, 1)");
+            ps.setString(1, addressId);
+            ResultSet rs= ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void doRemoveAllUserId(String userId) {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE ordine SET id_utente= null " +
+                            "WHERE id_utente= UUID_TO_BIN(?, 1)");
+            ps.setString(1, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

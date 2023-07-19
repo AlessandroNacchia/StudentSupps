@@ -42,7 +42,7 @@ public class Recensione {
     }
 
     public void setAutore(String autore) {
-        if(autore.matches("^[A-Za-z][A-Za-z0-9_]{5,29}$"))
+        if(autore!= null && autore.matches("^[A-Za-z][A-Za-z0-9_]{5,29}$"))
             this.autore = autore;
     }
 }

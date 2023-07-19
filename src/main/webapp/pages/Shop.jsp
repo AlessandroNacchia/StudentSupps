@@ -67,6 +67,12 @@
                         let newArticle= document.createElement("article");
                         newArticle.className= "productBox";
 
+                        let callerPage;
+                        if(urlParams.get("filter")!== null && urlParams.get("filter") !== "")
+                            callerPage= "Shop?filter="+urlParams.get("filter");
+                        else
+                            callerPage= "Shop";
+
                         newArticle.innerHTML=`
                         <a class="productBox-image" href="Shop/Prodotto?prodName=`+data[i].nome+`">
                             <figure class="imageWrapper">
@@ -83,7 +89,7 @@
                             </div>
                             <form action="Cart" method="post">
                                 <input type="hidden" name="prodToAdd" value="`+data[i].id+`">
-                                <input type="hidden" name="callerPage" value="Shop">
+                                <input type="hidden" name="callerPage" value="`+callerPage+`">
                                 <button class="buttonPrimary buttonHover" type="submit">Aggiungi al Carrello</button>
                             </form>
                         </div>`

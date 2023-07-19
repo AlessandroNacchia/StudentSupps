@@ -4,7 +4,6 @@ import com.tsw.studentsupps.Controller.utils.Checks;
 import com.tsw.studentsupps.Model.Indirizzo;
 import com.tsw.studentsupps.Model.IndirizzoDAO;
 import com.tsw.studentsupps.Model.OrdineDAO;
-import com.tsw.studentsupps.Model.Utente;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,10 +29,9 @@ public class DeleteAddressServlet extends HttpServlet {
             return;
         }
 
-        String userId= ((Utente) request.getSession().getAttribute("Utente")).getId();
-        if(OrdineDAO.doRetrieveByUserId(userId).isEmpty())
-            IndirizzoDAO.doDelete(indToDelete);
-        else
+        if(OrdineDAO.doExistsByInd(indToDelete.getId()))
             IndirizzoDAO.doRemoveUserId(indToDelete);
+        else
+            IndirizzoDAO.doDelete(indToDelete);
     }
 }

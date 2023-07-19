@@ -1,8 +1,7 @@
 package com.tsw.studentsupps.Controller;
 
 import com.tsw.studentsupps.Controller.utils.Checks;
-import com.tsw.studentsupps.Model.Utente;
-import com.tsw.studentsupps.Model.UtenteDAO;
+import com.tsw.studentsupps.Model.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,6 +28,21 @@ public class DeleteUserServlet extends HttpServlet {
             return;
         }
 
+        for(Metodopagamento mpToDelete: MetodopagamentoDAO.doRetrieveByUserId(userToDelete.getId())) {
+            if(OrdineDAO.doExistsByMp(mpToDelete.getId()))
+                MetodopagamentoDAO.doRemoveUserId(mpToDelete);
+            else
+                MetodopagamentoDAO.doDelete(mpToDelete);
+        }
+        for(Indirizzo indToDelete: IndirizzoDAO.doRetrieveByUserId(userToDelete.getId())) {
+            if(OrdineDAO.doExistsByInd(indToDelete.getId()))
+                IndirizzoDAO.doRemoveUserId(indToDelete);
+            else
+                IndirizzoDAO.doDelete(indToDelete);
+        }
+
+        OrdineDAO.doRemoveAllUserId(userToDelete.getId());
+        RecensioneDAO.doRemoveAllUsername(userToDelete.getUsername());
         UtenteDAO.doDelete(userToDelete);
     }
 

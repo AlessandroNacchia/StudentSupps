@@ -100,7 +100,7 @@ CREATE TABLE Recensione
 	id				binary(16)	 		DEFAULT (UUID_TO_BIN(UUID(), 1)) PRIMARY KEY,
     descrizione		varchar(1000),
     voto			tinyint UNSIGNED	NOT NULL,
-    autore			varchar(30)			NOT NULL,
+    autore			varchar(30),
     
     id_prodotto		binary(16),
     FOREIGN KEY (id_prodotto) REFERENCES Prodotto(id) ON UPDATE CASCADE ON DELETE CASCADE,
