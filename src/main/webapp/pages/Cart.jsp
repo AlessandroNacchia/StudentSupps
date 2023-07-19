@@ -85,10 +85,10 @@
                             <div class="cart-products-colProduct">
                                 <h3><a href="Shop/Prodotto?prodName=<%=p.getNome()%>"><%=p.getNome()%></a></h3>
                                 <div class="cart-products-colProduct-remove">
-                                    <form action="Cart" method="post" style="margin-bottom: 0;">
+                                    <form action="Cart" method="post" style="margin-bottom: 0;text-align: center;">
                                         <input type="hidden" name="prodToRemove" value="<%=p.getId()%>">
                                         <input type="hidden" name="callerPage" value="Cart">
-                                        <button class="buttonPrimary buttonHover" type="submit">Rimuovi</button>
+                                        <button class="buttonPrimary buttonHover" style="max-width: 130px;" type="submit">Rimuovi</button>
                                     </form>
                                 </div>
                             </div>
