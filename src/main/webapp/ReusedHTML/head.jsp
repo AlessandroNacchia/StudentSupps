@@ -208,7 +208,11 @@
                         newDiv.style.alignItems= "center";
                         newDiv.style.gap="25px";
 
-                        newDiv.setAttribute("onclick", "location.href='"+contextPath+"/Shop/Prodotto?prodName="+data[i].nome+"'");
+                        let escapedName= data[i].nome;
+                        escapedName= escapedName.replaceAll(/%(?![0-9a-fA-F]{2})/g, "%25");
+                        escapedName= escapedName.replaceAll("+", "%2B");
+
+                        newDiv.setAttribute("onclick", "location.href='"+contextPath+"/Shop/Prodotto?prodName="+escapedName+"'");
                         newDiv.innerHTML=`
                             <figure class="imageWrapper">
                                 <picture>
@@ -216,7 +220,7 @@
                                             class="imgProdErr" alt="`+data[i].nome+`">
                                 </picture>
                             </figure>
-                            <a href="`+contextPath+`/Shop/Prodotto?prodName=`+data[i].nome+`">`+data[i].nome+`</a>`
+                            <a href="`+contextPath+`/Shop/Prodotto?prodName=`+escapedName+`">`+data[i].nome+`</a>`
 
                         $(searchResult).append(newDiv);
                     }

@@ -19,6 +19,11 @@ public class ErrorServlet extends HttpServlet {
             RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
             dispatcher.forward(request,response);
             return;
+        } else if(error.equals("400")) {
+            request.setAttribute("errorMessage", "Bad Request");
+            RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/results/error.jsp");
+            dispatcher.forward(request,response);
+            return;
         }
 
         request.setAttribute("errorMessage", "General Error");

@@ -73,8 +73,12 @@
                         else
                             callerPage= "Shop";
 
+                        let escapedName= data[i].nome;
+                        escapedName= escapedName.replaceAll(/%(?![0-9a-fA-F]{2})/g, "%25");
+                        escapedName= escapedName.replaceAll("+", "%2B");
+
                         newArticle.innerHTML=`
-                        <a class="productBox-image" href="Shop/Prodotto?prodName=`+data[i].nome+`">
+                        <a class="productBox-image" href="Shop/Prodotto?prodName=`+escapedName+`">
                             <figure class="imageWrapper">
                                 <picture>
                                     <img src="`+contextPath+`/ProductImages/`+data[i].nome+`.png"
@@ -83,7 +87,7 @@
                             </figure>
                         </a>
                         <div class="productBox-wrapper">
-                            <h3><a class="productBox-title" href="Shop/Prodotto?prodName=`+data[i].nome+`">`+data[i].nome+`</a></h3>
+                            <h3><a class="productBox-title" href="Shop/Prodotto?prodName=`+escapedName+`">`+data[i].nome+`</a></h3>
                             <div class="productBox-price">
                                 <span>`+data[i].prezzo+`&nbsp;€</span>
                             </div>

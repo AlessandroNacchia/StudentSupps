@@ -22,7 +22,7 @@ public class Prodotto {
         return nome;
     }
     public void setNome(String nome) {
-        if(nome.matches("^[\\w\\-+.(){} ]{2,50}$"))
+        if(nome.matches("^[\\w\\-+.() ]{2,50}$"))
             this.nome = nome;
     }
 

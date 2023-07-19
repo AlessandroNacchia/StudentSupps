@@ -53,7 +53,7 @@
                         <label class="form-field-label" for="nameAdd">Nome</label>
                         <input class="form-field-input" id="nameAdd" name="name" type="text" maxlength="50" autocomplete="off" required>
                         <div class="form-field-comment">
-                            Minimo 2 caratteri. Massimo 50 caratteri. Accetta lettere, numeri, spazi, punti, trattini medi, + e parentesi tonde e graffe.
+                            Minimo 2 caratteri. Massimo 50 caratteri. Accetta lettere, numeri, spazi, punti, trattini medi, + e parentesi tonde.
                         </div>
                     </div>
                     <div class="form-field">
@@ -128,7 +128,7 @@
             let iva= document.getElementById('ivaAdd').value;
             let quantity= document.getElementById('quantityAdd').value;
 
-            const nameRGX= /^[\w\-+.(){} ]{2,50}$/;
+            const nameRGX= /^[\w\-+.() ]{2,50}$/;
             const descrRGX= /^[\s\S]{2,1000}$/;
             const priceRGX= /^[+]?([0-9]{0,7}[.])?[0-9]{0,7}$/;
             const ivaRGX= /^[+]?[0-9]{1,2}$|^[+]?100$/;
