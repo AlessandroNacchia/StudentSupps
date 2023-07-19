@@ -173,7 +173,7 @@
                                 </section>
                                 <section class="form-field">
                                     <label class="form-field-label" style="justify-content: center"  for="description">Descrizione</label>
-                                    <textarea class="form-field-input" style="height: auto; resize: none;" id="description" name="description" rows="5" maxlength="1000" autocomplete="off" required></textarea>
+                                    <textarea class="form-field-input" style="height: 200px; resize: none;" id="description" name="description" rows="5" maxlength="1000" autocomplete="off" required></textarea>
                                     <div class="form-field-comment">
                                         Minimo 2 caratteri. Massimo 1000 caratteri.
                                     </div>
