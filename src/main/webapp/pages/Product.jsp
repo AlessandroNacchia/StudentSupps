@@ -260,17 +260,6 @@
 
     }
 
-    let colQntInput= document.getElementsByClassName('cart-products-colQuantity-input');
-    for(let i=0; i<colQntInput.length; i++)
-        colQntInput[i].removeAttribute('disabled');
-
-    function submitOnEnter(formEl) {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-            formEl.submit();
-        }
-    }
-
     function openTabContent(x){
         let navlink=document.getElementById("tab-content-"+x);
         if (navlink.style.height==="0px")
